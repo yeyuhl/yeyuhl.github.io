@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Java基础常见问题 | 随便写写</title><meta name="author" content="夜语"><meta name="copyright" content="夜语"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Java基础常见问题1. Java的基本数据类型为什么会有包装类型，二者之间有什么区别？首先给出基本类型对应的包装类，如下表：    byte short int long float double char boolean    Byte Short Integer Long Float Double Character Boolean   第一个问题：为什么会有包装类型？ 这是因为基本数据类型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java基础常见问题">
+<meta property="og:url" content="https://yeyuhl.github.io/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="随便写写">
+<meta property="og:description" content="Java基础常见问题1. Java的基本数据类型为什么会有包装类型，二者之间有什么区别？首先给出基本类型对应的包装类，如下表：    byte short int long float double char boolean    Byte Short Integer Long Float Double Character Boolean   第一个问题：为什么会有包装类型？ 这是因为基本数据类型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp">
+<meta property="article:published_time" content="2023-05-12T07:40:22.000Z">
+<meta property="article:modified_time" content="2023-05-12T07:42:20.589Z">
+<meta property="article:author" content="夜语">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yeyuhl.github.io/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Java基础常见问题',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-12 15:42:20'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/wallhaven-p9woe3.png')"><nav id="nav"><span id="blog-info"><a href="/" title="随便写写"><span class="site-name">随便写写</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Java基础常见问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-12T07:40:22.000Z" title="发表于 2023-05-12 15:40:22">2023-05-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-12T07:42:20.589Z" title="更新于 2023-05-12 15:42:20">2023-05-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Java/">Java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Java基础常见问题"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Java基础常见问题"><a href="#Java基础常见问题" class="headerlink" title="Java基础常见问题"></a>Java基础常见问题</h1><h2 id="1-Java的基本数据类型为什么会有包装类型，二者之间有什么区别？"><a href="#1-Java的基本数据类型为什么会有包装类型，二者之间有什么区别？" class="headerlink" title="1. Java的基本数据类型为什么会有包装类型，二者之间有什么区别？"></a>1. Java的基本数据类型为什么会有包装类型，二者之间有什么区别？</h2><p>首先给出基本类型对应的包装类，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>byte</th>
+<th>short</th>
+<th>int</th>
+<th>long</th>
+<th>float</th>
+<th>double</th>
+<th>char</th>
+<th>boolean</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Byte</td>
+<td>Short</td>
+<td>Integer</td>
+<td>Long</td>
+<td>Float</td>
+<td>Double</td>
+<td>Character</td>
+<td>Boolean</td>
+</tr>
+</tbody></table>
+<p>第一个问题：为什么会有包装类型？</p>
+<p>这是因为基本数据类型不是对象，有些操作不好实现，比如说hashCode()获取哈希类，getClass()获取类。而包装类能实现这些操作，并且提供不同类型之间的转换。</p>
+<p>第二个问题：二者有什么区别？</p>
+<ul>
+<li><strong>用途</strong> ：除了定义一些常量和局部变量之外，我们在其他地方比如方法参数、对象属性中很少会使用基本类型来定义变量。并且，包装类型可用于泛型，而基本类型不可以。</li>
+<li><strong>存储方式</strong> ：基本数据类型的局部变量存放在 Java 虚拟机栈中的局部变量表中，基本数据类型的成员变量（未被 <code>static</code> 修饰，被 <code>static</code> 修饰后放在栈中）存放在 Java 虚拟机的堆中。包装类型属于对象类型，我们知道几乎所有对象实例都存在于堆中。</li>
+<li><strong>占用空间</strong> ：相比于包装类型（对象类型）， 基本数据类型占用的空间往往非常小。</li>
+<li><strong>默认值</strong> ：成员变量包装类型不赋值就是 <code>null</code> ，而基本类型有默认值且不是 <code>null</code>。</li>
+<li><strong>比较方式</strong> ：对于基本数据类型来说，<code>==</code> 比较的是值。对于包装数据类型来说，<code>==</code> 比较的是对象的内存地址。所有整型包装类对象之间值的比较，全部使用 <code>equals()</code> 方法。</li>
+</ul>
+<p>此外，包装类型有缓存机制，<code>Byte</code>,<code>Short</code>,<code>Integer</code>,<code>Long</code> 这 4 种包装类默认创建了数值 <strong>[-128，127]</strong> 的相应类型的缓存数据，<code>Character</code> 创建了数值在 <strong>[0,127]</strong> 范围的缓存数据，<code>Boolean</code> 直接返回 <code>True</code> or <code>False</code>。如果新建缓存范围内的包装类型对象，会直接使用缓存中的对象而不是新建一个。并且包装类型通过valueOf()和intValue()方法来实现自动装箱拆箱，与基本数据类型进行转换。</p>
+<h2 id="2-成员变量，局部变量和静态变量的区别？"><a href="#2-成员变量，局部变量和静态变量的区别？" class="headerlink" title="2. 成员变量，局部变量和静态变量的区别？"></a>2. 成员变量，局部变量和静态变量的区别？</h2><p><img src="https://oss.javaguide.cn/github/javaguide/java/jvm/java-runtime-data-areas-jdk1.8.png"></p>
+<blockquote>
+<p>额外科普：对于final关键字，当用final修饰一个类时，表明这个类不能被继承。当用final修饰一个方法时，表明这个方法不能被重写。当用final修饰一个变量时，表明这个变量的值不能被改变。</p>
+</blockquote>
+<ul>
+<li><strong>语法形式</strong> ：从语法形式上看，成员变量是属于类的，而局部变量是在代码块或方法中定义的变量或是方法的参数；成员变量可以被 <code>public</code>,<code>private</code>,<code>static</code> 等修饰符所修饰，而局部变量不能被访问控制修饰符及 <code>static</code> 所修饰，如果成员变量由 <code>static</code> 修饰，那么该成员变量也成为了静态变量；注意，成员变量和局部变量都能被 <code>final</code> 所修饰。</li>
+<li><strong>存储方式</strong> ：从变量在内存中的存储方式来看，如果成员变量是使用 <code>static</code> 修饰的，那么这个成员变量是属于类的，它可以被类的所有实例共享，如果没有使用 <code>static</code> 修饰，这个成员变量是属于实例的。而对象存在于堆内存，局部变量则存在于栈内存。静态变量在jdk1.8之前存储在方法区，在jdk1.8之后存储在元空间（即指代方法区）中。方法区存在于虚拟机内存，而元空间则在本地内存中。</li>
+<li><strong>生存时间</strong> ：从变量在内存中的生存时间上看，成员变量是对象的一部分，它随着对象的创建而存在，而局部变量随着方法的调用而自动生成，随着方法的调用结束而消亡，而静态变量会在类加载时初始化，直到程序结束而消亡。</li>
+<li><strong>默认值</strong> ：从变量是否有默认值来看，成员变量如果没有被赋初始值，则会自动以类型的默认值而赋值（一种情况例外:被 <code>final</code> 修饰的成员变量也必须显式地赋值），而局部变量则不会自动赋值。</li>
+</ul>
+<h2 id="3-面向对象三大特征"><a href="#3-面向对象三大特征" class="headerlink" title="3. 面向对象三大特征"></a>3. 面向对象三大特征</h2><h3 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h3><p>封装是指把一个对象的状态信息（也就是属性）隐藏在对象内部，不允许外部对象直接访问对象的内部信息，比如用private修饰成员变量，外部不能直接获知这个成员变量，但是可以通过一个public的方法间接获知这个成员变量。</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><p>不同类型的对象，相互之间经常有一定数量的共同点。例如，小明同学、小红同学、小李同学，都共享学生的特性（班级、学号等）。同时，每一个对象还定义了额外的特性使得他们与众不同。例如小明的数学比较好，小红的性格惹人喜爱；小李的力气比较大。继承是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。通过使用继承，可以快速地创建新的类，可以提高代码的重用，程序的可维护性，节省大量创建新类的时间 ，提高我们的开发效率。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>子类拥有父类对象所有的属性和方法（包括私有属性和私有方法），但是父类中的私有属性和方法子类是无法访问，<strong>只是拥有</strong>。</li>
+<li>子类可以拥有自己属性和方法，即子类可以对父类进行扩展。</li>
+<li>子类可以用自己的方式实现父类的方法。</li>
+</ul>
+<h3 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h3><p>多态，顾名思义，表示一个对象具有多种的状态，具体表现为父类的引用指向子类的实例。</p>
+<p><strong>多态的特点:</strong></p>
+<ul>
+<li>对象类型和引用类型之间具有继承（类）&#x2F;实现（接口）的关系；</li>
+<li>引用类型变量发出的方法调用的到底是哪个类中的方法，必须在程序运行期间才能确定；</li>
+<li>多态不能调用“只在子类存在但在父类不存在”的方法；</li>
+<li>如果子类重写了父类的方法，真正执行的是子类覆盖的方法，如果子类没有覆盖父类的方法，执行的是父类的方法。</li>
+</ul>
+<h2 id="4-深拷贝、浅拷贝、引用拷贝"><a href="#4-深拷贝、浅拷贝、引用拷贝" class="headerlink" title="4. 深拷贝、浅拷贝、引用拷贝"></a>4. 深拷贝、浅拷贝、引用拷贝</h2><p>两个关键点：有无在堆创建对象，有无复制对象里的资源。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230504193214.png"></p>
+<h2 id="5-Exception和Error"><a href="#5-Exception和Error" class="headerlink" title="5. Exception和Error"></a>5. Exception和Error</h2><p>java.lang.Throwable类有两个重要子类：</p>
+<ul>
+<li><p><strong>Exception</strong>： 程序本身可以处理的异常，可以通过 <code>catch</code> 来进行捕获。<code>Exception</code> 又可以分为 Checked Exception (受检查异常，必须处理) 和 Unchecked Exception (不受检查异常，可以不处理)。</p>
+<ul>
+<li><p><strong>Checked Exception</strong>：如果没有catch或者throws关键字来进行处理这类异常，编译就会报错失败。常见的有<a target="_blank" rel="noopener" href="https://www.baeldung.com/java-checked-unchecked-exceptions"><strong>IOException</strong>，<strong>SQLException</strong>和<strong>ParseException</strong></a>。（除RuntimeException类及其所有子类外的所有异常类）</p>
+</li>
+<li><p><strong>Unchecked Exception</strong>：该类异常即使不处理也可以正常通过编译。常见的有RuntimeException类及其所有子类，比如<a target="_blank" rel="noopener" href="https://www.baeldung.com/java-checked-unchecked-exceptions"><strong>NullPointerException</strong>，<strong>ArrayIndexOutOfBoundsException</strong>和<strong>IllegalArgumentException</strong>。</a></p>
+</li>
+</ul>
+</li>
+<li><p><strong>Error</strong>：而Error是程序无法处理的错误。例如 Java 虚拟机运行错误（<code>Virtual MachineError</code>）、虚拟机内存不够错误(<code>OutOfMemoryError</code>)、类定义错误（<code>NoClassDefFoundError</code>）等 。这些异常发生时，Java 虚拟机（JVM）一般会选择线程终止。</p>
+</li>
+</ul>
+<h2 id="6-什么是泛型"><a href="#6-什么是泛型" class="headerlink" title="6. 什么是泛型"></a>6. 什么是泛型</h2><p>泛型顾名思义，就是可以指定传入的参数不是固定的类型。常用的三种用法：<strong>泛型类</strong>、<strong>泛型接口</strong>、<strong>泛型方法</strong>。在项目实践中，经常自定义接口通用返回结果 <code>CommonResult&lt;T&gt;</code> ，通过参数 <code>T</code> 可根据具体的返回类型动态指定结果的数据类型。</p>
+<h2 id="7-反射"><a href="#7-反射" class="headerlink" title="7. 反射"></a>7. 反射</h2><p>Java反射机制是指在程序运行时，对于任何一个类，都能知道这个类的所有属性和方法，对于任何一个实例对象，都能调用该对象的任何一个属性和方法。Java中这种“动态获取信息”和“动态调用属性方法”的机制被称为Java反射机制。很多框架里面都用到了反射机制，注解也用到了反射。</p>
+<p>如果想要动态获取信息，我们需要依靠Class类，Class类对象将一个类的方法、变量等信息告诉运行的程序。Java 提供了四种方式获取 Class 对象:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1.知道具体类</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">alunbarClass</span> <span class="operator">=</span> TargetObject.class;</span><br><span class="line"><span class="comment">// 2.全路径获取（这种方式获取的Class对象不会初始化）</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">alunbarClass1</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;cn.javaguide.TargetObject&quot;</span>);</span><br><span class="line"><span class="comment">// 3.通过对象实例化获取</span></span><br><span class="line"><span class="type">TargetObject</span> <span class="variable">o</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TargetObject</span>();</span><br><span class="line"><span class="type">Class</span> <span class="variable">alunbarClass2</span> <span class="operator">=</span> o.getClass();</span><br><span class="line"><span class="comment">// 4.通过类加载器传入类路径获取（这种方式获取的Class对象不会初始化）</span></span><br><span class="line">ClassLoader.getSystemClassLoader().loadClass(<span class="string">&quot;cn.javaguide.TargetObject&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>举个简单的例子，假设我们有一个Person类，它有一个私有的name属性和一个公共的getName()方法，我们可以通过反射来访问和修改这个私有属性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Person</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取Person类的Class对象</span></span><br><span class="line">Class&lt;?&gt; personClass = Person.class;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个Person实例</span></span><br><span class="line"><span class="type">Person</span> <span class="variable">person</span> <span class="operator">=</span> (Person) personClass.newInstance();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取name字段</span></span><br><span class="line"><span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> personClass.getDeclaredField(<span class="string">&quot;name&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置私有字段的访问权限</span></span><br><span class="line">nameField.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置name字段的值</span></span><br><span class="line">nameField.set(person, <span class="string">&quot;Tom&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用getName()方法获取name字段的值</span></span><br><span class="line"><span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> person.getName();</span><br><span class="line">System.out.println(name); <span class="comment">// 输出 &quot;Tom&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="8-序列化和反序列化"><a href="#8-序列化和反序列化" class="headerlink" title="8. 序列化和反序列化"></a>8. 序列化和反序列化</h2><p><strong>序列化</strong>： 将数据结构或对象转换成二进制字节流的过程</p>
+<p><strong>反序列化</strong>：将在序列化过程中所生成的二进制字节流转换成数据结构或者对象的过程</p>
+<p>下面是序列化和反序列化常见应用场景：</p>
+<ul>
+<li>对象在进行网络传输（比如远程方法调用 RPC 的时候）之前需要先被序列化，接收到序列化的对象之后需要再进行反序列化；</li>
+<li>将对象存储到文件之前需要进行序列化，将对象从文件中读取出来需要进行反序列化；</li>
+<li>将对象存储到数据库（如 Redis）之前需要用到序列化，将对象从缓存数据库中读取出来需要反序列化；</li>
+<li>将对象存储到内存之前需要进行序列化，从内存中读取出来之后需要进行反序列化。</li>
+</ul>
+<p>由于JDK自带的序列化效率低并且存在安全问题，一般不推荐使用，如果想要使用只需实现 <code>java.io.Serializable</code>接口即可。而比较常用的序列化协议有 Hessian、Kryo、Protobuf、ProtoStuff，这些都是基于二进制的序列化协议。</p>
+<h2 id="9-Java中的IO模型详解"><a href="#9-Java中的IO模型详解" class="headerlink" title="9. Java中的IO模型详解"></a>9. Java中的IO模型详解</h2><blockquote>
+<p>UNIX系统下，有五种IO模型：<strong>同步阻塞 IO</strong>、<strong>同步非阻塞 IO</strong>、<strong>IO 多路复用</strong>、<strong>信号驱动 IO</strong> 和<strong>异步 IO</strong>。</p>
+</blockquote>
+<h4 id="BIO（Blocking-I-x2F-O）"><a href="#BIO（Blocking-I-x2F-O）" class="headerlink" title="BIO（Blocking I&#x2F;O）"></a>BIO（Blocking I&#x2F;O）</h4><p>BIO是同步阻塞IO，在同步阻塞IO模型中，应用程序发起 read 调用后，会一直阻塞，直到内核把数据拷贝到用户空间。很明显，这种IO模型不适合大规模的并发量，阻塞等待的时间太长。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6a9e704af49b4380bb686f0c96d33b81~tplv-k3u1fbpfcp-watermark.image"></p>
+<h4 id="NIO（Non-blocking-x2F-New-I-x2F-O）"><a href="#NIO（Non-blocking-x2F-New-I-x2F-O）" class="headerlink" title="NIO（Non-blocking&#x2F;New I&#x2F;O）"></a>NIO（Non-blocking&#x2F;New I&#x2F;O）</h4><blockquote>
+<p>在NIO之上可以使用Netty框架，一个更加稳定高效的网络编程框架。</p>
+</blockquote>
+<p>Java 中的 NIO 于 Java 1.4 中引入，提供了 <code>Channel</code> , <code>Selector</code>，<code>Buffer</code> 等抽象。它是支持面向缓冲的，基于通道的 IO 操作方法。 对于高负载、高并发的（网络）应用，应使用 NIO 。NIO如果单纯是同步非阻塞IO，通过轮询操作，避免了在准备数据和数据就绪阶段一直阻塞，但是从内核空间拷贝到用户空间也会一直阻塞。并且，<strong>不断轮询查看是否准备就绪也是十分消耗CPU资源的</strong>。</p>
+<p>因此NIO是基于IO多路复用模型，线程首先发起 select 调用，询问内核数据是否准备就绪，等内核把数据准备好了，用户线程再发起 read 调用。read 调用的过程（数据从内核空间 -&gt; 用户空间）还是阻塞的。IO 多路复用模型，通过减少无效的系统调用，减少了对 CPU 资源的消耗。</p>
+<ul>
+<li><strong>select 调用</strong> ：内核提供的系统调用，它支持一次查询多个系统调用的可用状态。几乎所有的操作系统都支持。</li>
+<li><strong>epoll 调用</strong> ：linux 2.6 内核，属于 select 调用的增强版本，优化了 IO 的执行效率。</li>
+</ul>
+<p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/88ff862764024c3b8567367df11df6ab~tplv-k3u1fbpfcp-watermark.image"></p>
+<p>Java 中的 NIO ，有一个非常重要的<strong>选择器 ( Selector )</strong> 的概念，也可以被称为 <strong>多路复用器</strong>。通过它，只需要一个线程便可以管理多个客户端连接。当客户端数据到了之后，才会为其服务。</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f483f2437ce4ecdb180134270a00144~tplv-k3u1fbpfcp-watermark.image"></p>
+<h2 id="10-Java-IO-中的设计模式有哪些？"><a href="#10-Java-IO-中的设计模式有哪些？" class="headerlink" title="10. Java IO 中的设计模式有哪些？"></a>10. Java IO 中的设计模式有哪些？</h2><h3 id="结构型"><a href="#结构型" class="headerlink" title="结构型"></a>结构型</h3><h4 id="装饰器（Decorator）模式"><a href="#装饰器（Decorator）模式" class="headerlink" title="装饰器（Decorator）模式"></a>装饰器（Decorator）模式</h4><p><strong>装配式模式</strong>指的是可以在不改变原有对象的情况下拓展其功能，并且它是通过组合的形式完成的，而不是传统的继承关系。</p>
+<p>对于字节流来说， <code>FilterInputStream</code> （对应输入流）和<code>FilterOutputStream</code>（对应输出流）是装饰器模式的核心，分别用于增强 <code>InputStream</code> 和<code>OutputStream</code>子类对象的功能。我们常见的<code>BufferedInputStream</code>(字节缓冲输入流)、<code>DataInputStream</code> 等等都是<code>FilterInputStream</code> 的子类，<code>BufferedOutputStream</code>（字节缓冲输出流）、<code>DataOutputStream</code>等等都是<code>FilterOutputStream</code>的子类。</p>
+<p>举个例子，我们可以通过 <code>BufferedInputStream</code>（字节缓冲输入流）来增强 <code>FileInputStream</code> 的功能。</p>
+<p><code>BufferedInputStream</code> 构造函数如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">BufferedInputStream</span><span class="params">(InputStream in)</span> &#123;</span><br><span class="line">    <span class="built_in">this</span>(in, DEFAULT_BUFFER_SIZE);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="title function_">BufferedInputStream</span><span class="params">(InputStream in, <span class="type">int</span> size)</span> &#123;</span><br><span class="line">    <span class="built_in">super</span>(in);</span><br><span class="line">    <span class="keyword">if</span> (size &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Buffer size &lt;= 0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    buf = <span class="keyword">new</span> <span class="title class_">byte</span>[size];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看得出来，<code>BufferedInputStream</code> 的构造函数其中的一个参数就是 <code>InputStream</code> 。</p>
+<p><code>BufferedInputStream</code> 代码示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> (<span class="type">BufferedInputStream</span> <span class="variable">bis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(<span class="string">&quot;input.txt&quot;</span>))) &#123;</span><br><span class="line">    <span class="type">int</span> content;</span><br><span class="line">    <span class="type">long</span> <span class="variable">skip</span> <span class="operator">=</span> bis.skip(<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">while</span> ((content = bis.read()) != -<span class="number">1</span>) &#123;</span><br><span class="line">        System.out.print((<span class="type">char</span>) content);</span><br><span class="line">    &#125;</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么不弄一个<code>BufferedFileInputStream</code>，像下面代码这样使用呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">BufferedFileInputStream</span> <span class="variable">bfis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedFileInputStream</span>(<span class="string">&quot;input.txt&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>原因就在于<code>InputStream</code>的子类实在太多，继承关系也太复杂了。如果我们为每一个子类都定制一个对应的缓冲输入流，那就太麻烦了。</p>
+<p>此外，IO流中<code>ZipInputStream</code> 和<code>ZipOutputStream</code> 还可以分别增强 <code>BufferedInputStream</code> 和 <code>BufferedOutputStream</code> 。而<code>ZipInputStream</code> 和<code>ZipOutputStream</code> 分别继承自<code>InflaterInputStream</code> 和<code>DeflaterOutputStream</code>。</p>
+<p>因此不难看出装饰器模式的一个重要特征，那就是原始类嵌套使用多个装饰器，为了实现这一效果，装饰器需要跟原始类继承相同的抽象类或者实现相同的接口。</p>
+<h4 id="适配器（Adapter-Pattern）模式"><a href="#适配器（Adapter-Pattern）模式" class="headerlink" title="适配器（Adapter Pattern）模式"></a>适配器（Adapter Pattern）模式</h4><p><strong>适配器（Adapter Pattern）模式</strong> 主要用于接口互不兼容的类的协调工作，你可以将其联想到我们日常经常使用的各种转换器。</p>
+<p>举个例子，笔记本为了做得更轻薄，阉割掉了RJ45网口和HDMI接口，但是现在我们因为工作需要，又得使用这些接口来连接线缆，这时我们想到的第一个解决方案，就是去买一个转接口（扩展坞），扩展坞可以将type-c口转换为其他类型的接口供我们使用，实际上这就是一种适配模式。</p>
+<p>适配器模式中存在被适配的对象或者类称为 <strong>适配者(Adapter)</strong> ，作用于适配者的对象或者类称为<strong>适配器(Adapter)</strong> 。适配器分为对象适配器和类适配器。类适配器使用继承关系来实现，对象适配器使用组合关系来实现。</p>
+<p>IO 流中的字符流和字节流的接口不同，它们之间可以协调工作就是基于适配器模式来做的，更准确点来说是对象适配器。通过适配器，我们可以将字节流对象适配成一个字符流对象，这样我们可以直接通过字节流对象来读取或者写入字符数据。</p>
+<p><code>InputStreamReader</code> 和 <code>OutputStreamWriter</code> 就是两个适配器(Adapter)， 同时，它们两个也是字节流和字符流之间的桥梁。<code>InputStreamReader</code> 使用 <code>StreamDecoder</code> （流解码器）对字节进行解码，<strong>实现字节流到字符流的转换，</strong> <code>OutputStreamWriter</code> 使用<code>StreamEncoder</code>（流编码器）对字符进行编码，<strong>实现字符流到字节流的转换</strong>。<code>InputStream</code> 和 <code>OutputStream</code> 的子类是被适配者， <code>InputStreamReader</code> 和 <code>OutputStreamWriter</code>是适配器。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// InputStreamReader 是适配器，FileInputStream 是被适配的类</span></span><br><span class="line"><span class="type">InputStreamReader</span> <span class="variable">isr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">InputStreamReader</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(fileName), <span class="string">&quot;UTF-8&quot;</span>);</span><br><span class="line"><span class="comment">// BufferedReader 增强 InputStreamReader 的功能（装饰器模式）</span></span><br><span class="line"><span class="type">BufferedReader</span> <span class="variable">bufferedReader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BufferedReader</span>(isr);</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>结构型设计模式关注如何将现有的类或对象组织在一起形成更加强大的结构，遵守合成复用原则（优先使用对象组合，而不是通过继承来达到复用的目的）。</p>
+<p><strong>装饰器模式</strong>更侧重于动态地增强原始类的功能<strong>适配器模式</strong>更侧重于让接口不兼容而不能交互的类可以一起工作。</p>
+<h3 id="创建型"><a href="#创建型" class="headerlink" title="创建型"></a>创建型</h3><h4 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h4><p>工厂模式用于创建对象，NIO 中大量用到了工厂模式，比如 <code>Files</code> 类的 <code>newInputStream</code> 方法用于创建 <code>InputStream</code> 对象（静态工厂）、 <code>Paths</code> 类的 <code>get</code> 方法创建 <code>Path</code> 对象（静态工厂）、<code>ZipFileSystem</code> 类（<code>sun.nio</code>包下的类，属于 <code>java.nio</code> 相关的一些内部实现）的 <code>getPath</code> 的方法创建 <code>Path</code> 对象（简单工厂）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InputStream is Files.newInputStream(Paths.get(generatorLogoPath))</span><br></pre></td></tr></table></figure>
+
+<p>工厂模式的好处在于保证了程序的可重用性，如果对某一对象大量使用，将其封装到工厂类中，当需要修改时只需要修改工厂中的代码，而不是对每一个对象进行修改。</p>
+<h3 id="行为型"><a href="#行为型" class="headerlink" title="行为型"></a>行为型</h3><h4 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h4><p>NIO 中的文件目录监听服务使用到了观察者模式。NIO 中的文件目录监听服务基于 <code>WatchService</code> 接口和 <code>Watchable</code> 接口。<code>WatchService</code> 属于观察者，<code>Watchable</code> 属于被观察者。</p>
+<p><code>Watchable</code> 接口定义了一个用于将对象注册到 <code>WatchService</code>（监控服务） 并绑定监听事件的方法 <code>register</code> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Path</span></span><br><span class="line">    <span class="keyword">extends</span> <span class="title class_">Comparable</span>&lt;Path&gt;, Iterable&lt;Path&gt;, Watchable&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Watchable</span> &#123;</span><br><span class="line">    WatchKey <span class="title function_">register</span><span class="params">(WatchService watcher,</span></span><br><span class="line"><span class="params">                      WatchEvent.Kind&lt;?&gt;[] events,</span></span><br><span class="line"><span class="params">                      WatchEvent.Modifier... modifiers)</span></span><br><span class="line">        <span class="keyword">throws</span> IOException;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>WatchService</code> 用于监听文件目录的变化，同一个 <code>WatchService</code> 对象能够监听多个文件目录。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建 WatchService 对象</span></span><br><span class="line"><span class="type">WatchService</span> <span class="variable">watchService</span> <span class="operator">=</span> FileSystems.getDefault().newWatchService();</span><br><span class="line"><span class="comment">// 初始化一个被监控文件夹的 Path 类:</span></span><br><span class="line"><span class="type">Path</span> <span class="variable">path</span> <span class="operator">=</span> Paths.get(<span class="string">&quot;workingDirectory&quot;</span>);</span><br><span class="line"><span class="comment">// 将这个 path 对象注册到 WatchService（监控服务） 中去</span></span><br><span class="line"><span class="type">WatchKey</span> <span class="variable">watchKey</span> <span class="operator">=</span> path.register(watchService, StandardWatchEventKinds...);</span><br></pre></td></tr></table></figure>
+
+<p>观察者模式的核心在于，观察对象的变化并及时做出反应，一个对象的状态发生改变，可能就会影响到其他的对象，与之相关的对象可能也会联动的进行改变，监听器就是很好的例子。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io">夜语</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/">https://yeyuhl.github.io/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yeyuhl.github.io" target="_blank">随便写写</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/02/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="Java数据结构"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java数据结构</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">夜语</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yeyuhl"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便写写的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-text">Java基础常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Java%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%BA%8C%E8%80%85%E4%B9%8B%E9%97%B4%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">1. Java的基本数据类型为什么会有包装类型，二者之间有什么区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%EF%BC%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E5%92%8C%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-text">2. 成员变量，局部变量和静态变量的区别？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%B8%89%E5%A4%A7%E7%89%B9%E5%BE%81"><span class="toc-text">3. 面向对象三大特征</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B0%81%E8%A3%85"><span class="toc-text">封装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-text">继承</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-text">多态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%B7%B1%E6%8B%B7%E8%B4%9D%E3%80%81%E6%B5%85%E6%8B%B7%E8%B4%9D%E3%80%81%E5%BC%95%E7%94%A8%E6%8B%B7%E8%B4%9D"><span class="toc-text">4. 深拷贝、浅拷贝、引用拷贝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Exception%E5%92%8CError"><span class="toc-text">5. Exception和Error</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%BB%80%E4%B9%88%E6%98%AF%E6%B3%9B%E5%9E%8B"><span class="toc-text">6. 什么是泛型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E5%8F%8D%E5%B0%84"><span class="toc-text">7. 反射</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-text">8. 序列化和反序列化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-Java%E4%B8%AD%E7%9A%84IO%E6%A8%A1%E5%9E%8B%E8%AF%A6%E8%A7%A3"><span class="toc-text">9. Java中的IO模型详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BIO%EF%BC%88Blocking-I-x2F-O%EF%BC%89"><span class="toc-text">BIO（Blocking I&#x2F;O）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#NIO%EF%BC%88Non-blocking-x2F-New-I-x2F-O%EF%BC%89"><span class="toc-text">NIO（Non-blocking&#x2F;New I&#x2F;O）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-Java-IO-%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="toc-text">10. Java IO 中的设计模式有哪些？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E5%9E%8B"><span class="toc-text">结构型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%EF%BC%88Decorator%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-text">装饰器（Decorator）模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%EF%BC%88Adapter-Pattern%EF%BC%89%E6%A8%A1%E5%BC%8F"><span class="toc-text">适配器（Adapter Pattern）模式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%9E%8B"><span class="toc-text">创建型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="toc-text">工厂模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A1%8C%E4%B8%BA%E5%9E%8B"><span class="toc-text">行为型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="toc-text">观察者模式</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Java基础常见问题">Java基础常见问题</a><time datetime="2023-05-12T07:40:22.000Z" title="发表于 2023-05-12 15:40:22">2023-05-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/02/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="Java数据结构">Java数据结构</a><time datetime="2023-05-02T10:14:48.000Z" title="发表于 2023-05-02 18:14:48">2023-05-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">计算机网络期末复习</a><time datetime="2023-05-01T13:04:51.000Z" title="发表于 2023-05-01 21:04:51">2023-05-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="操作系统导论期末复习">操作系统导论期末复习</a><time datetime="2023-05-01T11:23:47.000Z" title="发表于 2023-05-01 19:23:47">2023-05-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 夜语</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
