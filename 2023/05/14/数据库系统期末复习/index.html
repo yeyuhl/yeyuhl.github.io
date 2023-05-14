@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>数据库系统期末复习 | 随便写写</title><meta name="author" content="夜语"><meta name="copyright" content="夜语"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="数据库完整性和安全性的联系与区别数据库的完整性和安全性是两个存在一定联系却又不尽相同的概念。数据库的完整性是为了防止数据库中存在不符合语义的数据，防止错误信息的输入输出；而数据库的安全性是为了防止恶意的破坏和非法存取。也就是说，完整性和安全性都是为了保护数据库的数据所提出的，但是安全性措施防范的对象是非法用户和非法操作，而完整性措施防范的对象是不符合语义的数据。 数据库三级模式与两级映像外模式：用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库系统期末复习">
+<meta property="og:url" content="https://yeyuhl.github.io/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="随便写写">
+<meta property="og:description" content="数据库完整性和安全性的联系与区别数据库的完整性和安全性是两个存在一定联系却又不尽相同的概念。数据库的完整性是为了防止数据库中存在不符合语义的数据，防止错误信息的输入输出；而数据库的安全性是为了防止恶意的破坏和非法存取。也就是说，完整性和安全性都是为了保护数据库的数据所提出的，但是安全性措施防范的对象是非法用户和非法操作，而完整性措施防范的对象是不符合语义的数据。 数据库三级模式与两级映像外模式：用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp">
+<meta property="article:published_time" content="2023-05-14T08:32:30.000Z">
+<meta property="article:modified_time" content="2023-05-14T08:33:43.064Z">
+<meta property="article:author" content="夜语">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yeyuhl.github.io/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '数据库系统期末复习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-05-14 16:33:43'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/wallhaven-p9woe3.png')"><nav id="nav"><span id="blog-info"><a href="/" title="随便写写"><span class="site-name">随便写写</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">数据库系统期末复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-05-14T08:32:30.000Z" title="发表于 2023-05-14 16:32:30">2023-05-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-05-14T08:33:43.064Z" title="更新于 2023-05-14 16:33:43">2023-05-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="数据库系统期末复习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="数据库完整性和安全性的联系与区别"><a href="#数据库完整性和安全性的联系与区别" class="headerlink" title="数据库完整性和安全性的联系与区别"></a>数据库完整性和安全性的联系与区别</h1><p>数据库的完整性和安全性是两个存在一定联系却又不尽相同的概念。数据库的完整性是为了防止数据库中存在不符合语义的数据，防止错误信息的输入输出；而数据库的安全性是为了防止恶意的破坏和非法存取。也就是说，完整性和安全性都是为了保护数据库的数据所提出的，但是安全性措施防范的对象是非法用户和非法操作，而完整性措施防范的对象是不符合语义的数据。</p>
+<h1 id="数据库三级模式与两级映像"><a href="#数据库三级模式与两级映像" class="headerlink" title="数据库三级模式与两级映像"></a>数据库三级模式与两级映像</h1><p><strong>外模式</strong>：用户模式，每一个用户只能看见和访问所对应的外模式中的数据。 <strong>模式</strong>：逻辑模式，是所有用户的公共数据视图。 <strong>内模式</strong>：存储模式，一个数据库只有一个内模式。它是数据物理结构和存储方式的描述，是数据在数据库内部的组织形式。 <strong>数据与程序的物理独立性</strong>：当数据库存储结构发生变化，<strong>模式&#x2F;内模式映像</strong>作相应改变可以使得模式保持不变，因此应用程序不必变化。 <strong>数据与程序的逻辑独立性</strong>：当数据的逻辑结构即模式发生变化，<strong>外模式&#x2F;模式映像</strong>作相应改变就可以使得外模式不变，从而使得应用程序不必改变。</p>
+<h1 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h1><p><strong>差</strong>：R-S&#x3D;{t|t∈R ∩ t∉S}，即t属于R但不属于S <strong>除</strong>：R&#x2F;S&#x3D;t，t包含所有在R但不在S中的属性以及值，且t的元组与S的元组的所有组合都在R中。举例子描述：<br>R是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162228.png"> 我们先引入象集的概念，象集就是先做一次选择运算再做一次投影运算。<br>对于001来说，其象集是{张三，19，计算机}<br>对于计算机来说，其象集是{(001，张三，19),(002，李冰，21),(004，王华，21)}</p>
+<p>假设S是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162301.png"></p>
+<p>那么R&#x2F;S就是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162310.png"> 即取S的象集。</p>
+<p><strong>连接</strong>：连接中常用的两种是<strong>自然连接</strong>和<strong>等值连接</strong>。等值连接即从两个关系R与S中选取属性值相等的元组，将两个关系连接起来。自然连接是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是同名的属性组，并且在结果中把重复的属性列去掉。</p>
+<h1 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h1><ul>
+<li><strong>数据定义</strong>：create（创建），drop（删除），alter（修改）。</li>
+<li><strong>数据操纵</strong>：<ul>
+<li><strong>数据查询</strong>（有时被单独拿出来，不属于数据操纵）：select（查询）</li>
+<li><strong>数据更新</strong>：insert（插入），update（更新），delete（删除）</li>
+</ul>
+</li>
+<li><strong>数据控制</strong>（对用户数据访问权进行控制）：grant、revoke、deny</li>
+</ul>
+<h1 id="数据库安全性"><a href="#数据库安全性" class="headerlink" title="数据库安全性"></a>数据库安全性</h1><h2 id="自主存取控制"><a href="#自主存取控制" class="headerlink" title="自主存取控制"></a>自主存取控制</h2><p>用户对于不同的数据库对象有不同的存取权限，不同的用户对同一对象也有不同的权限，而且用户还可将其拥有的存取权限转授给其他用户。因此自主存取控制非常灵活。</p>
+<h2 id="强制存取控制"><a href="#强制存取控制" class="headerlink" title="强制存取控制"></a>强制存取控制</h2><p>每一个数据库对象被标以一定的密级，每一个用户也被授予某一个级别的许可证。对于任意一个对象，只有具有合法许可证的用户才可以存取。强制存取控制因此相对比较严格。</p>
+<h2 id="二者区别"><a href="#二者区别" class="headerlink" title="二者区别"></a>二者区别</h2><p>自主存取控制中可以用grant和revoke语句来授予或收回对数据的操作权限，这种用户可以“自主”决定将数据的存取权限授予他人并决定是否也将“授权”的权限授予别人的控制方式称之为自主存取控制。<strong>上述方式能有效地控制对敏感数据的存取，但存在数据的“无意泄露”</strong>。比如甲将自己某些数据存取权限赋予给乙，但乙可以将数据备份获得自身权限内的副本，并且可以对其进行传播造成数据泄露。造成这一问题的<strong>根本原因在于这种机制仅仅通过对数据的存取控制来进行安全控制，而数据本身并无安全性标记</strong>。而强制存取控制就是为了解决上述问题而产生的，强制存取控制是对数据本身进行密级标记，无论数据如何复制，标记与数据是一个不可分的整体，只有符合密级标记要求的用户才可以操纵数据，从而提供了更高级别的安全性。</p>
+<h1 id="判断范式"><a href="#判断范式" class="headerlink" title="判断范式"></a>判断范式</h1><blockquote>
+<p>1NF：属性原子不可分。<br>2NF：非主属性都完全函数依赖于候选码。<br>3NF：非主属性不传递函数依赖于候选码。<br>BCNF：属性不传递函数依赖于候选码。<br>4NF：属性之间不允许有非平凡且非函数依赖的多值依赖。<br>最小依赖集，任意函数依赖左边全是超码。</p>
+</blockquote>
+<p>将关系模式简化为**R&lt; U,F &gt;**，R是关系名，U是一组属性，F是属性组U上的一组数据依赖。</p>
+<p><strong>函数依赖(FD)<strong>：<br>这种依赖关系X -&gt; Y类似于数学中的函数y&#x3D;f(x)，当自变量x确定后，相应的函数值y也唯一确定。<br>①X -&gt; Y，但Y !⊆ X，则称X -&gt; Y为</strong>非平凡的函数依赖</strong>。<br>②X -&gt; Y，但Y ⊆ X，则称X -&gt; Y为<strong>平凡的函数依赖</strong>。<br>③X -&gt; Y，则称X是这个函数依赖的决定属性组，称为<strong>决定因素</strong>。<br>④X -&gt; Y，且对于X的任何一个真子集X’都有X’ !-&gt; Y，那么称之为Y对X<strong>完全函数依赖</strong>。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162324.png"> 如果Y不完全依赖于X，则称Y对X<strong>部分函数依赖</strong>。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162341.png"> ⑤X -&gt; Y(Y !⊆ X)，Y !-&gt; X, Y -&gt; Z(Z !⊆ Y)，则称Z对X<strong>传递函数依赖</strong>。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162351.png"></p>
+<p>⑥若函数依赖集F满足以下条件，则称F为一个<strong>极小函数依赖集</strong>，或称<strong>最小依赖集</strong>，<strong>最小覆盖</strong>：</p>
+<ul>
+<li>若F中任一函数依赖的右部仅含有一个属性。</li>
+<li>F中不存在这样的函数依赖X -&gt; A使得F与F-{X -&gt; A}等价。</li>
+<li>F中不存在这样的函数依赖X -&gt; A，X有真子集Z使得 F-{X -&gt; A}}∪{Z -&gt; A 与F等价。</li>
+</ul>
+<p>求F的极小依赖集一般分为三步：</p>
+<ul>
+<li>将右部单一化。</li>
+<li>去掉多余的函数依赖。</li>
+<li>去掉左部的冗余。</li>
+</ul>
+<p>举例：已知关系R(A,B,C,D,E,F,G)，函数依赖集F为{BC -&gt; AE, DC -&gt; EF, DG -&gt; E, B -&gt; CD, D -&gt; G}。 <strong>右部单一化</strong>：BC -&gt; A, BC -&gt; E, DC -&gt; E, DC -&gt; F, DG -&gt; E, B -&gt; C, B -&gt; D, D -&gt; G。 <strong>去掉多余的函数依赖</strong>：BC -&gt; A, DC -&gt; F, DG -&gt; E, B -&gt; C, B -&gt; D, D -&gt; G。（比如去掉BC -&gt; E是因为B -&gt; C, B -&gt; D, D-&gt;G, DG -&gt; E可以得到这个结果，因此冗余了，要去掉。） <strong>去掉左部的冗余</strong>：B -&gt; A, DC -&gt; F, D -&gt; E, B -&gt; C, B -&gt; D, D -&gt; G。（比如BC -&gt; A可以将左部简化成B -&gt; A因为B -&gt; C。）</p>
+<p><strong>多值依赖(MVD)<strong>：<br>X,Y,Z是U的子集，并且Z&#x3D;U-X-Y。关系模式R(U)中多值依赖X -&gt;-&gt; Y成立，并且当且仅当R(U)的任一关系r，给定的一对(X,Z)值，有一组Y的值，这组值仅决定于X值与Z值无关。若X -&gt;-&gt; Y，而Z&#x3D;∅，即Z为空，则称X -&gt;-&gt; Y为</strong>平凡的多值依赖</strong>。<br>假设Course(C,T,B)中，C是课程，T是教师，B是参考书。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162408.png"> 明显可以感受出来这不是函数依赖，因为参考书和教师没有关系，此时参考书多值依赖于课程，之所以是多值是因为参考书不止一本，同样教师也多值依赖于课程。</p>
+<p><strong>码</strong>：<br>K为R&lt;U,F&gt;中的属性或属性组合，若U对K存在完全函数依赖，那么K就是R的<strong>候选码</strong>；若U对K存在部分函数依赖，那么K就是R的<strong>超码</strong>（候选码是最小的超码）；若候选码对于一个，则选定候选码中的一个作为<strong>主码</strong>；若一个属性在任何候选码中都存在，那么该属性是<strong>主属性</strong>；若一个属性不包含在任何候选码中，那就是<strong>非主属性</strong>。</p>
+<p><strong>1NF：<br>数据库的每一列必须是不可分割的基本数据项。</strong> <img src="https://img-blog.csdnimg.cn/20190625193726929.png"> 比如该图中进货和销售都有两个重复的属性（数量和单价），并且进价和销售是可以再分割的，不满足原子性（1NF），应该将其分解成两个关系模式。</p>
+<p><strong>2NF：<br>数据库的每一列都是不可分割的基本数据项；<br>所有非主属性对每一个候选码存在完全函数依赖 (不存在非主属性对候选码的 不完全&#x2F;部分函数依赖)。</strong> 可以这么理解，完全函数依赖即非主属性不能依赖于候选码的部分属性，必须依赖于候选码的所有属性。举个例子：S-L-C(Sno,Sdept,Sloc,Cno,Grade)，候选码（同时也是主码）是(Sno,Cno)。其函数依赖是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162553.png"> 其中Sno -&gt; Sdept, Sno -&gt; Sloc可以看到非主属性Sdept、Sloc并不完全函数依赖于候选码，因此不符合2NF定义，假如将其分解为SC(Sno,Cno,Grade)和S-L(Sno,Sdept,Sloc)两个分解模式即满足。</p>
+<p><strong>3NF：<br>数据库的每一列都是不可分割的基本数据项；<br>所有非主属性对每一个候选码存在完全函数依赖 (不存在非主属性对候选码的 不完全&#x2F;部分 函数依赖)；<br>不存在非主属性对候选码的传递函数依赖。</strong> 举个例子，S-L中，Sno -&gt; Sdept(Sdept !-&gt; Snp),Sdept -&gt; Sloc,可得Sno -&gt; Sloc（传递），但由于Sloc是非主属性，其对候选码Sno有传递函数依赖，因此R不是3NF。</p>
+<p><strong>BCNF：<br>数据库的每一列都是不可分割的基本数据项；<br>所有非主属性对每一个候选码存在完全函数依赖 (不存在非主属性对候选码的 不完全&#x2F;部分 函数依赖)；<br>不存在非主属性对候选码的传递函数依赖；<br>所有的主属性对每一个不包含它的候选码也是完全函数依赖和不传递依赖。</strong> (每一个决定因素都包含候选码)<br>比如SJP(S,J,P)中，S是学生，J是课程，P是名次。(S,J)-&gt;P；(J,P)-&gt;S。该关系既是3NF也是BCNF。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162613.png"></p>
+<p><strong>求闭包的例子</strong> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162624.png"></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162632.png"></p>
+<h1 id="查询处理和查询优化"><a href="#查询处理和查询优化" class="headerlink" title="查询处理和查询优化"></a>查询处理和查询优化</h1><h2 id="查询处理"><a href="#查询处理" class="headerlink" title="查询处理"></a>查询处理</h2><p>查询处理是关系数据库管理系统执行查询语句的过程，其任务是把用户提交给关系数据库管理系统的查询语句转换为高效的查询执行计划。查询处理一般分为四个阶段：查询分析、查询检查、查询优化和查询执行。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162659.png"> 其中实现<strong>选择操作</strong>的方法一般有（只涉及一个关系）简单的全表扫描算法和索引扫描算法。当选择率较低时，采用基于索引的选择算法；当选择率较高时或要查找的元素均匀地分布在查找的表中，采用全表扫描算法。<br>而实现<strong>连接操作</strong>的方法一般有嵌套循环算法，排序合并算法，索引连接算法和hash join算法。</p>
+<h2 id="查询优化"><a href="#查询优化" class="headerlink" title="查询优化"></a>查询优化</h2><h3 id="代数优化（逻辑优化）"><a href="#代数优化（逻辑优化）" class="headerlink" title="代数优化（逻辑优化）"></a>代数优化（逻辑优化）</h3><p>代数优化是指<strong>关系代数表达式的优化</strong>，即按照一定的规则，通过对关系代数表达式进行等价变换，<strong>改变代数表达式中操作的次序和组合，使查询执行更高效</strong>。<br>查询树的启发式优化：<br>(1)选择运算应尽可能先做。<br>(2)把投影运算和选择运算同时进行。<br>(3)把投影同其前或后的双目运算结合起来。<br>(4)把某些选择同在它前面要执行的笛卡儿积结合起来成为一个连接运算。<br>(5)找出公共子表达式。</p>
+<h3 id="物理优化"><a href="#物理优化" class="headerlink" title="物理优化"></a>物理优化</h3><p>物理优化是指<strong>存取路径和底层操作算法的选择</strong>，选择的依据可以是基于规则的，基于代价的，基于语义的。<br>(1)基于规则的启发式优化。<br>(2)基于代价估算的优化。<br>(3)两者结合的优化方法。</p>
+<p><strong>基于启发式规则的存取路径选择优化</strong></p>
+<ul>
+<li>选择操作的启发式规则<ul>
+<li>对于小关系，使用全表顺序扫描，即使选择列上有索引。</li>
+<li>对于大关系，如果选择条件是“主码&#x3D;值”的查询，查询结果最多是一个元组，可以选择主码索引。</li>
+<li>对于大关系，如果选择条件是“非主属性&#x3D;值”的查询，并且选择列上有索引，则要估算查询结果的元组数目，如果比例较小(&lt;10%)则使用索引扫描方法，否则就使用全表顺序扫描。</li>
+<li>对于大关系，如果选择条件是属性上的非等值查询或者范围查询，并且选择列上有索引，同样要估算查询结果的元组数目，如果选择率&lt;10%可以使用索引扫描方法，否则使用全表顺序扫描。</li>
+<li>对于大关系，如果用AND连接的合取选择条件，有设计这些属性的组合索引，则优先采用组合索引扫描方法；如果某些属性上有一般索引，则可以用索引扫描方法，否则使用全表顺序扫描。</li>
+<li>对于大关系，如果用OR连接的析取选择条件，一般使用全表顺序扫描。</li>
+</ul>
+</li>
+<li>连接操作的启发式规则<ul>
+<li>如果两个表都已经按照连接属性排序，则选用排序合并算法。</li>
+<li>如果一个表在连接属性上有索引，则可以选用索引连接算法。</li>
+<li>如果以上两个规则都不适用，其中一个表比较小，那么可以选用hash join算法。</li>
+<li>最后可以选用嵌套循环算法，并选择其中较小的表，确切地讲是占用的块数(B)较少的表，作为外表(外循环的表)。</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据库恢复技术"><a href="#数据库恢复技术" class="headerlink" title="数据库恢复技术"></a>数据库恢复技术</h1><h2 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h2><p>事务是指用户定义的一个数据库操作序列，要么做要么不做，不存在你中间状态，是一个不可分割的工作单位。定义事务的语句一般有三条：BEGIN TRANSACTION、COMMIT、ROLLBACK，事务通常是以BEGIN TRANSACTION开始，以COMMIT或ROLLBACK结束。COMMIT是提交，即提交事务的所有操作。而ROLLBACK是回滚，即事务不能继续执行，将已经完成的操作全部撤销，回滚到事务开始时的状态。</p>
+<p>事务可以是一条SQL语句、一组SQL语句或者整个程序。事务有四个特性：<strong>原子性</strong>、<strong>一致性</strong>、<strong>隔离性</strong>、<strong>持续性</strong>。</p>
+<ul>
+<li>原子性：事务中的操作要么做要么不做。</li>
+<li>一致性：数据库必须从一个一致性状态变到另一个一致性状态，当数据库只包含成功事务提交的结果时称该数据库处于一致性状态。</li>
+<li>隔离性：一个事务的执行不能被其他事务干扰。</li>
+<li>持续性：也称永久性，事务一旦提交，它对数据库中的数据的改变是永久性的。</li>
+</ul>
+<h2 id="故障和恢复"><a href="#故障和恢复" class="headerlink" title="故障和恢复"></a>故障和恢复</h2><p>数据库故障一般分为<strong>事务内部的故障</strong>，<strong>系统故障</strong>，<strong>介质故障</strong>，<strong>计算机病毒</strong>。而恢复的原理很简单，那就是冗余。建议冗余数据最常用的技术就是<strong>数据转储</strong>和<strong>登记日志文件</strong>。</p>
+<h3 id="数据转储"><a href="#数据转储" class="headerlink" title="数据转储"></a>数据转储</h3><p>所谓转储即数据库管理员定期地将整个数据库复制到磁盘、磁盘或其他存储介质上保存起来的过程。这些备用的数据称之为后备副本或后援副本。而转储也分为<strong>静态转储</strong>和<strong>动态转储</strong>。</p>
+<p>静态转储是在系统中无运行事务时进行的转储操作，此时不允许对数据库进行其他操作，因此静态转储简单但会降低数据库的可用性。</p>
+<p>动态转储是指转储期间允许对数据库进行存取或修改，即转储和用户事务可以并发执行，动态转储虽然解决了静态转储存在的漏洞，但是转储结束时后备副本上的数据不能保证其正确有效。因此，必须把转储期间各事务对数据库的修改活动登记下来，建立日志文件，这样后备副本+日志文件可以把数据库恢复到某一时刻的正确状态。</p>
+<p>此外存储也有<strong>海量转储</strong>（全部数据转储）和<strong>增量转储</strong>（只转储上一次转储后更新过的数据）两种方式。</p>
+<h3 id="登记日志文件"><a href="#登记日志文件" class="headerlink" title="登记日志文件"></a>登记日志文件</h3><p>日志文件是用来记录事务对数据库的更新操作的文件，一般有两种格式，以记录为单位的日志文件和以数据块为单位的日志文件。此外登记日志文件要遵循以下规则：<br>登记的次序严格按并发事务执行的时间次序。<br>必须先写日志文件，后写数据库。</p>
+<h2 id="恢复策略"><a href="#恢复策略" class="headerlink" title="恢复策略"></a>恢复策略</h2><h3 id="事务故障的恢复"><a href="#事务故障的恢复" class="headerlink" title="事务故障的恢复"></a>事务故障的恢复</h3><p>事务故障是指事务在运行至正常终止点前被终止，此时恢复子系统应利用日志文件撤销(UNDO)此事务已对数据库进行的修改。系统的恢复步骤是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162727.png"></p>
+<h3 id="系统故障的恢复"><a href="#系统故障的恢复" class="headerlink" title="系统故障的恢复"></a>系统故障的恢复</h3><p>撤销故障发生时未完成的事务，重做已完成的事务。系统的恢复步骤是： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162736.png"></p>
+<h3 id="介质故障的恢复"><a href="#介质故障的恢复" class="headerlink" title="介质故障的恢复"></a>介质故障的恢复</h3><p>发生介质故障后，磁盘上的物理数据和日志文件被破坏，其恢复方法是重装数据库，然后重做已完成的事务。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162745.png"></p>
+<h3 id="具有检查点的恢复技术"><a href="#具有检查点的恢复技术" class="headerlink" title="具有检查点的恢复技术"></a>具有检查点的恢复技术</h3><p>利用日志技术进行数据库恢复时，恢复子系统必须搜索日志，这样会产生两个问题，一是搜索整个日志将耗费大量的时间，二是很多需要重做处理的事务实际上已经将它们的更新操作结果写到了数据库中，而恢复子系统又重新执行了这些操作，同样浪费了大量时间。 因此采用一种新技术——检查点记录，增加一个重新开始文件，并让恢复子系统在登录日志文件期间地动态地维护日志。其中重新开始文件用来记录各个检查点记录在日志文件中的地址，而检查点可以简单理解为游戏的存档点，可以通过存档点来了解当前进度。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162758.png"> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162814.png">此处给出一个实例： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162841.png"> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162855.png"> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162901.png"></p>
+<h1 id="并发控制"><a href="#并发控制" class="headerlink" title="并发控制"></a>并发控制</h1><p>事务是并发控制的基本单位，保证事务的ACID特性是事务处理的重要任务，而事务的ACID特性可能遭到破坏的原因之一是多个事务对数据库的并发操作造成的。为了保证事务的隔离性和一致性，数据库管理系统需要对并发操作进行正确调度。</p>
+<p>并发操作会给数据带来不一致性，比如<strong>丢失修改</strong>，<strong>不可重复读</strong>和<strong>读脏数据</strong>。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162911.png"></p>
+<p>并发控制机制就是要用正确的方式调度并发操作，使一个用户事务的执行不受到其他事务的干扰，避免造成数据的不一致性。</p>
+<p>并发控制的主要技术有封锁(locking)、时间戳(timestamp)、乐观控制法(optimisitc scheduler)和多版本并发控制(MVCC)。</p>
+<h2 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h2><p>封锁就是事务T在对某个数据对象操作之前，先向系统发出请求，对其加锁。加锁后事务T就对该数据对象有了一定控制，在事务T释放它的锁之前，其他事务不能更新此数据对象。<br>封锁类型又分为：</p>
+<ul>
+<li>排他锁（写锁）：若事务T对数据对象A加上X锁，则只允许T读取和修改A，其他任何事务都不能再对A加任何类型的锁，直到T释放A上的锁为止。</li>
+<li>共享锁（读锁）：若事务T对数据对象A加上S锁，则事务T可以读A但不能修改A，其他事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁为止。</li>
+</ul>
+<h2 id="封锁协议"><a href="#封锁协议" class="headerlink" title="封锁协议"></a>封锁协议</h2><p>对于何时申请X锁或S锁、封锁时间、何时释放等规则称之为封锁协议。<br>一级封锁协议：事务T在修改数据R之前必须先对其加X锁，直到事务结束才释放。<br>二级封锁协议：在一级封锁协议基础上增加事务T在读取数据R之前必须先对其加S锁，读完后即可释放S锁。<br>三级封锁协议：在一级封锁协议的基础上增加事务T在读取数据R之前必须先对其加S锁，直到事务结束才释放。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162924.png"></p>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>事务T1给数据R1上锁，事务T2给数据R2上锁。此时T1访问R2，T2访问R1。T1等待T2给R2解锁，T2又在等待T1给R1解锁。T1和T2两个事务永远不能结束，这就形成了<strong>死锁</strong>。<br>解决死锁一般有两类方法：一是采取一定的措施来预防死锁的产生，二是允许发生死锁，采用一定的手段定期真短系统中有无死锁，若有则解除之。</p>
+<h3 id="死锁的预防"><a href="#死锁的预防" class="headerlink" title="死锁的预防"></a>死锁的预防</h3><ul>
+<li>一次封锁法：每个事务必须一次将所有要使用的数据全部上锁，否则就不能继续执行（缺点是会降低系统并发度）。</li>
+<li>顺序封锁法：预先对数据对象规定一个封锁顺序，所有事务都按这个顺序实施封锁（缺点是维护封锁顺序非常困难）。</li>
+</ul>
+<h3 id="死锁的诊断与解除"><a href="#死锁的诊断与解除" class="headerlink" title="死锁的诊断与解除"></a>死锁的诊断与解除</h3><p>预防死锁并不适合数据库系统，因此数据库一般采用诊断与解除死锁的方法。<br>诊断的方法如下：</p>
+<ul>
+<li>超时法：如果一个事务的等待时间超过了规定的时限，就认为发生了死锁（缺点是可能误判或者是时限设置太长死锁发生后不能及时发现）。</li>
+<li>等待图法：事务等待图是一个有向图G&#x3D;(T,U)，T是结点的集合，每个结点表示正运行的事务；U是边的集合，每条边表示事务等待的情况。若T1等待T2，则在T1、T2之间画一条有向边，从T1指向T2。并发控制子系统周期性地（比如每隔数秒）生成事务等待图，并进行检测。如果发现图中存在回路，则表示系统中出现了死锁。<br>而解除死锁的方法则是选择一个处理死锁代价最小的事务，将其撤销，释放此事务所持有的所有的锁，使其他事务得以继续运行下去。</li>
+</ul>
+<h2 id="并发调度的可串行性"><a href="#并发调度的可串行性" class="headerlink" title="并发调度的可串行性"></a>并发调度的可串行性</h2><p>多个事务的并发执行是正确的，当且仅当其结果与按其某一次序串行地执行这些事务时的结果相同，称这种调度策略为可串行化调度。一个给定的并发调度，当且仅当它是可串行化的，才认为是正确的调度。<br>一个调度Sc在保证冲突操作的次序不变的情况下，通过交换两个事务不冲突操作的次序得到另一个调度Sc’，如果Sc’是串行的，称调度Sc为冲突可串行化的调度。若一个调度是冲突可串行化，则一定是可串行化的调度。可以用这种方法来判断一个调度是否是冲突可串行化。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162936.png"></p>
+<h2 id="两段锁协议"><a href="#两段锁协议" class="headerlink" title="两段锁协议"></a>两段锁协议</h2><p>为保证并发调度的正确性，数据库管理系统的并发控制机制必须提供一定的额手段来保证调度是可串行化的，因此采用两段锁协议。<br>所谓两段锁协议是指所有事务必须分两个阶段对数据项上锁和解锁。</p>
+<ul>
+<li>在对任何数据进行读、写操作之前，首先要申请并获得对该数据的封锁；</li>
+<li>在释放一个封锁之后，事务不再申请和获得任何其他封锁。</li>
+</ul>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162946.png"> 要注意的是两段锁协议并不能避免死锁的发生，比如之前的习题： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514162956.png"></p>
+<p>例题 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514163003.png"> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514163014.png"> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/db/20230514163024.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io">夜语</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">https://yeyuhl.github.io/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yeyuhl.github.io" target="_blank">随便写写</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Java基础常见问题"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java基础常见问题</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">夜语</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yeyuhl"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便写写的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%8C%E6%95%B4%E6%80%A7%E5%92%8C%E5%AE%89%E5%85%A8%E6%80%A7%E7%9A%84%E8%81%94%E7%B3%BB%E4%B8%8E%E5%8C%BA%E5%88%AB"><span class="toc-text">数据库完整性和安全性的联系与区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%89%E7%BA%A7%E6%A8%A1%E5%BC%8F%E4%B8%8E%E4%B8%A4%E7%BA%A7%E6%98%A0%E5%83%8F"><span class="toc-text">数据库三级模式与两级映像</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0"><span class="toc-text">关系代数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SQL"><span class="toc-text">SQL</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A7"><span class="toc-text">数据库安全性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E4%B8%BB%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6"><span class="toc-text">自主存取控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E5%AD%98%E5%8F%96%E6%8E%A7%E5%88%B6"><span class="toc-text">强制存取控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E8%80%85%E5%8C%BA%E5%88%AB"><span class="toc-text">二者区别</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E8%8C%83%E5%BC%8F"><span class="toc-text">判断范式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86%E5%92%8C%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="toc-text">查询处理和查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86"><span class="toc-text">查询处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96"><span class="toc-text">查询优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%95%B0%E4%BC%98%E5%8C%96%EF%BC%88%E9%80%BB%E8%BE%91%E4%BC%98%E5%8C%96%EF%BC%89"><span class="toc-text">代数优化（逻辑优化）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E4%BC%98%E5%8C%96"><span class="toc-text">物理优化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%81%A2%E5%A4%8D%E6%8A%80%E6%9C%AF"><span class="toc-text">数据库恢复技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1"><span class="toc-text">事务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%85%E9%9A%9C%E5%92%8C%E6%81%A2%E5%A4%8D"><span class="toc-text">故障和恢复</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E5%82%A8"><span class="toc-text">数据转储</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%99%BB%E8%AE%B0%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="toc-text">登记日志文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E7%AD%96%E7%95%A5"><span class="toc-text">恢复策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8B%E5%8A%A1%E6%95%85%E9%9A%9C%E7%9A%84%E6%81%A2%E5%A4%8D"><span class="toc-text">事务故障的恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E6%95%85%E9%9A%9C%E7%9A%84%E6%81%A2%E5%A4%8D"><span class="toc-text">系统故障的恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8B%E8%B4%A8%E6%95%85%E9%9A%9C%E7%9A%84%E6%81%A2%E5%A4%8D"><span class="toc-text">介质故障的恢复</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E6%9C%89%E6%A3%80%E6%9F%A5%E7%82%B9%E7%9A%84%E6%81%A2%E5%A4%8D%E6%8A%80%E6%9C%AF"><span class="toc-text">具有检查点的恢复技术</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6"><span class="toc-text">并发控制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E9%94%81"><span class="toc-text">封锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="toc-text">封锁协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%BB%E9%94%81"><span class="toc-text">死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E9%A2%84%E9%98%B2"><span class="toc-text">死锁的预防</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%BB%E9%94%81%E7%9A%84%E8%AF%8A%E6%96%AD%E4%B8%8E%E8%A7%A3%E9%99%A4"><span class="toc-text">死锁的诊断与解除</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B9%B6%E5%8F%91%E8%B0%83%E5%BA%A6%E7%9A%84%E5%8F%AF%E4%B8%B2%E8%A1%8C%E6%80%A7"><span class="toc-text">并发调度的可串行性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%A4%E6%AE%B5%E9%94%81%E5%8D%8F%E8%AE%AE"><span class="toc-text">两段锁协议</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="数据库系统期末复习">数据库系统期末复习</a><time datetime="2023-05-14T08:32:30.000Z" title="发表于 2023-05-14 16:32:30">2023-05-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Java基础常见问题">Java基础常见问题</a><time datetime="2023-05-12T07:40:22.000Z" title="发表于 2023-05-12 15:40:22">2023-05-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/02/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="Java数据结构">Java数据结构</a><time datetime="2023-05-02T10:14:48.000Z" title="发表于 2023-05-02 18:14:48">2023-05-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">计算机网络期末复习</a><time datetime="2023-05-01T13:04:51.000Z" title="发表于 2023-05-01 21:04:51">2023-05-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AF%BC%E8%AE%BA%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="操作系统导论期末复习">操作系统导论期末复习</a><time datetime="2023-05-01T11:23:47.000Z" title="发表于 2023-05-01 19:23:47">2023-05-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 夜语</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
