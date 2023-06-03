@@ -1,0 +1,787 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>人工智能期末复习 | 随便写写</title><meta name="author" content="夜语"><meta name="copyright" content="夜语"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="2. 智能Agent2.1 Agent的概念Agent是指通过传感器感知环境并通过执行器对所处环境产生影响的实体。而理性Agent的定义是，对每一个可能的感知序列，根据已知的感知序列提供的证据和Agent具有的先验知识，理性Agent应该选择能使其性能度量最大化的行动。理性是使期望的性能最大化，而完美是使实际的性能最大化。Agent是不可能全知（完美）的，它还需要从它所感知的信息中尽可能的学习，并">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人工智能期末复习">
+<meta property="og:url" content="https://yeyuhl.github.io/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="随便写写">
+<meta property="og:description" content="2. 智能Agent2.1 Agent的概念Agent是指通过传感器感知环境并通过执行器对所处环境产生影响的实体。而理性Agent的定义是，对每一个可能的感知序列，根据已知的感知序列提供的证据和Agent具有的先验知识，理性Agent应该选择能使其性能度量最大化的行动。理性是使期望的性能最大化，而完美是使实际的性能最大化。Agent是不可能全知（完美）的，它还需要从它所感知的信息中尽可能的学习，并">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp">
+<meta property="article:published_time" content="2023-06-03T13:46:44.000Z">
+<meta property="article:modified_time" content="2023-06-03T13:47:40.676Z">
+<meta property="article:author" content="夜语">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yeyuhl.github.io/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '人工智能期末复习',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-06-03 21:47:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/wallhaven-p9woe3.png')"><nav id="nav"><span id="blog-info"><a href="/" title="随便写写"><span class="site-name">随便写写</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">人工智能期末复习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-03T13:46:44.000Z" title="发表于 2023-06-03 21:46:44">2023-06-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-06-03T13:47:40.676Z" title="更新于 2023-06-03 21:47:40">2023-06-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="人工智能期末复习"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="2-智能Agent"><a href="#2-智能Agent" class="headerlink" title="2. 智能Agent"></a>2. 智能Agent</h1><h2 id="2-1-Agent的概念"><a href="#2-1-Agent的概念" class="headerlink" title="2.1 Agent的概念"></a>2.1 Agent的概念</h2><p><strong>Agent</strong>是指通过传感器感知环境并通过执行器对所处环境产生影响的实体。而<strong>理性Agent</strong>的定义是，对每一个可能的感知序列，根据已知的感知序列提供的证据和Agent具有的先验知识，理性Agent应该选择能使其性能度量最大化的行动。理性是使期望的性能最大化，而完美是使实际的性能最大化。Agent是不可能全知（完美）的，它还需要从它所感知的信息中尽可能的学习，并且如果它依赖于设计人员的先验知识，它还是缺乏自主性的。</p>
+<h2 id="2-2-环境的性质"><a href="#2-2-环境的性质" class="headerlink" title="2.2 环境的性质"></a>2.2 环境的性质</h2><p>性能度量，环境，Agent的执行器和传感器归类到一起，就是<strong>任务环境</strong>（PEAS）。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526105951.png"></p>
+<p>任务环境显然是一个范围很广的定义，因此我们还可以对任务环境进行分类，方便设计Agent。如： <strong>完全可观察的 vs.部分可观察的</strong></p>
+<blockquote>
+<p>一个agent的传感器在每个时间点上是否都能获取环境的完整状态。自动驾驶出租车无法了解到别的司机的想法，部分可观察。</p>
+</blockquote>
+<p><strong>单agent vs.多agent</strong></p>
+<blockquote>
+<p>单agent独自运行，如字谜游戏。<br>多agent同时运行，如国际象棋。<br>假如将其他车辆视作agent，则多agent，若视作具有随机行动的对象，则单agent。</p>
+</blockquote>
+<p><strong>确定的 vs.随机的</strong></p>
+<blockquote>
+<p>环境的下一个状态是否完全取决于当前状态和agent执行的动作，决定了是否确定的。一般环境是部分可观察的，它可能表现为随机性，在实践中，必须处理成随机的。</p>
+</blockquote>
+<p><strong>片段式的 vs. 延续式的</strong></p>
+<blockquote>
+<p>agent的经历被分成一个个原子片段，在每个片段中agent感知信息并完成单个行动，下一个片段不依赖于以前的片段则为片段式，反之为延续式。显然自动驾驶出租车是连续的，短期的行动会有长期的效果。</p>
+</blockquote>
+<p><strong>静态的 vs. 动态的</strong></p>
+<blockquote>
+<p>环境在agent计算的时候是否会发生变化，如果环境本身不变化但agent的性能评价随时间变化则称之为半动态。自动驾驶出租车明显是动态的，即使算法对下一步行动犹豫不决，但其他车辆和出租车在不断运动。</p>
+</blockquote>
+<p><strong>离散的 vs.连续的</strong></p>
+<blockquote>
+<p>环境的状态，时间的处理方式以及agent的感知信息和行动都有离散&#x2F;连续之分。出租车和其他车辆的速度和位置都在连续空间变化，并且随时间的流逝而变化。虽然数字摄像头的输入信号是离散的，但处理时它表示的是连续变化的亮度和位置。</p>
+</blockquote>
+<h2 id="2-3-Agent的结构"><a href="#2-3-Agent的结构" class="headerlink" title="2.3 Agent的结构"></a>2.3 Agent的结构</h2><blockquote>
+<p>Sensors传感器，Actuators执行器</p>
+</blockquote>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110010.png"> <strong>评判元件（Critic）</strong>：根据固定的性能标准告诉学习元件 Agent 的运转情况。 <strong>学习元件（Learning element）</strong>：学习部件根据评判部件的反馈评价 Agent 做得如何，从而确定如何修改执行部件。 <strong>性能元件（Performance element）</strong>：接收感知，选择外部行动。 <strong>问题产生器（Problem generator）</strong>：负责可以得到新的和有信息的经验的行动提议。</p>
+<p><strong>简单反射Agent</strong>直接对感知信息做出反应；<strong>基于模型的反射Agnet</strong>保持内部状态，追踪记录当前感知信息中反映不出来的世界各方面；<strong>基于目标的Agent</strong>的行动是为了达到目标；而<strong>基于效用的Agent</strong>试图最大化它期望的“快乐”。</p>
+<p>换人话说就是： <strong>简单反射Agent</strong>：它的行为只取决于当前状态和感知，不能处理世界的随机性。 <strong>基于模型的反射Agnet</strong>：它的行为由内部模型状态决定，在部分可观察环境中的该Agent不能精准确定当前状态。 <strong>基于目标的Agent</strong>：它根据目标最大化做出相应行动，效率低但灵活，当到达目标所需行动越多或有多个互相冲突的目标时该Agent难以解决。 <strong>基于效用的Agent</strong>：它选择期望效用最大化的行动，Agent在给定每个结果的概率和效用下，期望得到的平均效用。当有多个目标时，效用函数可以在它们之间适当的折中。</p>
+<h1 id="3-搜索求解"><a href="#3-搜索求解" class="headerlink" title="3. 搜索求解"></a>3. 搜索求解</h1><p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110049.png"></p>
+<h2 id="3-1-无信息搜索"><a href="#3-1-无信息搜索" class="headerlink" title="3.1 无信息搜索"></a>3.1 无信息搜索</h2><blockquote>
+<p>无信息搜索只会给出g(n)，即从开始结点到结点n的路径代价。</p>
+</blockquote>
+<p><strong>宽度优先搜索</strong>：总是扩展搜索树中深度最浅的结点。算法是完备的，在单位代价的情况下是最优的，但是具有指数级别的空间复杂度。</p>
+<blockquote>
+<p>首先，广度优先搜索是完备的（如果最浅的目标结点处于一个有限深度d，广度优先搜索在扩展完比它浅的所有结点之后最终一定能找到该目标结点；其次，如果路径代价是基于结点深度的非递减函数，则广度优先搜索是最优的；该方法的时间复杂度为O(b^d)（假设解的深度为d）；该方法的空间复杂度同样为O(b^d)（因为有O(b^d)个结点在边缘结点中。</p>
+</blockquote>
+<p><strong>一致代价搜索</strong>：扩展的是当前路径代价g(n)最小（即结点间的实际代价）的结点，对于一般性的步骤代价而言算法是最优的。</p>
+<blockquote>
+<p>完备性：该方法在存在零代价行动可能陷入死循环，因此是不完备的，如果每一步代价都大于等于某个小的正常数，则是完备的。<br>最优性：一致代价搜索按照结点的最优路径扩展结点，因此是最优的。</p>
+</blockquote>
+<p><strong>深度优先搜索</strong>：扩展搜索树中深度最深的结点。它既不完备也不最优，但它具有线性的空间复杂度。深度受限搜索在深度优先搜索上加了深度限制。</p>
+<blockquote>
+<p>在有限状态空间中，深度优先搜索是完备的，因为它至多扩展所有结点，但在树搜索中，则不完备（因为算法可能会陷入死循环）；该算法无法避免冗余路径，因此不是最优的；深度优先搜索只需要存储O(bm)个结点，因此空间复杂度为O(bm)；该算法可能搜索树上每个结点，因此时间复杂度为O(b^m)。（其中b为分支因子，m为树的最大深度）</p>
+</blockquote>
+<p><strong>迭代加深搜索</strong>：在不断增加的深度限制上调用深度受限搜索直到找到目标。它是完备的，在单位代价的情况下是最优的，它的时间复杂度可与宽度优先搜索比较，具有线性的空间复杂度。</p>
+<p><strong>双向搜索</strong>：可以在很大程度上降低时间复杂度，但是它并不是总是可行的并且可能需要太多内存空间。</p>
+<h2 id="3-2-有信息搜索"><a href="#3-2-有信息搜索" class="headerlink" title="3.2 有信息搜索"></a>3.2 有信息搜索</h2><blockquote>
+<p>一般<strong>最佳优先搜索</strong>算法根据评估函数选择扩展结点，有信息搜索的信息，实际上就是额外给了h(n)，h(n)是结点n到目标结点的最小代价路径的代价估计值。</p>
+</blockquote>
+<p><strong>贪婪最佳优先搜索</strong>：扩展h(n)最小的结点，它不是最优的，但效率较高。</p>
+<blockquote>
+<p>完备性：与深度优先搜索类似，即使是有限状态空间，也是不完备的。<br>最优性：有时候找到的答案不是最优的。</p>
+</blockquote>
+<p><strong>（关键）A * 搜索</strong>：扩展f(n)&#x3D;g(n)+h(n)最小的结点。如果h(n)是可采纳的（对于树搜索）或是一致的（对于图搜索），A* 算是完备的也是最优的，它的空间复杂度依然很高。</p>
+<p>A* 搜索这样扩展的，先扩展根结点，然后把它的子结点放入优先队列。然后在优先队列里面继续扩展f(n)最小的结点，把它子结点放入优先队列，直到扩展到目标结点，算法结束。</p>
+<p>A* 的编程实现的步骤如下：<br>①将起始结点放入openList（当前扩展节点集合）中。<br>②如果存在需要扩展的结点：</p>
+<ul>
+<li><p>取出openList中的首结点，获取其信息，并将当前结点设置为已经被扩展过，放入closeList（当前已经被访问过的结点的集合）。</p>
+</li>
+<li><p>判断该结点是否是目标结点，如果是，则输出搜索的路径，成功搜索到目标，搜索结束。若不是目标结点，则继续下一步。</p>
+</li>
+<li><p>扩展当前结点的所有相邻且未被访问的结点。如果经当前结点到相邻结点i的g值更短，那么更新这个相邻结点i的g值和f值，设置结点i的父结点为当前结点，并将结点i放入待扩展的集合中。</p>
+</li>
+<li><p>如果相邻结点i既不在closeList也不在openList中，那么新建一个结点将这个结点放入openList中，并将设置结点i的父结点为当前结点，对openList重新排序。</p>
+<blockquote>
+<p>完备性：在最优解存在的情况下总是能找到最优解，是完备的。<br>最优性：如果h(n)是可采纳的，则A* 树搜索是最优的；如果h(n)是一致的，则图搜索的A* 算法是最优的。</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>可采纳性：指它从不会高估计到达目标的代价，对于每个节点n，h(n)&lt;&#x3D;h’(n)，h’(n)是到达目标节点的真实代价，启发函数h(n)永远不会超过经过节点n的解的实际代价。就像打滴滴的时候，初始报价总是比最后实际报价要低，这样乘客才能在一开始欣然接受。</p>
+</blockquote>
+<blockquote>
+<p>一致性：指如果对每个节点n和通过任一行动a生成的n的每个后继节点n’，从节点n到达目标的估计代价不大于从n到n’的单步代价与从n’到达目标的估计代价之和。 <img src="https://pic1.zhimg.com/80/42f025cfd1ab4a643782007bff7f7a97_720w.webp?source=1940ef5c"> 如该图中，n是起点，绿色结点是终点，h(n)则是从n目标节点的启发函数，则必须满足h(n)&lt;&#x3D;c(n,n’)+h(n’)，其中n’为不同于n的任意结点，这样才能说明启发式函数h(n)的代价是最少最优的。就像滴滴司机告诉你从广州到北京，要比广州到成都再到北京的价格要更低，给的h(n)是一个最优价格。</p>
+</blockquote>
+<blockquote>
+<p>问：给定一个启发式函数满足h(G)&#x3D;0，其中G是目标状态，证明如果h是一致的，那么它是可采纳的。</p>
+<p>解：假设n为任意一个状态，G是任意一个目标状态。n,n1,n2,….,n_m,G为从状态n到达状态G的一条最优路径，我们已知<br>评估代价f(n)&#x3D;g(n)+h(n)<br>真实代价 f’(n)&#x3D;g(n)+c(n,a1,n1)+c(n1,a2,n2)+….c(n_m,a_{m+1},G)<br>目标：证明 f(n)&lt;&#x3D;f’(n)<br>证明：<br>f(n)&#x3D;g(n)+h(n)<br>&lt;&#x3D;g(n)+c(n,a1,n1)+h(n1)<br>&lt;&#x3D; g(n)+c(n,a1,n1)+c(n1,a2,n2)+h(n2)<br>&lt;&#x3D;…..<br>&lt;&#x3D;g(n)+c(n,a1,n1)+c(n1,a2,n2)+….c(n_m,a_{m+1},G)+h(G)<br>&#x3D;f’(n)</p>
+</blockquote>
+<p><em><em>RBFS（递归最佳优先）和SMA</em> （简单内存受限A</em> ）*<em>：这两种搜索算法是鲁棒的，最优的搜索算法，它们使用有限的内存；只要时间充足，它们就能求解A</em> 算法因为内存不足不能求解的问题。</p>
+<h1 id="4-超越经典搜索"><a href="#4-超越经典搜索" class="headerlink" title="4. 超越经典搜索"></a>4. 超越经典搜索</h1><h2 id="4-1-爬山法"><a href="#4-1-爬山法" class="headerlink" title="4.1 爬山法"></a>4.1 爬山法</h2><p>爬山算法，是一种局部贪心的最优算法。该算法的主要思想是：每次拿相邻点与当前点进行比对，取两者中较优者，作为爬坡的下一步。由于它只选择邻居中状态最好的一个，而不考虑下一步该如何走，因此容易只求得局部极大值，无法求得全局极大值。考虑随机重启时，全程遍历，时间与空间复杂度可以为O(b^d)。</p>
+<p><strong>最陡上升爬山法</strong> 最陡爬山法是一个简单的循环过程，不断地向值增加的方向持续移动，这里选择的就是距离最小的值移动。算法会在到达一个“峰顶”时终止，邻接状态中没有比它值更高的。最陡爬山法不具有完备性，因为会经常陷入困境，不一定能找到解。而且只能找到多个局部最优点的其中一个，不一定是全局最优点，所以不具有最优性。因为从上到下，每层只生成和保存一个结点，所以时间复杂度和空间复杂度都是O(d)。d为目标结点或者局部最优结点的深度。</p>
+<p><strong>首选爬山法</strong> 依次寻找该点X的邻近点中首次出现的比点X价值高的点，并将该点作为爬山的点。依次循环，直至该点的邻近点中不再有比其大的点。首选爬山法不具有最优性和完备性。因为从上到下，每层只生成和保存一个结点，所以时间复杂度和空间复杂度都是O(d)。d为目标结点或者局部最优结点的深度</p>
+<h2 id="4-2-模拟退火搜索"><a href="#4-2-模拟退火搜索" class="headerlink" title="4.2 模拟退火搜索"></a>4.2 模拟退火搜索</h2><p>首先来了解什么是退火，在冶金中，退火是用于增强金属和玻璃的韧性或硬度而先把它们加热到高温再让它们逐渐冷却的过程。这样做的目的是，低温下固体中分子具有的内能很低，在原本的位置上做小范围的振动。升温后，内能增加，分子剧烈做不规则运动。此时放入水中逐渐降温，内能可以达到最低，分子回归到有序排列的状态。</p>
+<p>像乒乓球在高低不平的平面上滚动，采用爬山法容易让乒乓球陷入局部最低，而不是全局最低。但使用模拟退火，我们可以让平面晃动，使乒乓球跳出局部最低（高温加热），然后降低晃动强度（冷却降温），使其不会跳出全局最低。</p>
+<p>概括其核心思想就是：允许算法向坏的方向移动以摆脱局部最大值，但这种移动随着时间的推移概率逐步下降。如果时间下降得足够的慢，那么模拟退火算法找到一个全局最优值的概率接近于1，即可以找到全局最优解。当解空间的维度较高时，模拟退火算法要想搜索到全局最优解需要耗费大量时间。 <img src="https://pic3.zhimg.com/v2-a1fad275aca1f01555d0e88cc43c94e2_r.jpg" alt="模拟退火流程图"></p>
+<h2 id="4-3-局部束搜索"><a href="#4-3-局部束搜索" class="headerlink" title="4.3 局部束搜索"></a>4.3 局部束搜索</h2><p>局部束搜索：随机产生k个状态，然后每一步从所有的后继状态中选择k个最佳的后继状态直到找到目标状态。<br>随机束搜索：不是找到k个最佳，而是随机找到k个后继状态，随机概率与状态值成正比。</p>
+<h2 id="4-4-遗传算法"><a href="#4-4-遗传算法" class="headerlink" title="4.4 遗传算法"></a>4.4 遗传算法</h2><p>遗传算法是维护大量状态种群的随机爬山搜索。新的状态通过变异和杂交产生，杂交把来自种群的状态对结合在一起。一个后继状态由两个父状态决定，以k个随机产生的状态开始(population)。而一个状态表示成一个字符串（编码），由适应度函数来评价状态的好坏程度，通过选择，交叉，突变的操作产生下一轮状态。遗传算法最主要的优点就是来自于杂交操作，能将独立发展出来的能执行有用功能的字符区域结合起来，提高了搜索的粒度。</p>
+<p>遗传算法有五个基本组成成分： <strong>染色体编码</strong></p>
+<blockquote>
+<p>将问题结构变换为位串形式编码表示的过程叫编码；而相反将位串形式编码表示变换为原问题结构的过程叫解码或译码。把位串形式编码表示叫染色体（个体），即问题的一个解。编码方式有二进制编码、格雷码等。</p>
+</blockquote>
+<p><strong>种群初始化</strong> <strong>适应度函数</strong></p>
+<blockquote>
+<p>解的适应度是演化过程中进行选择的唯一依据。</p>
+</blockquote>
+<p><strong>遗传操作</strong></p>
+<blockquote>
+<p>选择、交叉、变异。</p>
+</blockquote>
+<p><strong>算法参数</strong></p>
+<p>拿下图举例：<br>适应值是这么计算的24&#x2F;(24+23+20+11) &#x3D; 31% <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110119.png"></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110127.png"></p>
+<h1 id="5-对抗搜索"><a href="#5-对抗搜索" class="headerlink" title="5. 对抗搜索"></a>5. 对抗搜索</h1><p>竞争环境中每个Agent的目标之间是冲突的，这就引出了对抗搜索问题——通常称之为博弈。</p>
+<h2 id="5-1-α-β剪枝"><a href="#5-1-α-β剪枝" class="headerlink" title="5.1 α-β剪枝"></a>5.1 α-β剪枝</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wenjianmuran/article/details/90633418">参考网站</a> 极小极大值算法必须检查博弈树的全部结点，也就是游戏的全部状态，显然，搜索时间是指数级增长的。虽然我们无法消除指数级的运算规模，但是可以通过一些剪枝策略有效地将其减半，换言之，可能不需要遍历博弈树中每一个结点就可以计算出正确的极小极大值，αβ剪枝 Alpha-Beta 就是其中的一种。</p>
+<p>αβ剪枝会减掉那些不可能影响决策的分支，最后返回和极小极大值算法同样的结果。上图的博弈树用αβ剪枝过程表达如下，每个结点上面标出了可能的取值范围，B下面的第一个叶子结点为3，剩余两个结点分别为12和8，因此B的取值范围更新为[3,3]，现在由此可以推断根结点A的取值范围为 [3,+∞)。然后结点C下面的第一个叶子结点为2，因此C这个 MIN 结点的值最多为2，而又已知根结点A的最低取值为3，所以结点C的余下后继结点无需再考虑，这就是αβ剪枝的一个具体实例。余下的博弈树按照之前的思想逐步更新结点的取值范围，减掉不可能影响根结点取值的分支。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110138.png"></p>
+<p>用MINMAX公式表达如下： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110149.png"></p>
+<p>其中结点C的两个没有计算的结点的值分别为x和y，即可以得出根结点的值以及因此做出的极小极大决策与被减掉的叶节点x和y无关。</p>
+<p>极小极大搜索时深度优先的，所以在任何时候都只需考虑树中某一路径上的结点，αβ剪枝的名称取自描述这条路径上的回传值的两个的参数：<br>α：到目前为止路径上发现的 MAX 的最佳选择（即极大值）<br>β：到目前为止路径上发现的 MIN 的最佳选择（即极小值）</p>
+<h2 id="5-2-随机博弈"><a href="#5-2-随机博弈" class="headerlink" title="5.2 随机博弈"></a>5.2 随机博弈</h2><p>许多博弈会用到随机因素，比如掷骰子，来反映这种不可预测性。我们把这叫做随机博弈。这种博弈树除了MAX和MIN结点，还必须有CHANGE节点，CHANGE结点计算的是子结点的平均值（或者按照概率求出的期望）。</p>
+<h1 id="6-约束满足问题"><a href="#6-约束满足问题" class="headerlink" title="6. 约束满足问题"></a>6. 约束满足问题</h1><p>约束满足问题，即CSP。CSP包含三个成分X、D和C。X是变量集合，D是值域集合，每个变量都有自己的值域，C是描述变量取值的约束集合。CSP可以做一种叫做约束传播的特殊推理，使用约束来减小一个变量的合法取值范围，从而影响到此变量有约束关系的另一变量的取值。有时仅仅用约束传播来对问题进行预处理，就可以解决问题，不需要搜索了。</p>
+<p>但是对于大部分CSP，还是需要搜索来求解，而回溯算法就是其中最经典的算法之一。回溯算法是指：为了求得问题的解，先选择某一种可能情况向前探索，在探索过程中，一旦发现原来的选择是错误的，就退回一步重新选择，继续向前探索，如此反复进行，直至得到解或证明无解。</p>
+<h1 id="7-逻辑Agent（一阶逻辑推理）"><a href="#7-逻辑Agent（一阶逻辑推理）" class="headerlink" title="7. 逻辑Agent（一阶逻辑推理）"></a>7. 逻辑Agent（一阶逻辑推理）</h1><blockquote>
+<p>∧：p∧q，合取式（与）<br>∨：p∨q，析取式（或）<br>⇒：A⇒B，蕴含式（条件式），由A推导B，也可以写作A ⊨ B<br>⇔：A⇔B，双向蕴含式（当且仅当），也可以写作A ≡ B<br>可满足性问题（SAT）：如果给定了一个CNF合取范式的命题 F，SAT问题也就是判断，是否存在一个完整的赋值方案 ，这个赋值方案能使得F中的所有子句都能被满足（也就是所有子句都为真）。<br>有效性问题（推理的有效性证明）：前提为假的时候，无论如何推理都是有效的，前提真的时候，结论也要为真，推理才是有效。而且这里的有效指的是形式上的有效，并不是内容上的正确。</p>
+</blockquote>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110201.png"></p>
+<h2 id="7-1-CNF（合取范式，即子句的合取式）"><a href="#7-1-CNF（合取范式，即子句的合取式）" class="headerlink" title="7.1 CNF（合取范式，即子句的合取式）"></a>7.1 CNF（合取范式，即子句的合取式）</h2><blockquote>
+<p>一阶逻辑的每个语句都可以转换成推理等价的CNF语句。特别是，CNF语句只有当原始语句不可满足时才不可满足。</p>
+</blockquote>
+<p>转换举例：<img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110325.png"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110308.png"> <strong>①消除蕴含词</strong> 注意量词的范围</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110350.png"></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110222.png"></p>
+<hr>
+<p>∀x{ [∀y (Animal(y)⇒Loves(x,y)) ] ⇒ [∃yLoves(y,x)] }<br>∀x{ ¬[∀y (Animal(y)⇒Loves(x,y)) ] ∨ [∃yLoves(y,x)] }<br>∀x{ ¬[∀y (¬Animal(y)∨Loves(x,y)) ] ∨ [∃yLoves(y,x)] } <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110428.png"> <strong>②将¬内移</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110230.png"></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110242.png"></p>
+<hr>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110512.png"> <strong>③变量标准化</strong> 避免(∃xP(x))∨(∃xQ(x))使用相同变量名，而导致后续去除量词出现混淆的语句，因此需要改掉其中一个变量的名字。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110543.png"> <strong>④Skolem化</strong> Skolem化是指消除存在量词的过程，比如将存在量词实例化，∃xP(x)转换成P(A)，其中A是一个新常量。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110553.png"> 其中F和G是Skolem函数。通用规则是Skolem函数的参数都是全称量化变量，要消去的存在量词在这些变量的辖域中。和存在量词实例化一样，原始语句可满足时Skolem化语句也恰好可满足。 <strong>⑤删除全称量词</strong> 此时保留下来的所有变量都一定是全称量化的。而且语句等价于所有全称量词都移到左侧的语句，因此可以删除全称量词。 <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110601.png"> <strong>⑥将∧分配到∨中</strong> <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110610.png"></p>
+<h2 id="7-2-归结证明"><a href="#7-2-归结证明" class="headerlink" title="7.2 归结证明"></a>7.2 归结证明</h2><p>归结通过证明KB∧¬α不可满足，即通过导出空语句，来证明KB|&#x3D;α（即反证法），将事实转换为CNF语句，然后再添加进目标的否定语句，如下面例子中的¬Criminal(West)。<br>先列出子句集，均为CNF语句： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110618.png"> 归结过程如下： <img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/AI20230526110625.png"> 如果最后为空，证明KB可以推出a。<br>如果最后不为空，证明KB不可以推出a。</p>
+<h1 id="14-概率推理"><a href="#14-概率推理" class="headerlink" title="14. 概率推理"></a>14. 概率推理</h1><blockquote>
+<p>贝叶斯定理：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230528210517.png"></p>
+</blockquote>
+<h2 id="14-1-贝叶斯网络"><a href="#14-1-贝叶斯网络" class="headerlink" title="14.1 贝叶斯网络"></a>14.1 贝叶斯网络</h2><p>贝叶斯网络是一个有向图，其中每个结点都标注了定量的概率信息：</p>
+<ol>
+<li><p>每个结点对应一个随机变量，这个变量可以是离散的或者连续的。</p>
+</li>
+<li><p>一组有向边或箭头连接结点对。如果有从结点X指向结点Y的箭头，则称X是Y的一个父结点。图中没有有向回路（DAG）。</p>
+</li>
+<li><p>每个结点Xi有一个条件概率分布P(xi|Parents(Xi))，量化其父结点对该结点的影响。</p>
+</li>
+</ol>
+<p>如图为贝叶斯网络：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230528210919.png"></p>
+<p>联合分布中的一个一般条目是对每个变量赋一个特定值的合取概率，比如</p>
+<p>P(X_1&#x3D;x_1∧…∧X_n&#x3D;x_n)可以简化为P(x_1,…,x_n) ，这个条目的值可以由下面的公式给出：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230528212934.png"></p>
+<p>如下将联合分布中的一些条目相乘，完全联合分布等于局部条件分布的乘积：</p>
+<blockquote>
+<p>比如a是j的父结点，因此计算j的概率要考虑a，变成了条件概率。</p>
+</blockquote>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230528212044.png"></p>
+<p>贝叶斯网络的结构有效地表达了属性间的<strong>条件独立性</strong>，给定父结点集，贝叶斯网络假设每个属性与它的非后裔属性独立。贝叶斯网络中三个变量之间典型的依赖关系如下：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230603190658.png"></p>
+<p>在<strong>同父结构</strong>中，给定父结点x1的取值，则x3与x4条件独立，表示为x_3⊥x_4|x_1。</p>
+<p>在<strong>顺序结构</strong>中，给定x的值，则y与z条件独立，表示为y⊥z|x。</p>
+<p>在<strong>V型结构</strong>中，给定子结点x4的值，x1和x2<strong>必不独立</strong>。但是x4的取值若未知，那么x1和x2却是相互独立的，这样的独立性称之为<strong>边际独立性</strong>，记为x_1⫫x_2。</p>
+<p>事实上，一个变量取值的确定与否，能对另两个变量间的独立性发生影响，这个现象并非V型结构所特有。例如在同父结构中，条件独立性x_3⊥x_4|x_1成立，但若 x1的取值未知，则x3和x4就不独立，即x_3⫫x_4不成立；在顺序结构中，y⊥z|x但 y⫫z不成立。</p>
+<p>为了分析有向图中变量间的条件独立性，可使用“有向分离”。我们先把有向图转变为一个无向图：</p>
+<ul>
+<li><p>找出有向图中的所有V型结构，在V型结构的两个父结点之间加上一条有向边。</p>
+</li>
+<li><p>将所有有向边改为无向边。</p>
+</li>
+</ul>
+<p>由此产生的无向图称为“<strong>道德图</strong>”，令父结点相连的过程称为“<strong>道德化</strong>”（孩子的父母应该建立牢固的关系，否则是不道德的）。基于道德图能直观、迅速地找到变量间的条件独立性。假定道德图中有变量x，y和变量集合z&#x3D;{z_i}，若变量x和y能在图上被z分开，即从道德图中将变量集合z去除后，x和y分属两个连通分支，则称变量x和y被z有向分离，x⊥y|z成立。如图7.4即为图7.2的道德图，由图可以找出所有条件独立的条件（比如x3和x4，如果去除x1之后二者无法连通，则说明x3和x4条件独立）：x_3⊥x_4|x_1,x_4⊥x_5|x_2,x_3⊥x_2|x_1,x_3⊥x_5|x_1,x_3⊥x_5|x_2等。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230603193922.png"></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230603193935.png"></p>
+<h2 id="14-2-贝叶斯网络的精确推理"><a href="#14-2-贝叶斯网络的精确推理" class="headerlink" title="14.2 贝叶斯网络的精确推理"></a>14.2 贝叶斯网络的精确推理</h2><p>任何概率推理系统的基本任务都是要在给定某个已观察到的事件后——也就是一组<strong>证据变量</strong>的赋值后，计算一组<strong>查询变量</strong>的后验概率分布。为了使阐述简单，我们每次只考虑一个查询变量，算法可以容易地扩展到多个查询变量的情况。用X表示查询变量，E表示证据变量集E_1,E_2,…,E_m，e则表示一个观察到的特定时间，Y表示非证据非查询变量集Y_1,Y_2,…,Y_l（有时候称<strong>隐藏变量</strong>）。这样，全部变量的集合是X&#x3D;{X}∪E∪Y。典型的查询是询问后验概率P(X|e)。</p>
+<p>举个例子，在前面的防盗贝叶斯网络中，我们观察到的事件为：JohnCalls&#x3D;true且MaryCalls&#x3D;true。接着假如想要计算出现盗贼的概率，那么为：</p>
+<p><strong>P(Burglary|JohnCalls&#x3D;true,MaryCalls&#x3D;true)&#x3D;&lt;0.284,0.716&gt;</strong></p>
+<p>接下来，我们<strong>通过枚举进行推理</strong>，来展示上面概率的计算过程。首先需要明确的是，任何条件概率都可以通过将完全联合概率分布中的某些项相加而计算得到。因此对于上面的式子，其查询的隐藏变量是Earthquake和Alarm，可以简化为：</p>
+<p>P(B|j,m)&#x3D;αP(B,j,m)&#x3D;α\sum_e\sum_aP(B,j,m,e,a)</p>
+<p>此处仅给出Burglary&#x3D;true该情况的计算过程：</p>
+<p>P(b|j,m)&#x3D;α\sum_e\sum_aP(b)P(e)P(a|b,e)P(j|a)P(m|a)</p>
+<p>P(b|j,m)&#x3D;αP(b)\sum_eP(e)\sum_aP(a|b,e)P(j|a)P(m|a)</p>
+<p>然后按顺序循环遍历所有变量，循环中将条件概率表中的条目相乘，对于每次求和运算，对变量的可能取值进行循环。</p>
+<p>计算可以得到：</p>
+<p>P(b|j,m)&#x3D;α * 0.00059224</p>
+<p>P(¬b|j,m)&#x3D;α * 0.0014919</p>
+<p>最后进行归一化，可得：</p>
+<p>P(B|j,m)&#x3D;α&lt;0.00059224,0.0014919&gt;&#x3D;&lt;0.284,0.716&gt;</p>
+<h2 id="14-2-贝叶斯网络中的近似推理"><a href="#14-2-贝叶斯网络中的近似推理" class="headerlink" title="14.2 贝叶斯网络中的近似推理"></a>14.2 贝叶斯网络中的近似推理</h2><p>精确推理虽然计算正确，但是当网络结构复杂并且层次很深的时候计算量巨大，因此采用近似推理。</p>
+<p>近似推理是指根据原有贝叶斯网络的拓扑结构以及条件概率表构造大量的数据样本，再在样本的基础上进行概率统计的方法。比如采用蒙特卡洛算法（随机采样法），还有直接采样法和马尔可夫链采样来用于后验概率计算。</p>
+<h1 id="15-时间上的概率推理"><a href="#15-时间上的概率推理" class="headerlink" title="15. 时间上的概率推理"></a>15. 时间上的概率推理</h1><p>从<strong>信念状态</strong>和<strong>转移模型</strong>，Agent可以预测在下一个时间步骤世界将如何演变。从观察到的传感信息和<strong>传感器模型</strong>，Agent可以更新信念状态。因此我们用一个<strong>时序概率模型</strong>包含描述状态演变的转移模型和描述观察过程的传感器模型。特别留意三种特殊类型的模型：<strong>隐马尔可夫模型</strong>，<strong>卡尔曼滤波器</strong>以及<strong>动态贝叶斯网络</strong>（前两者是后者的特殊情况）。</p>
+<h2 id="15-1-转移模型与传感器模型"><a href="#15-1-转移模型与传感器模型" class="headerlink" title="15.1 转移模型与传感器模型"></a>15.1 转移模型与传感器模型</h2><p>假设将世界看作一系列时间片，每个时间片都包含了一组随机变量，其中一部分是可观察的，另一部分则是不可观察的。用X_t来表示在时刻t的不可观察的状态变量集，E_t表示可观察的证据变量集。</p>
+<p>一旦确定了给定问题的状态变量和证据变量的集合，下一步就是指定世界如何演变（<strong>转移模型</strong>）以及证据变量如何得到它们的取值（<strong>传感器模型</strong>）。</p>
+<p>其中转移模型描述的是给定过去的状态变量的值之后，确定最新状态变量的概率分布P(X_t|X_{0:t-1})。假如不做约束，随着时间t增长，X_{0:t-1}将变得无限大。基于此，我们使用<strong>马尔可夫假设</strong>来解决这个问题，马尔可夫假设规定当前状态只依赖于有限的固定数量的过去状态，即当前状态只依赖于前一个状态(或者i个，i为有限数量的数字)，与更早的状态无关。其概率分布如下：</p>
+<p>                        P(X_t|X_{0:t-1})&#x3D;P(X_t|X_{t-1})</p>
+<p>但是t有无穷多的可能的值，是否为每个时间步骤确定一个不同的分布呢？于是我们假设世界状态的变化是由一个<strong>稳态过程</strong>引起的，也就是说，变化的过程是由本身不随时间变化的规律支配的。即P(X_t|X_{t-1})对于所有的时间片t都是相同的，我们只需要指定一个条件概率表即可。</p>
+<p>现在来看传感器模型，证据变量E_t可能依赖于前面的变量也依赖于当前的状态变量，但任何称职的状态对于产生当前的传感器值应该足够了。因此有以下<strong>传感器马尔可夫假设</strong>：</p>
+<p>                       P(E_t|X_{0:t-1},E_{0:t-1})&#x3D;P(E_t|X_t)</p>
+<p>P(E_t|X_t)即传感器模型，下面结合转移模型和传感器模型，给出书本雨伞例子的贝叶斯网络结构以及条件分布。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530154416.png"></p>
+<p>对于任何t，我们有：</p>
+<p>P(X_{0:t},E_{1:t})&#x3D;P(X_0)\prod^t_{i&#x3D;1}P(X_i|X_{i-1})P(E_i|X_i)</p>
+<p>P(X_0)：初始状态模型，也就是时刻0的先验概率分布</p>
+<p>P(X_i|X_{i-1})：转移模型</p>
+<p>P(E_i|X_i)：传感器模型</p>
+<h2 id="15-2-隐马尔可夫模型"><a href="#15-2-隐马尔可夫模型" class="headerlink" title="15.2 隐马尔可夫模型"></a>15.2 隐马尔可夫模型</h2><p>在实际应用中，大多数问题不能使用马尔可夫假设，因为在马尔可夫假设中，我们需要观察才能更新信念状态。举个例子，盲人不能直接通过看是否下雨来判断天气状况，但是他可以通过触摸室外树叶，通过其干燥程度来判断是否下雨了。在这个情况下，天气是隐藏状态，树叶的干燥程度是可观察的状态。由此引出<strong>隐马尔可夫模型</strong>，用单个离散随机变量（有多个变量可以组合成单个大变量）描述过程状态的时序概率模型。</p>
+<p>由于这个是考试重点之一，我们直接拿题目来深入理解：</p>
+<p><strong>题目</strong></p>
+<p>安迪是个三个月大的婴儿。他有时快乐(happy)，有时饥饿(hundry)，有时湿尿布(having a wet diaper)。起初，他在睡完午睡 1 点醒来，他很快乐。如果他快乐，那么在 1 个小时后他仍有 50%的机率保持快乐，有 25%的机会饿着肚子，另外有 25%湿尿布的机会。同样，如果他饿了，一小时后他有 25%的机会会快乐，25%的机会仍然饥饿，另外有50%的机会湿尿布。如果他尿布湿了，一小时后他会有 50%的机会高兴，25%的机会饿着，25%的机会湿尿布。当他快乐时，他有75%的时间微笑(smile)，25%的时间哭(cry)。当他饿了，他有 25%的时间微笑(smile)，75%的时间哭(cry)。当他湿尿布时，他有 50%的时间微笑(smile)，50%的时间哭(cry)。</p>
+<p>a) 根据以上的故事画出 HMM 模型(画出 3 个时间节点即可)，并标出相应的传感器概率和转移概率。</p>
+<p>b) 假定“1pm: smile. 2pm: cry. 3pm: smile”.这个观察序列发生的概率是多少？</p>
+<p>c) 对于 b 中对应的最有可能的隐藏状态是什么？</p>
+<p><strong>解答</strong></p>
+<p>a) 我们用 S 表示安迪的状态(happy, hundry, wet diaper)，用 E 来表示安迪的表情(smile,cry)，其 HMM模型如下图所示：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530160845.png"></p>
+<p>b)</p>
+<p>t&#x3D;1: smile</p>
+<p>P(1-happy)&#x3D;1*0.75&#x3D;0.75（题目给定条件1点午睡醒来是快乐的）</p>
+<p>t&#x3D;2: cry</p>
+<p>P(2-happy)&#x3D;(P(1-happy)*0.5)*0.25&#x3D;0.09375</p>
+<p>P(2-hungry)&#x3D;(P(1-happy)*0.25)*0.75&#x3D;0.140625</p>
+<p>P(2-wet diaper)&#x3D;(P(1-happy)*0.25)*0.5&#x3D;0.09375</p>
+<p>t&#x3D;3: smile</p>
+<p>P(3-happy)&#x3D;(P(2-happy)*0.5+P(2-hungry)*0.25+P(2-wet)*0.5)*0.75&#x3D;0.09667969</p>
+<p>P(3-hungry)&#x3D;(P(2-happy)*0.25+P(2-hungry)*0.25+P(2-wet)*0.25)*0.25&#x3D;0.02050781</p>
+<p>P(3-wet diaper)&#x3D;(P(2-happy)*0.25+P(2-hungry)*0.5+P(2-wet)*0.25)*0.5&#x3D;0.05859375</p>
+<p>因此该序列发生的概率为：P(1-smile,2-cry,3-smile)&#x3D; P(3-happy)+ P(3-hungry)+ P(3-wet)&#x3D;0.1758</p>
+<p>c)</p>
+<p>t&#x3D;2 时，MAX(P(2-cry))&#x3D; P(2-hungry)，如果2pm时表情是cry，概率最大的是此时状态为hungry</p>
+<p>t&#x3D;3 时，MAX(P(3-smile))&#x3D; P(3-happy)，如果3pm时表情是smile，概率最大的是此时状态为happy</p>
+<p>所以，最有可能的隐藏状态为{1pm:happy,2pm:hungry,3pm:happy}</p>
+<h1 id="18-样例学习"><a href="#18-样例学习" class="headerlink" title="18. 样例学习"></a>18. 样例学习</h1><p>一个Agent是善于<strong>学习</strong>的，其任何部件的性能都可以通过从数据中进行学习来改进。改进及其改进所用的技术依赖于四个主要因素：</p>
+<ul>
+<li><p>要改进哪一个部件。</p>
+</li>
+<li><p>Agent具备什么样的预备知识。</p>
+</li>
+<li><p>数据和部件使用什么样的表示法。</p>
+</li>
+<li><p>对学习可用的反馈是什么。</p>
+<ul>
+<li><p><strong>无监督学习</strong>，在不提供显式反馈的情况下，Agent学习输入中的模式，最常见的无监督学习任务是<strong>聚类</strong>，即在输入样例中发现有用的类集。（即数据没有标签）</p>
+</li>
+<li><p><strong>强化学习</strong>，Agent在强化序列——奖赏和惩罚组合的序列——中学习。即通过奖罚制度让Agent强化某些动作的执行选择，让它总是选择“对”的动作。</p>
+</li>
+<li><p><strong>监督学习</strong>，Agnet观察某些”输入-输出”对，学习从输入到输出的映射函数。（即数据有标签）</p>
+</li>
+<li><p>监督学习性能优良，无监督学习节约了标注成本（不需要人工对数据进行标注）。<strong>半监督学习</strong>使用少量的标注数据取得接近监督学习的性能，在节约标注成本的情况下保持了较高的性能。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="18-1-归纳学习：朴素贝叶斯分类"><a href="#18-1-归纳学习：朴素贝叶斯分类" class="headerlink" title="18.1 归纳学习：朴素贝叶斯分类"></a>18.1 归纳学习：朴素贝叶斯分类</h2><blockquote>
+<p>归纳学习就是基于过去的事实预测将来的发生的事情。</p>
+</blockquote>
+<p>朴素贝叶斯分类算法是基于贝叶斯定理与特征条件独立假设的分类方法，朴素贝叶斯分类算法的核心数学公式：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230515163852.png"></p>
+<p>举个例子，通过数据来挑选出好瓜：</p>
+<table>
+<thead>
+<tr>
+<th>编号</th>
+<th>颜色</th>
+<th>声音</th>
+<th>纹理</th>
+<th>是否为好瓜</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>绿</td>
+<td>清脆</td>
+<td>清晰</td>
+<td>是</td>
+</tr>
+<tr>
+<td>2</td>
+<td>黄</td>
+<td>浑厚</td>
+<td>模糊</td>
+<td>否</td>
+</tr>
+<tr>
+<td>3</td>
+<td>绿</td>
+<td>浑厚</td>
+<td>模糊</td>
+<td>是</td>
+</tr>
+<tr>
+<td>4</td>
+<td>绿</td>
+<td>清脆</td>
+<td>清晰</td>
+<td>是</td>
+</tr>
+<tr>
+<td>5</td>
+<td>黄</td>
+<td>浑厚</td>
+<td>模糊</td>
+<td>是</td>
+</tr>
+<tr>
+<td>6</td>
+<td>绿</td>
+<td>清脆</td>
+<td>清晰</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">P(是好瓜)=4/6，</span><br><span class="line">P(颜色绿|是好瓜)=3/4，</span><br><span class="line">P(颜色黄|是好瓜)=1/4，</span><br><span class="line">P(声音清脆|是好瓜)=1/2，</span><br><span class="line">P(声音浑厚|是好瓜)=1/2，</span><br><span class="line">P(纹理清晰|是好瓜)=1/2，</span><br><span class="line">P(纹理模糊|是好瓜)=1/2，</span><br><span class="line">P(不是好瓜)=2/6，</span><br><span class="line">P(颜色绿|不是好瓜)=1/2，</span><br><span class="line">P(颜色黄|是好瓜)=1/2，</span><br><span class="line">P(声音清脆|不是好瓜)=1/2，</span><br><span class="line">P(声音浑厚|不是好瓜)=1/2，</span><br><span class="line">P(纹理清晰|不是好瓜)=1/2，</span><br><span class="line">P(纹理模糊|不是好瓜)=1/2。</span><br></pre></td></tr></table></figure>
+
+<p>根据以上数据对西瓜进行分类：</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>声音</th>
+<th>纹理</th>
+<th>是否为好瓜</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>绿</td>
+<td>清脆</td>
+<td>清晰</td>
+<td>？</td>
+</tr>
+</tbody></table>
+<p>假设事件<code>A1</code>为好瓜，事件<code>B</code>为绿，事件<code>C</code>为清脆，事件<code>D</code>为清晰。则有：</p>
+<p>P(A1​)P(B∣A1​)P(C∣A1​)P(D∣A1​)&#x3D;4&#x2F;6​∗3&#x2F;4​∗1&#x2F;2​∗1&#x2F;2​&#x3D;1&#x2F;8</p>
+<p>假设事件<code>A2</code>为不是瓜，事件<code>B</code>为绿，事件<code>C</code>为清脆，事件<code>D</code>为清晰。则有：</p>
+<p>P(A2​)P(B∣A2​)P(C∣A2​)P(D∣A2​)&#x3D;2&#x2F;6​∗1&#x2F;2​∗1&#x2F;2​∗1&#x2F;2​&#x3D;1&#x2F;24​​</p>
+<p>由于1&#x2F;8​&gt;1&#x2F;24​，所以这个西瓜是好瓜。</p>
+<p>当然，还有些特殊情况下需要我们进行<strong>拉普拉斯平滑</strong>（假设<code>N</code>表示训练数据集总共有多少种类别，<code>Ni</code>表示训练数据集中第<code>i</code>列总共有多少种取值。则训练过程中在算类别的概率时分子加<code>1</code>，分母加<code>N</code>，算条件概率时分子加<code>1</code>，分母加<code>Ni</code>）。</p>
+<p><strong>题目</strong></p>
+<p>某学校，所有的男生都穿裤子，而女生当中，一半穿裤子，一半穿裙子。男女比例70%的可能性是4:6，有20%可能性是1:1，有10%可能性是6:4，问一个穿裤子的人是男生的概率有多大？</p>
+<p><strong>解答</strong></p>
+<p>假设情况h1,其发生概率P(h1) &#x3D; 7&#x2F;10，此时男女比例4:6，则 P(pants):P(skirt) &#x3D;7:3</p>
+<p><img src="https://img-blog.csdnimg.cn/eb2d686a9b11489b83a96c6cc63b542e.png"></p>
+<p>假设情况h2,其发生概率P(h2) &#x3D; 2&#x2F;10，此时男女比例1:1，则 P(pants):P(skirt) &#x3D; 3:1</p>
+<p><img src="https://img-blog.csdnimg.cn/16f9b30049014a538573629fd00783b1.png"></p>
+<p>假设情况h3,其发生概率P(h3) &#x3D; 1&#x2F;10，此时男女比例6:4，则 P(pants):P(skirt) &#x3D; 8:2</p>
+<p><img src="https://img-blog.csdnimg.cn/e79c7db1d8d94b9c98c0adf29e5a795f.png"></p>
+<p>最后求<strong>最大后验概率估计（MAP）</strong>，即取以上三种情况中概率最大的：</p>
+<p><img src="https://img-blog.csdnimg.cn/3913f6c3a3f94c4a97db30479c78075a.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBASE5V6I2S54Of55im6YeO,size_9,color_FFFFFF,t_70,g_se,x_16"></p>
+<h2 id="18-2-归纳学习：学习决策树"><a href="#18-2-归纳学习：学习决策树" class="headerlink" title="18.2 归纳学习：学习决策树"></a>18.2 归纳学习：学习决策树</h2><p>决策树归纳是一类最简单也是最成功的机器学习形式。</p>
+<p>决策树表示一个函数，以属性值向量作为输入，返回一个“决策”——简单输出值。输入值和输出值可以离散也可连续。此时此刻，我们聚焦于输入值是离散的和输出值是布尔值的情况，即布尔分类，其中样例输入被分类为真（正例）或假（反例）。</p>
+<p>比如举一个决定在饭店中是否等待餐桌的决策树，首先列出属性：Alternate: 附近是否有一个合适的候选饭店<br>Bar: 饭店中是否有舒适的酒吧等待区<br>Fri&#x2F;Sat: 今天是不是星期五或者星期六<br>Hungry: 是不是饿了<br>Patrons: 饭店中有多少客人(None,Some,Full)<br>Price: 饭菜的价格区间($,$$,$$$)<br>Raining: 天是否下雨<br>Reservation: 是否预定<br>Type: 饭店类型(French,Italian,Thai,Burger)<br>WaitEstimate: 估计等待时间(0-10,10-30,30-60,&gt;60)</p>
+<p>然后给出饭店域的样例：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530184458.png"></p>
+<p>得到样例之后，我们可以根据不同算法来画出其决策树，一般常用的算法就是<strong>信息收益标准（ID3算法）</strong>。ID3算法是一种贪心算法，以信息熵的下降速度为选取测试属性的标准，即在每个节点选取还尚未被用来划分的具有最高信息增益的属性作为划分标准，然后继续这个过程，直到生成的决策树能完美分类训练样例。</p>
+<p>在开始计算前，我们需要理解ID3算法中涉及的三个概念：</p>
+<ul>
+<li><p><strong>信息量</strong>：h(x)&#x3D;-log_2p(x)    对于事件x，其发生概率越小，其信息量越大。当事件x发生的概率为100%时，其信息量为0，这是因为<strong>已经确定的信息没有传递的价值</strong>。</p>
+</li>
+<li><p><strong>信息熵</strong>：H(x)&#x3D;-\sum^n_{i&#x3D;1}p(x_i)logp(x_i) 信息量度量的是一个具体事件发生了所带来的信息，而熵则是在结果出来之前对可能产生的信息量的期望——考虑该随机变量的所有可能取值，即所有可能发生事件所带来的信息量的期望。简而言之，<strong>信息熵就是信息量的数学期望</strong>。</p>
+</li>
+<li><p><strong>信息收益</strong>：Gain(D,A)&#x3D;H(D)-H(D|A) <strong>信息收益表示得知特征 X 的信息而使得类 Y 的信息的不确定性减少的程度，就是分类前的信息熵减去分类后的信息熵</strong>。特征 A 对训练数据集 D 的信息增益Gain(D, A)，定义为集合 D 的熵 H(D)与给定特征 A 条件下 D 的条件熵 H( D|A)之差。</p>
+</li>
+</ul>
+<p>最后根据信息收益来对属性分类，从而构建决策树，比如说：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530193339.png"></p>
+<p>由于Patrons的信息收益更大，因此先用Patrons进行分类比Type能更拟合数据。最后的决策树如下：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530193552.png"></p>
+<p>在构造完一棵决策树后我们发现该决策树在训练数据上的性能很高但在测试数据上的性能下降，这意味着产生了<strong>过拟合</strong>现象，过拟合现象说明当前训练的模型过分的拟合了训练数据，把训练集自身的一些特点当作所有数据都具有的一般性质，从而导致在测试数据上的性能下降。</p>
+<p>我们可通过主动去掉一些分支来降低过拟合的风险，即<strong>剪枝</strong>。决策树剪枝的基本策略有“预剪枝 ”(prepruning)和“后剪枝”(postpruning)。<strong>预剪枝</strong>是指在决策树生成过程中，对每个结点在划分前先进行估计，若当前结点的划分不能带来决策树泛化性能提升，则停止划分并将当前结点标记为叶结点；<strong>后剪枝</strong>则是先从训练集生成一棵完整的决策树，然后自底向上地对非叶结点进行考察，若将该结点对应的子树替换为叶结点能带来决策树泛化性能提升，则将该子树替换为叶结点。</p>
+<p><strong>题目</strong></p>
+<p>设样本集合如下表格，其中A、B、C是F的属性，请根据信息增益标准（ID3算法），画出F的决策树。其中log_2(\frac23)&#x3D;-0.5842,log_2(\frac13)&#x3D;-1.5850,log_2(\frac34)&#x3D;-0.41504</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>F</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p><strong>解答</strong></p>
+<p>首先计算目标输出F的信息熵：H(F)&#x3D;-p(x&#x3D;0)log_2p(x&#x3D;0)-p(x&#x3D;1)log_2p(x&#x3D;1)&#x3D;-\frac37log_2\frac37-\frac47log_2\frac47&#x3D;0.985</p>
+<p>然后计算A,B,C每个属性（输入）的信息增益：</p>
+<p>假如先对A分类：</p>
+<p>Gain(F,A)&#x3D;H(F)-\frac47H(F|A&#x3D;0)-\frac37H(F|A&#x3D;1)&#x3D;0.0201</p>
+<p>H(F|A&#x3D;0)&#x3D;-\frac12log_2\frac12-\frac12log_2\frac12&#x3D;1</p>
+<p>H(F|A&#x3D;1)&#x3D;-\frac23log_2\frac23-\frac13log_2\frac13&#x3D;0.917</p>
+<p>假如先对B分类：</p>
+<p>Gain(F,B)&#x3D;H(F)-\frac47H(F|B&#x3D;0)-\frac37H(F|B&#x3D;1)&#x3D;0.128</p>
+<p>假如先对C分类：</p>
+<p>Gain(F,C)&#x3D;H(F)-\frac47H(F|C&#x3D;0)-\frac37H(F|C&#x3D;1)&#x3D;0.522</p>
+<p>由于Gain(F,C)&gt;Gain(F,B)&gt;Gain(F,A)，因此选择信息增益最大的C作为第一次分类的标准</p>
+<blockquote>
+<p>实际考试最好就根据这个结果作为分类标准，先分C，再分B，最后分A</p>
+</blockquote>
+<p>再之后对C&#x3D;0的4个样本再次进行分类（C&#x3D;1时F均&#x3D;1，因此对C&#x3D;0下手）：</p>
+<p>假如在C&#x3D;0的情况下根据A分类：</p>
+<p>Gain(F|C&#x3D;0,A)&#x3D;H(F|C&#x3D;0)-\frac24H(F|A&#x3D;0)-\frac24H(F|A&#x3D;1)&#x3D;0.311</p>
+<p>假如在C&#x3D;0的情况下根据B分类：</p>
+<p>Gain(F|C&#x3D;0,B)&#x3D;H(F|C&#x3D;0)-\frac24H(F|B&#x3D;0)-\frac24H(F|B&#x3D;1)&#x3D;0.311</p>
+<p>由于Gain(F|C&#x3D;0,A)&#x3D;Gain(F|C&#x3D;0,B)，因此第二次分类选择A或B都行。</p>
+<p>最后画出决策树：</p>
+<p>如果先A后B，对A&#x3D;1再进行分类，在C&#x3D;0,A&#x3D;1的情况下，B&#x3D;0则F&#x3D;1，B&#x3D;1则F&#x3D;0。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530195840.png"></p>
+<p>如果先B后A，同理分类。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530195910.png"></p>
+<h2 id="18-3-人工神经网络"><a href="#18-3-人工神经网络" class="headerlink" title="18.3 人工神经网络"></a>18.3 人工神经网络</h2><p>顾名思义，想要通过模拟人脑神经一般搭建模型。<strong>神经网络</strong>由结点或<strong>单元</strong>组成，单元之间通过<strong>有向链</strong>相连接。从单元i到单元j的链负责从i到j传播<strong>激活a_i</strong>。每个链也有一个数值<strong>权重w_{i,j}</strong> 与它相关联，该权重决定了连接强度和符号。每个单元j首先计算输入的加权和：</p>
+<p>                                    in_j&#x3D;\sum^n_{i&#x3D;0}w_{i,j}a_i</p>
+<p>然后在该和之上施加一个<strong>激活函数g</strong>而导致输出：</p>
+<p>                                    a_j&#x3D;g(in_j)&#x3D;g(\sum^n_{i&#x3D;0}w_{i,j}a_i)</p>
+<p>所有输入直接连接到输出的网络称为<strong>单层神经网络</strong>，或<strong>感知器网络</strong>。当然单层神经网络太过简单，遇到复杂问题输出的结果并不准确，因此需要<strong>多层神经网络</strong>。</p>
+<p>在多层神经网络中存在<strong>前向传播</strong>和<strong>反向传播</strong>计算，在多层网络中会有一个或多个<strong>隐藏单元</strong>层（不与网络的输出连接）。前向传播指的是按顺序（从输入层到输出层）计算和存储神经网络中每层的结果，明显是用来计算输出。而后向传播指的是计算神经网络参数梯度的方法，根据微积分中的链式规则，按相反的顺序从输出层到输入层遍历网络从而进行调参，使输出更准确。</p>
+<p><strong>题目</strong></p>
+<p>以逻辑<strong>或运算</strong>为例构建一个有两个输入一个输出的单层感知器，假设权重 w1(0)&#x3D;0.2，w2(0)&#x3D;0.4, 阈值 θ(0)&#x3D;0.3, 学习率 η&#x3D;0.4，</p>
+<p>a）请给出逻辑或运算的问题的数学定义。</p>
+<p>b）构建针对该问题的单层感知器。</p>
+<p>c）请用单层感知器完成逻辑或运算的学习过程。</p>
+<p><strong>解答</strong></p>
+<p>根据“或”运算的逻辑关系，可将问题转换为：</p>
+<p>输入向量：</p>
+<p>X_1&#x3D;[0, 0, 1, 1]</p>
+<p>X_2&#x3D;[0, 1, 0, 1]</p>
+<p>输出向量：</p>
+<p>Y&#x3D;[0, 1, 1, 1]</p>
+<p>或（OR）操作的真值表如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>Inputs</th>
+<th></th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x1</td>
+<td>x2</td>
+<td>y</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230530204359.png"></p>
+<p>或操作可用下图所示的阈值感知器表示：</p>
+<p>由题意可知，<strong>初始连接权值、阈值，以及增益因子的取值</strong>分别为：w1(0)&#x3D;0.2, w2(0)&#x3D;0.4, θ(0)&#x3D;0.3, η&#x3D;0.4</p>
+<p>即其 <strong>输入向量 X(0)和连接权值向量W(0)</strong> 可分别表示为：</p>
+<p>X(0)&#x3D;(-1, x1(0), x2(0))</p>
+<p>W(0)&#x3D;(θ(0), w1(0), w2(0))</p>
+<p><strong>根据单层感知器学习算法，其学习过程如下</strong>：</p>
+<p>设感知器的两个输入为：</p>
+<p>x1(0)&#x3D;0 和 x2(0)&#x3D;0</p>
+<p>其期望输出为 d(0)&#x3D;0，实际输出为：</p>
+<p>y(0)&#x3D;f(w1(0) * x1(0)+ w2(0) * x2(0)-θ(0))&#x3D;f(0.2 * 0+0.4 * 0-0.3)&#x3D;f(-0.3)&#x3D;0</p>
+<p>实际输出与期望输出相同，不需要调节权值。</p>
+<p>再取下一组输入：</p>
+<p>x1(0)&#x3D;0 和 x2(0)&#x3D;1</p>
+<p>其期望输出为 d(0)&#x3D;1，实际输出为：</p>
+<p>y(0)&#x3D;f(w1(0) x1(0)+ w2(0) x2(0)-θ(0))&#x3D;f(0.2 * 0+0.4 * 1-0.3)&#x3D;f(0.1)&#x3D;1</p>
+<p>实际输出与期望输出相同，不需要调节权值。</p>
+<p>再取下一组输入：x1(0)&#x3D;1 和 x2(0)&#x3D;0</p>
+<p>其期望输出为 d(0)&#x3D;1，实际输出为：</p>
+<p>y(0)&#x3D;f(w1(0) x1(0)+ w2(0) x2(0)-θ(0))&#x3D;f(0.2 * 1+0.4 * 0-0.3)&#x3D;f(-0.1)&#x3D;0</p>
+<p>实际输出与期望输出不同，需要调节权值，其调整如下：</p>
+<p>θ(1)&#x3D;θ(0)+η(d(0)- y(0))*(-1)&#x3D;0.3+0.4 * (1-0) * (-1)&#x3D; -0.1</p>
+<p>w1(1)&#x3D;w1(0)+η(d(0)- y(0))x1(0)&#x3D;0.2+0.4*(1-0)*1&#x3D;0.6</p>
+<p>w2(1)&#x3D;w2(0)+η(d(0)- y(0))x2(0)&#x3D;0.4+0.4*(1-0)*0&#x3D;0.4</p>
+<p>再取下一组输入：x1(1)&#x3D;1 和 x2(1)&#x3D;1</p>
+<p>其期望输出为 d(1)&#x3D;1，实际输出为：</p>
+<p>y(1)&#x3D;f(w1(1) x1(1)+ w2(1) x2(1)-θ(1))&#x3D;f(0.6 * 1+0.4 * 1+0.1)&#x3D;f(1.1)&#x3D;1</p>
+<p>实际输出与期望输出相同，不需要调节权值。</p>
+<p>再取下一组输入：</p>
+<p>x1(1)&#x3D;0 和 x2(1)&#x3D;0</p>
+<p>其期望输出为 d(0)&#x3D;0，实际输出为：</p>
+<p>y(1)&#x3D;f(w1(1) x1(1)+ w2(1) x2(1)-θ(1))</p>
+<p>&#x3D;f(0.6<em>0+0.4</em>0 + 0.1)&#x3D;f(0.1)&#x3D;1</p>
+<p>实际输出与期望输出不同，需要调节权值，其调整如下：</p>
+<p>θ(2)&#x3D;θ(1)+η(d(1)- y(1)) * (-1)&#x3D; -0.1+0.4*(0-1)*(-1)&#x3D; 0.3</p>
+<p>w1(2)&#x3D;w1(1)+η(d(1)- y(1))x1(1)&#x3D;0.6+0.4*(0-1)*0&#x3D;0.6</p>
+<p>w2(2)&#x3D;w2(1)+η(d(1)- y(1))x2(1)&#x3D;0.4+0.4*(0-1)*0&#x3D;0.4</p>
+<p>再取下一组输入：</p>
+<p>x1(2)&#x3D;0 和 x2(2)&#x3D;1</p>
+<p>其期望输出为 d(2)&#x3D;1，实际输出为：</p>
+<p>y(2)&#x3D;f(w1(2) x1(2)+ w2(2) x2(2)-θ(2))&#x3D;f(0.6 * 0+0.4 * 1 - 0.3)&#x3D;f(0.1)&#x3D;1</p>
+<p>实际输出与期望输出相同，不需要调节权值。</p>
+<p>再取下一组输入：</p>
+<p>x1(2)&#x3D;1 和 x2(2)&#x3D;0</p>
+<p>其期望输出为 d(2)&#x3D;1，实际输出为：</p>
+<p>y(2)&#x3D;f(w1(2) x1(2)+ w2(2) x2(2)-θ(2)</p>
+<p>实际输出与期望输出相同，不需要调节权值。</p>
+<blockquote>
+<p>x1(i)和x2(i)里面的i是指调节权值次数，每次调节完得重新测试所有输入是否能正确输出。由于1，0和0，1的输出都是1，因此x1(2)&#x3D;1 和 x2(2)&#x3D;1的最后输出也一定是1，此处不再测试调节</p>
+</blockquote>
+<p>至此，学习过程结束。最后的得到的阈值和连接权值分别为：</p>
+<p>θ(2)&#x3D; 0.3</p>
+<p>w1(2)&#x3D;0.6</p>
+<p>w2(2)&#x3D; 0.4</p>
+<p>验证如下：</p>
+<p>对输入：“0 0”有 y&#x3D;f(0.6 * 0+0.4 * 0-0.3)&#x3D;f(-0.3)&#x3D;0</p>
+<p>对输入：“0 1”有 y&#x3D;f(0.6 * 0+0.4 * 1-0.3)&#x3D;f(0.1)&#x3D;1</p>
+<p>对输入：“1 0”有 y&#x3D;f(0.6 * 1+0.4 * 0-0.3)&#x3D;f(0.3)&#x3D;1</p>
+<p>对输入：“1 1”有 y&#x3D;f(0.6 * 1+0.4 * 1-0.3)&#x3D;f(0.7)&#x3D;1</p>
+<p>既然问了<strong>或</strong>，这里顺便给出<strong>与</strong>如何设计：</p>
+<table>
+<thead>
+<tr>
+<th>Inputs</th>
+<th></th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>x1</td>
+<td>x2</td>
+<td>y</td>
+</tr>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p><img src="https://img-blog.csdnimg.cn/d5947bc044d84248b4f28d4191673845.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBASE5V6I2S54Of55im6YeO,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
+<h2 id="18-4-支持向量机"><a href="#18-4-支持向量机" class="headerlink" title="18.4 支持向量机"></a>18.4 支持向量机</h2><p><strong>支持向量机（SVM）</strong> 框架是当前最流行的，“现成”的监督学习方法：如果没有关于领域的专业化先验知识，则SVM是一个很好的首选。三个特性使得SVM具有吸引力：</p>
+<ul>
+<li><p>SVM构造一个<strong>极大边距分离器</strong>——与样例点具有最大可能距离的决策边界，这有助于做良好泛化。</p>
+</li>
+<li><p>SVM生成一个线性分离超平面，但使用所谓的<strong>核技巧（核函数）</strong>，能够使数据嵌入更高维的数据空间，通常在原输入空间中非线性可分的数据，在高维空间很容易分开。</p>
+</li>
+<li><p>SVM是非参数化方法——它们保留训练样例，且潜在需要存储所有训练样例。SVM综合了非参数化和参数化模型的优点：它们有表示复杂函数的灵活性，但能抵抗过度拟合。</p>
+</li>
+</ul>
+<p><strong>题目</strong></p>
+<p>现有如下数据集<br>(x_{11}&#x3D;0, x_{12}&#x3D;0), y_1&#x3D;0</p>
+<p>(x_{21}&#x3D;0, x_{22}&#x3D;1), y_2&#x3D;1</p>
+<p>(x_{31}&#x3D;1, x_{32}&#x3D;0), y_3&#x3D;1</p>
+<p>(x_{41}&#x3D;1, x_{42}&#x3D;1), y_4&#x3D;0</p>
+<p>(a)使用线性核函数的支持向量机能分类该数据集吗？</p>
+<p>(b)如果将数据X&#x3D;(x1,x2)映射到新的空间 φ（X）&#x3D; (2 * x1, 2 * x2, -x1-x2)上，计算上述四个数据映射后的结果是什么？ 在新空间中该数据集是现行可分的吗？</p>
+<p>(c)核函数的定义是什么？核函数的主要作用是什么？</p>
+<p><strong>解答</strong></p>
+<p>(a)不能，该数据集不是线性可分的数据集。可以用这张图来表示，y&#x3D;0代表-，y&#x3D;1代表+，xi1代表y轴，xi2代表x轴，显然不能线性划分。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230603213258.png"></p>
+<p>(b)数据从二维空间映射到了三维空间，其映射结果如下：</p>
+<p>φ（X1）&#x3D;（0，0，0） y1&#x3D;0</p>
+<p>φ（X2）&#x3D;（0，2，-1） y1&#x3D;1</p>
+<p>φ（X3）&#x3D;（2，0，-1） y1&#x3D;1</p>
+<p>φ（X4）&#x3D;（2，2，-2） y1&#x3D;0</p>
+<p>在新空间中该数据集是线性可分的。</p>
+<p>给出三维空间的参考图，这图仅供理解，数据点是对不上的（不想手动画）：</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo20230603213736.png"></p>
+<p>(c)核函数是将原数据映射到新的空间后在新空间中两个数据的内积；核函数的主要作用是进行数据升维，从而使得原来线性不可分的数据在新空间中线性可分。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io">夜语</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">https://yeyuhl.github.io/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yeyuhl.github.io" target="_blank">随便写写</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="数据库系统期末复习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">数据库系统期末复习</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">夜语</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yeyuhl"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便写写的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%99%BA%E8%83%BDAgent"><span class="toc-text">2. 智能Agent</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-Agent%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-text">2.1 Agent的概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E7%8E%AF%E5%A2%83%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="toc-text">2.2 环境的性质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Agent%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-text">2.3 Agent的结构</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E6%90%9C%E7%B4%A2%E6%B1%82%E8%A7%A3"><span class="toc-text">3. 搜索求解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E6%97%A0%E4%BF%A1%E6%81%AF%E6%90%9C%E7%B4%A2"><span class="toc-text">3.1 无信息搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E6%9C%89%E4%BF%A1%E6%81%AF%E6%90%9C%E7%B4%A2"><span class="toc-text">3.2 有信息搜索</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%B6%85%E8%B6%8A%E7%BB%8F%E5%85%B8%E6%90%9C%E7%B4%A2"><span class="toc-text">4. 超越经典搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%88%AC%E5%B1%B1%E6%B3%95"><span class="toc-text">4.1 爬山法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%A8%A1%E6%8B%9F%E9%80%80%E7%81%AB%E6%90%9C%E7%B4%A2"><span class="toc-text">4.2 模拟退火搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%B1%80%E9%83%A8%E6%9D%9F%E6%90%9C%E7%B4%A2"><span class="toc-text">4.3 局部束搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95"><span class="toc-text">4.4 遗传算法</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E5%AF%B9%E6%8A%97%E6%90%9C%E7%B4%A2"><span class="toc-text">5. 对抗搜索</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%CE%B1-%CE%B2%E5%89%AA%E6%9E%9D"><span class="toc-text">5.1 α-β剪枝</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E9%9A%8F%E6%9C%BA%E5%8D%9A%E5%BC%88"><span class="toc-text">5.2 随机博弈</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E7%BA%A6%E6%9D%9F%E6%BB%A1%E8%B6%B3%E9%97%AE%E9%A2%98"><span class="toc-text">6. 约束满足问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E9%80%BB%E8%BE%91Agent%EF%BC%88%E4%B8%80%E9%98%B6%E9%80%BB%E8%BE%91%E6%8E%A8%E7%90%86%EF%BC%89"><span class="toc-text">7. 逻辑Agent（一阶逻辑推理）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-CNF%EF%BC%88%E5%90%88%E5%8F%96%E8%8C%83%E5%BC%8F%EF%BC%8C%E5%8D%B3%E5%AD%90%E5%8F%A5%E7%9A%84%E5%90%88%E5%8F%96%E5%BC%8F%EF%BC%89"><span class="toc-text">7.1 CNF（合取范式，即子句的合取式）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E5%BD%92%E7%BB%93%E8%AF%81%E6%98%8E"><span class="toc-text">7.2 归结证明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#14-%E6%A6%82%E7%8E%87%E6%8E%A8%E7%90%86"><span class="toc-text">14. 概率推理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#14-1-%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C"><span class="toc-text">14.1 贝叶斯网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-2-%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E7%B2%BE%E7%A1%AE%E6%8E%A8%E7%90%86"><span class="toc-text">14.2 贝叶斯网络的精确推理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-2-%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E8%BF%91%E4%BC%BC%E6%8E%A8%E7%90%86"><span class="toc-text">14.2 贝叶斯网络中的近似推理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#15-%E6%97%B6%E9%97%B4%E4%B8%8A%E7%9A%84%E6%A6%82%E7%8E%87%E6%8E%A8%E7%90%86"><span class="toc-text">15. 时间上的概率推理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#15-1-%E8%BD%AC%E7%A7%BB%E6%A8%A1%E5%9E%8B%E4%B8%8E%E4%BC%A0%E6%84%9F%E5%99%A8%E6%A8%A1%E5%9E%8B"><span class="toc-text">15.1 转移模型与传感器模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-2-%E9%9A%90%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B"><span class="toc-text">15.2 隐马尔可夫模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#18-%E6%A0%B7%E4%BE%8B%E5%AD%A6%E4%B9%A0"><span class="toc-text">18. 样例学习</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#18-1-%E5%BD%92%E7%BA%B3%E5%AD%A6%E4%B9%A0%EF%BC%9A%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB"><span class="toc-text">18.1 归纳学习：朴素贝叶斯分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-2-%E5%BD%92%E7%BA%B3%E5%AD%A6%E4%B9%A0%EF%BC%9A%E5%AD%A6%E4%B9%A0%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-text">18.2 归纳学习：学习决策树</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-3-%E4%BA%BA%E5%B7%A5%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-text">18.3 人工神经网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-4-%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-text">18.4 支持向量机</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="人工智能期末复习">人工智能期末复习</a><time datetime="2023-06-03T13:46:44.000Z" title="发表于 2023-06-03 21:46:44">2023-06-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="数据库系统期末复习">数据库系统期末复习</a><time datetime="2023-05-14T08:32:30.000Z" title="发表于 2023-05-14 16:32:30">2023-05-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/12/Java%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98/" title="Java基础常见问题">Java基础常见问题</a><time datetime="2023-05-12T07:40:22.000Z" title="发表于 2023-05-12 15:40:22">2023-05-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/02/Java%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="Java数据结构">Java数据结构</a><time datetime="2023-05-02T10:14:48.000Z" title="发表于 2023-05-02 18:14:48">2023-05-02</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/01/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="计算机网络期末复习">计算机网络期末复习</a><time datetime="2023-05-01T13:04:51.000Z" title="发表于 2023-05-01 21:04:51">2023-05-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 夜语</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
