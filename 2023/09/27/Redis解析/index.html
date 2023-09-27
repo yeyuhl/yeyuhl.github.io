@@ -1,0 +1,1157 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Redis 解析 | 随便写写</title><meta name="author" content="夜语"><meta name="copyright" content="夜语"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redis 数据结构Redis 共有 5 种基本数据结构：String（字符串）、List（列表）、Set（集合）、Hash（散列）、Zset（有序集合）。 这 5 种数据结构是直接提供给用户使用的，是数据的保存形式，其底层实现主要依赖这 8 种数据结构：简单动态字符串（SDS）、LinkedList（双向链表）、Dict（哈希表&#x2F;字典）、SkipList（跳跃表）、Intset（整数集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 解析">
+<meta property="og:url" content="https://yeyuhl.github.io/2023/09/27/Redis%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="随便写写">
+<meta property="og:description" content="Redis 数据结构Redis 共有 5 种基本数据结构：String（字符串）、List（列表）、Set（集合）、Hash（散列）、Zset（有序集合）。 这 5 种数据结构是直接提供给用户使用的，是数据的保存形式，其底层实现主要依赖这 8 种数据结构：简单动态字符串（SDS）、LinkedList（双向链表）、Dict（哈希表&#x2F;字典）、SkipList（跳跃表）、Intset（整数集">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp">
+<meta property="article:published_time" content="2023-09-27T11:21:56.000Z">
+<meta property="article:modified_time" content="2023-09-27T11:27:16.719Z">
+<meta property="article:author" content="夜语">
+<meta property="article:tag" content="其他">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://yeyuhl.github.io/2023/09/27/Redis%E8%A7%A3%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Redis 解析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-27 19:27:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/wallhaven-p9woe3.png')"><nav id="nav"><span id="blog-info"><a href="/" title="随便写写"><span class="site-name">随便写写</span></a></span><div id="menus"><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Redis 解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-27T11:21:56.000Z" title="发表于 2023-09-27 19:21:56">2023-09-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-27T11:27:16.719Z" title="更新于 2023-09-27 19:27:16">2023-09-27</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Redis 解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Redis-数据结构"><a href="#Redis-数据结构" class="headerlink" title="Redis 数据结构"></a>Redis 数据结构</h1><p>Redis 共有 5 种基本数据结构：String（字符串）、List（列表）、Set（集合）、Hash（散列）、Zset（有序集合）。</p>
+<p>这 5 种数据结构是直接提供给用户使用的，是数据的保存形式，其底层实现主要依赖这 8 种数据结构：简单动态字符串（SDS）、LinkedList（双向链表）、Dict（哈希表&#x2F;字典）、SkipList（跳跃表）、Intset（整数集合）、ZipList（压缩列表）、QuickList（快速列表）。</p>
+<table>
+<thead>
+<tr>
+<th>String</th>
+<th>List</th>
+<th>Hash</th>
+<th>Set</th>
+<th>Zset</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SDS</td>
+<td>LinkedList&#x2F;ZipList&#x2F;QuickList</td>
+<td>Dict、ZipList</td>
+<td>Dict、Intset</td>
+<td>ZipList、SkipList</td>
+</tr>
+</tbody></table>
+<p>Redis 3.2 之前，List 底层实现是 LinkedList 或者 ZipList。 Redis 3.2 之后，引入了 LinkedList 和 ZipList 的结合 QuickList，List 的底层实现变为 QuickList。从 Redis 7.0 开始， ZipList 被 ListPack 取代。</p>
+<p><strong>5 种基础数据结构</strong>：</p>
+<ul>
+<li><p><strong>String（字符串）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230914203401.png"></p>
+<ul>
+<li><p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/data-structures-_strings.svg">String 类型的底层的数据结构实现主要是 SDS（简单动态字符串）。Redis7.0后SDS 共有五种实现方式 SDS_TYPE_5（并未用到）、SDS_TYPE_8、SDS_TYPE_16、SDS_TYPE_32、SDS_TYPE_64，其中只有后四种实际用到。Redis 会根据初始化的长度决定使用哪种类型，从而减少内存的使用。对于后四种实现都包含了下面这 4 个属性：<code>len</code>：字符串的长度也就是已经使用的字节数；<code>alloc</code>：总共可用的字符空间大小，alloc-len 就是 SDS 剩余的空间大小；<code>buf[]</code>：实际存储字符串的数组；<code>flags</code>：低三位保存类型标志。</p>
+<ul>
+<li><p><strong>SDS 不仅可以保存文本数据，还可以保存二进制数据</strong>。因为 SDS 使用 len 属性的值而不是空字符来判断字符串是否结束，并且 SDS 的所有 API 都会以处理二进制的方式来处理 SDS 存放在 buf[] 数组里的数据。所以 SDS 不光能存放文本数据，而且能保存图片、音频、视频、压缩文件这样的二进制数据。</p>
+</li>
+<li><p>**SDS 获取字符串长度的时间复杂度是 O(1)**。因为 C 语言的字符串并不记录自身长度，所以获取长度的复杂度为 O(n)；而 SDS 结构里用 len 属性记录了字符串长度，所以复杂度为 O(1)。</p>
+</li>
+<li><p><strong>Redis 的 SDS API 是安全的，拼接字符串不会造成缓冲区溢出</strong>。因为 SDS 在拼接字符串之前会检查 SDS 空间是否满足要求，如果空间不够会自动扩容，所以不会导致缓冲区溢出的问题。</p>
+</li>
+</ul>
+</li>
+<li><p>String 是 Redis 中最简单同时也是最常用的一个数据结构。String 是一种二进制安全的数据结构，可以用来存储任何类型的数据比如字符串、整数、浮点数、图片（图片的 base64 编码或者解码或者图片的路径）、序列化后的对象。</p>
+<p>String 的常见应用场景如下：</p>
+<ul>
+<li>常规数据（比如 session、token、序列化后的对象、图片的路径）的<strong>缓存</strong>；</li>
+<li><strong>计数</strong>比如用户单位时间的请求数（简单限流可以用到）、页面单位时间的访问数；</li>
+<li><strong>分布式锁</strong>(利用 <code>SETNX key value</code> 命令可以实现一个最简易的分布式锁)；</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SET key value</td>
+<td>设置指定 key 的值</td>
+</tr>
+<tr>
+<td>SETNX key value</td>
+<td>只有在 key 不存在时设置 key 的值</td>
+</tr>
+<tr>
+<td>GET key</td>
+<td>获取指定 key 的值</td>
+</tr>
+<tr>
+<td>MSET key1 value1 key2 value2 …</td>
+<td>设置一个或多个指定 key 的值</td>
+</tr>
+<tr>
+<td>MGET key1 key2 …</td>
+<td>获取一个或多个指定 key 的值</td>
+</tr>
+<tr>
+<td>STRLEN key</td>
+<td>返回 key 所储存的字符串值的长度</td>
+</tr>
+<tr>
+<td>INCR key</td>
+<td>将 key 中储存的数字值增一</td>
+</tr>
+<tr>
+<td>DECR key</td>
+<td>将 key 中储存的数字值减一</td>
+</tr>
+<tr>
+<td>EXISTS key</td>
+<td>判断指定 key 是否存在</td>
+</tr>
+<tr>
+<td>DEL key（通用）</td>
+<td>删除指定的 key</td>
+</tr>
+<tr>
+<td>EXPIRE key seconds（通用）</td>
+<td>给指定 key 设置过期时间</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>List（列表）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230914221626.png"></p>
+<ul>
+<li><p>List 类型的底层数据结构是由<strong>双向链表或压缩列表</strong>实现的：</p>
+<ul>
+<li>如果列表的元素个数小于 <code>512</code> 个（默认值，可由 <code>list-max-ziplist-entries</code> 配置），列表每个元素的值都小于 <code>64</code> 字节（默认值，可由 <code>list-max-ziplist-value</code> 配置），Redis 会使用<strong>压缩列表</strong>作为 List 类型的底层数据结构；</li>
+<li>如果列表的元素不满足上面的条件，Redis 会使用<strong>双向链表</strong>作为 List 类型的底层数据结构；</li>
+</ul>
+<p>但是<strong>在 Redis 3.2 版本之后，List 数据类型底层数据结构就只由 quicklist 实现了，替代了双向链表和压缩列表</strong>。</p>
+</li>
+<li><p>List 类型的应用场景一般是<strong>消息队列</strong>（但是有两个问题：1. 生产者需要自行实现全局唯一 ID；2. 不能以消费组形式消费数据）等或者<strong>信息流展示</strong>，比如最新文章、最新动态。</p>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RPUSH key value1 value2 …</td>
+<td>在指定列表的尾部（右边）添加一个或多个元素</td>
+</tr>
+<tr>
+<td>LPUSH key value1 value2 …</td>
+<td>在指定列表的头部（左边）添加一个或多个元素</td>
+</tr>
+<tr>
+<td>LSET key index value</td>
+<td>将指定列表索引 index 位置的值设置为 value</td>
+</tr>
+<tr>
+<td>LPOP key</td>
+<td>移除并获取指定列表的第一个元素(最左边)</td>
+</tr>
+<tr>
+<td>RPOP key</td>
+<td>移除并获取指定列表的最后一个元素(最右边)</td>
+</tr>
+<tr>
+<td>LLEN key</td>
+<td>获取列表元素数量</td>
+</tr>
+<tr>
+<td>LRANGE key start end</td>
+<td>获取列表 start 和 end 之间 的元素</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p><strong>set（集合）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230914221540.png"></p>
+<ul>
+<li><p>Set 类型的底层数据结构是由<strong>哈希表或整数集合</strong>实现的：</p>
+<ul>
+<li>如果集合中的元素都是整数且元素个数小于 <code>512</code> （默认值，<code>set-maxintset-entries</code>配置）个，Redis 会使用<strong>整数集合</strong>作为 Set 类型的底层数据结构；</li>
+<li>如果集合中的元素不满足上面条件，则 Redis 使用<strong>哈希表</strong>作为 Set 类型的底层数据结构。</li>
+</ul>
+</li>
+<li><p>因此 Set 类型比较适合用来数据去重和保障数据的唯一性，还可以用来统计多个集合的交集、错集和并集等，当我们存储的数据是无序并且需要去重的情况下，比较适合使用集合类型进行存储。</p>
+<p><strong>需要存放的数据不能重复的场景</strong></p>
+<ul>
+<li>举例：网站 UV 统计（数据量巨大的场景还是 <code>HyperLogLog</code>更适合一些）、文章点赞、动态点赞等场景。</li>
+<li>相关命令：<code>SCARD</code>（获取集合数量） 。</li>
+</ul>
+<p><strong>需要获取多个数据源交集、并集和差集的场景</strong></p>
+<ul>
+<li>举例：共同好友(交集)、共同粉丝(交集)、共同关注(交集)、好友推荐（差集）、音乐推荐（差集）、订阅号推荐（差集+交集） 等场景。</li>
+<li>相关命令：<code>SINTER</code>（交集）、<code>SINTERSTORE</code> （交集）、<code>SUNION</code> （并集）、<code>SUNIONSTORE</code>（并集）、<code>SDIFF</code>（差集）、<code>SDIFFSTORE</code> （差集）。</li>
+</ul>
+<p><strong>需要随机获取数据源中的元素的场景</strong></p>
+<ul>
+<li>举例：抽奖系统、随机点名等场景。</li>
+<li>相关命令：<code>SPOP</code>（随机获取集合中的元素并移除，适合不允许重复中奖的场景）、<code>SRANDMEMBER</code>（随机获取集合中的元素，适合允许重复中奖的场景）。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SADD key member1 member2 …</td>
+<td>向指定集合添加一个或多个元素</td>
+</tr>
+<tr>
+<td>SMEMBERS key</td>
+<td>获取指定集合中的所有元素</td>
+</tr>
+<tr>
+<td>SCARD key</td>
+<td>获取指定集合的元素数量</td>
+</tr>
+<tr>
+<td>SISMEMBER key member</td>
+<td>判断指定元素是否在指定集合中</td>
+</tr>
+<tr>
+<td>SINTER key1 key2 …</td>
+<td>获取给定所有集合的交集</td>
+</tr>
+<tr>
+<td>SINTERSTORE destination key1 key2 …</td>
+<td>将给定所有集合的交集存储在 destination 中</td>
+</tr>
+<tr>
+<td>SUNION key1 key2 …</td>
+<td>获取给定所有集合的并集</td>
+</tr>
+<tr>
+<td>SUNIONSTORE destination key1 key2 …</td>
+<td>将给定所有集合的并集存储在 destination 中</td>
+</tr>
+<tr>
+<td>SDIFF key1 key2 …</td>
+<td>获取给定所有集合的差集</td>
+</tr>
+<tr>
+<td>SDIFFSTORE destination key1 key2 …</td>
+<td>将给定所有集合的差集存储在 destination 中</td>
+</tr>
+<tr>
+<td>SPOP key count</td>
+<td>随机移除并获取指定集合中一个或多个元素</td>
+</tr>
+<tr>
+<td>SRANDMEMBER key count</td>
+<td>随机获取指定集合中指定数量的元素</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>Hash（散列）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915143651.png"></p>
+<ul>
+<li><p>Hash 类型的底层数据结构是由<strong>压缩列表或哈希表</strong>实现的：</p>
+<ul>
+<li>如果哈希类型元素个数小于 <code>512</code> 个（默认值，可由 <code>hash-max-ziplist-entries</code> 配置），所有值小于 <code>64</code> 字节（默认值，可由 <code>hash-max-ziplist-value</code> 配置）的话，Redis 会使用<strong>压缩列表</strong>作为 Hash 类型的底层数据结构；</li>
+<li>如果哈希类型元素不满足上面条件，Redis 会使用<strong>哈希表</strong>作为 Hash 类型的 底层数据结构。</li>
+</ul>
+<p><strong>在 Redis 7.0 中，压缩列表数据结构已经废弃了，交由 listpack 来实现了</strong>。</p>
+</li>
+<li><p>Hash的应用场景一般是<strong>对象数据存储场景</strong></p>
+<ul>
+<li>举例：用户信息、商品信息、文章信息、购物车信息。</li>
+<li>相关命令：<code>HSET</code> （设置单个字段的值）、<code>HMSET</code>（设置多个字段的值）、<code>HGET</code>（获取单个字段的值）、<code>HMGET</code>（获取多个字段的值）。</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HSET key field value</td>
+<td>设置指定哈希表中指定字段的值</td>
+</tr>
+<tr>
+<td>HSETNX key field value</td>
+<td>只有指定字段不存在时设置指定字段的值</td>
+</tr>
+<tr>
+<td>HMSET key field1 value1 field2 value2 …</td>
+<td>同时将一个或多个 field-value (域-值)对设置到指定哈希表中</td>
+</tr>
+<tr>
+<td>HGET key field</td>
+<td>获取指定哈希表中指定字段的值</td>
+</tr>
+<tr>
+<td>HMGET key field1 field2 …</td>
+<td>获取指定哈希表中一个或者多个指定字段的值</td>
+</tr>
+<tr>
+<td>HGETALL key</td>
+<td>获取指定哈希表中所有的键值对</td>
+</tr>
+<tr>
+<td>HEXISTS key field</td>
+<td>查看指定哈希表中指定的字段是否存在</td>
+</tr>
+<tr>
+<td>HDEL key field1 field2 …</td>
+<td>删除一个或多个哈希表字段</td>
+</tr>
+<tr>
+<td>HLEN key</td>
+<td>获取指定哈希表中字段的数量</td>
+</tr>
+<tr>
+<td>HINCRBY key field increment</td>
+<td>对指定哈希中的指定字段做运算操作（正数为加，负数为减）</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>Zset（有序集合）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915144548.png"></p>
+<ul>
+<li><p>Zset 类型的底层数据结构是由<strong>压缩列表或跳表</strong>实现的：</p>
+<ul>
+<li>如果有序集合的元素个数小于 <code>128</code> 个，并且每个元素的值小于 <code>64</code> 字节时，Redis 会使用<strong>压缩列表</strong>作为 Zset 类型的底层数据结构；</li>
+<li>如果有序集合的元素不满足上面的条件，Redis 会使用<strong>跳表</strong>作为 Zset 类型的底层数据结构；</li>
+</ul>
+<p><strong>在 Redis 7.0 中，压缩列表数据结构已经废弃了，交由 listpack 来实现了。</strong></p>
+</li>
+<li><p>Zset 类型（Sorted Set，有序集合） 可以根据元素的权重来排序，我们可以自己来决定每个元素的权重值。比如说，我们可以根据元素插入 Sorted Set 的时间确定权重值，先插入的元素权重小，后插入的元素权重大。在面对需要展示<strong>最新列表、排行榜</strong>等场景时，如果数据更新频繁或者需要分页显示，可以优先考虑使用 Sorted Set。</p>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>常用命令</th>
+<th>介绍</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ZADD key score1 member1 score2 member2 …</td>
+<td>向指定有序集合添加一个或多个元素</td>
+</tr>
+<tr>
+<td>ZCARD KEY</td>
+<td>获取指定有序集合的元素数量</td>
+</tr>
+<tr>
+<td>ZSCORE key member</td>
+<td>获取指定有序集合中指定元素的 score 值</td>
+</tr>
+<tr>
+<td>ZINTERSTORE destination numkeys key1 key2 …</td>
+<td>将给定所有有序集合的交集存储在 destination 中，对相同元素对应的 score 值进行 SUM 聚合操作，numkeys 为集合数量</td>
+</tr>
+<tr>
+<td>ZUNIONSTORE destination numkeys key1 key2 …</td>
+<td>求并集，其它和 ZINTERSTORE 类似</td>
+</tr>
+<tr>
+<td>ZDIFFSTORE destination numkeys key1 key2 …</td>
+<td>求差集，其它和 ZINTERSTORE 类似</td>
+</tr>
+<tr>
+<td>ZRANGE key start end</td>
+<td>获取指定有序集合 start 和 end 之间的元素（score 从低到高）</td>
+</tr>
+<tr>
+<td>ZREVRANGE key start end</td>
+<td>获取指定有序集合 start 和 end 之间的元素（score 从高到底）</td>
+</tr>
+<tr>
+<td>ZREVRANK key member</td>
+<td>获取指定有序集合中指定元素的排名(score 从大到小排序)</td>
+</tr>
+</tbody></table>
+<p><strong>3 种特殊数据结构</strong>：</p>
+<ul>
+<li><p><strong>BitMap（2.2 版新增）</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915145102.png"></p>
+<ul>
+<li><p>Bitmap，即位图，是一串连续的二进制数组（0和1），可以通过偏移量（offset）定位元素。BitMap通过最小的单位bit来进行<code>0|1</code>的设置，表示某个元素的值或者状态，时间复杂度为O(1)。由于 bit 是计算机中最小的单位，使用它进行储存将非常节省空间，特别适合一些数据量大且使用<strong>二值统计的场景</strong>。</p>
+<p>Bitmap 本身是用 String 类型作为底层数据结构实现的一种统计二值状态的数据类型。String 类型是会保存为二进制的字节数组，所以，Redis 就把字节数组的每个 bit 位利用起来，用来表示一个元素的二值状态，你可以把 Bitmap 看作是一个 bit 数组。</p>
+</li>
+<li><p>Bitmap 类型非常适合二值状态统计的场景，这里的二值状态就是指集合元素的取值就只有 0 和 1 两种，在记录海量数据时，Bitmap 能够有效地节省内存空间。比如说<strong>签到统计</strong>这个场景。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>HyperLogLog（2.8 版新增）</strong></p>
+<ul>
+<li><p>Redis HyperLogLog 是 Redis 2.8.9 版本新增的数据类型，是一种用于「统计基数」的数据集合类型，基数统计就是指统计一个集合中不重复的元素个数。但要注意，HyperLogLog 是统计规则是基于概率完成的，不是非常准确，标准误算率是 0.81%。</p>
+<p>所以，简单来说 HyperLogLog <strong>提供不精确的去重计数</strong>。</p>
+<p>HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的内存空间总是固定的、并且是很小的。</p>
+<p>在 Redis 里面，<strong>每个 HyperLogLog 键只需要花费 12 KB 内存，就可以计算接近 <code>2^64</code> 个不同元素的基数</strong>，和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非常节省空间。</p>
+<p>其实现涉及很多数学问题，此处不展开细说。</p>
+</li>
+<li><p>Redis HyperLogLog 优势在于只需要花费 12 KB 内存，就可以计算接近 2^64 个元素的基数，和元素越多就越耗费内存的 Set 和 Hash 类型相比，HyperLogLog 就非常节省空间。所以，非常适合<strong>统计百万级以上的网页 UV 的场景</strong>。在统计 UV 时，你可以用 PFADD 命令（用于向 HyperLogLog 中添加新元素）把访问页面的每个用户都添加到 HyperLogLog 中。不过，有一点需要你注意一下，HyperLogLog 的统计规则是基于概率完成的，所以它给出的统计结果是有一定误差的，标准误算率是 0.81%。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>GEO（3.2 版新增）</strong></p>
+<p>Redis GEO 是 Redis 3.2 版本新增的数据类型，主要用于存储地理位置信息，并对存储的信息进行操作。</p>
+<p>在日常生活中，我们越来越依赖搜索“附近的餐馆”、在打车软件上叫车，这些都离不开基于位置信息服务（Location-Based Service，LBS）的应用。LBS 应用访问的数据是和人或物关联的一组经纬度信息，而且要能查询相邻的经纬度范围，GEO 就非常适合应用在 LBS 服务的场景中。</p>
+<p>GEO 本身并没有设计新的底层数据结构，而是直接使用了 Sorted Set 集合类型。</p>
+<p>GEO 类型使用 GeoHash 编码方法实现了经纬度到 Sorted Set 中元素权重分数的转换，这其中的两个关键机制就是「对二维地图做区间划分」和「对区间进行编码」。一组经纬度落在某个区间后，就用区间的编码值来表示，并把编码值作为 Sorted Set 元素的权重分数。</p>
+<p>这样一来，我们就可以把经纬度保存到 Sorted Set 中，利用 Sorted Set 提供的“按权重进行有序范围查找”的特性，实现 LBS 服务中频繁使用的“搜索附近”的需求。</p>
+</li>
+<li><p><strong>Stream（5.0 版新增）</strong></p>
+<p>Redis Stream 是 Redis 5.0 版本新增加的数据类型，Redis 专门为消息队列设计的数据类型。</p>
+<p>在 Redis 5.0 Stream 没出来之前，消息队列的实现方式都有着各自的缺陷，例如：</p>
+<ul>
+<li>发布订阅模式，不能持久化也就无法可靠的保存消息，并且对于离线重连的客户端不能读取历史消息的缺陷；</li>
+<li>List 实现消息队列的方式不能重复消费，一个消息消费完就会被删除，而且生产者需要自行实现全局唯一 ID。</li>
+</ul>
+<p>基于以上问题，Redis 5.0 便推出了 Stream 类型也是此版本最重要的功能，用于完美地实现消息队列，它支持消息的持久化、支持自动生成全局唯一 ID、支持 ack 确认消息的模式、支持消费组模式等，让消息队列更加的稳定和可靠。</p>
+</li>
+</ul>
+<h1 id="Redis-线程模型"><a href="#Redis-线程模型" class="headerlink" title="Redis 线程模型"></a>Redis 线程模型</h1><p><strong>Redis 基于 Reactor 模式设计开发了一套高效的事件处理模型</strong>，这套事件处理模型对应的是 Redis 中的文件事件处理器（file event handler），即 <strong>「接收客户端请求-&gt;解析请求 -&gt;进行数据读写等操作-&gt;发送数据给客户端」这个过程是由一个线程（主线程）来完成的</strong>，这也是我们常说 Redis 是单线程的原因。</p>
+<p>但是，<strong>Redis 程序并不是单线程的</strong>，Redis 在启动的时候，是会<strong>启动后台线程</strong>（BIO）的：</p>
+<ul>
+<li><strong>Redis 在 2.6 版本</strong>，会启动 2 个后台线程，分别处理关闭文件、AOF 刷盘这两个任务；</li>
+<li><strong>Redis 在 4.0 版本之后</strong>，新增了一个新的后台线程，用来异步释放 Redis 内存，也就是 lazyfree 线程。例如执行 unlink key &#x2F; flushdb async &#x2F; flushall async 等命令，会把这些删除操作交给后台线程来执行，好处是不会导致 Redis 主线程卡顿。因此，当我们要删除一个大 key 的时候，不要使用 del 命令删除，因为 del 是在主线程处理的，这样会导致 Redis 主线程卡顿，因此我们应该使用 unlink 命令来异步删除大key。</li>
+</ul>
+<h2 id="Redis-6-0之前"><a href="#Redis-6-0之前" class="headerlink" title="Redis 6.0之前"></a>Redis 6.0之前</h2><p><img src="https://cdn.xiaolincoding.com/gh/xiaolincoder/redis/%E5%85%AB%E8%82%A1%E6%96%87/redis%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B.drawio.png"></p>
+<p>图中的蓝色部分是一个事件循环，是由主线程负责的，可以看到网络 I&#x2F;O 和命令处理都是单线程。 Redis 初始化的时候，会做下面这几件事情：</p>
+<ul>
+<li>首先，调用 epoll_create() 创建一个 epoll 对象和调用 socket() 创建一个服务端 socket</li>
+<li>然后，调用 bind() 绑定端口和调用 listen() 监听该 socket</li>
+<li>然后，将调用 epoll_ctl() 将 listen socket 加入到 epoll，同时注册「连接事件」处理函数。</li>
+</ul>
+<p>初始化完后，主线程就进入到一个<strong>事件循环函数</strong>，主要会做以下事情：</p>
+<ul>
+<li>首先，先调用<strong>处理发送队列函数</strong>，看是发送队列里是否有任务，如果有发送任务，则通过 write 函数将客户端发送缓存区里的数据发送出去，如果这一轮数据没有发送完，就会注册写事件处理函数，等待 epoll_wait 发现可写后再处理 。</li>
+<li>接着，调用 epoll_wait 函数等待事件的到来：<ul>
+<li>如果是<strong>连接事件</strong>到来，则会调用<strong>连接事件处理函数</strong>，该函数会做这些事情：调用 accpet 获取已连接的 socket -&gt; 调用 epoll_ctl 将已连接的 socket 加入到 epoll -&gt; 注册「读事件」处理函数；</li>
+<li>如果是<strong>读事件</strong>到来，则会调用<strong>读事件处理函数</strong>，该函数会做这些事情：调用 read 获取客户端发送的数据 -&gt; 解析命令 -&gt; 处理命令 -&gt; 将客户端对象添加到发送队列 -&gt; 将执行结果写到发送缓存区等待发送；</li>
+<li>如果是<strong>写事件</strong>到来，则会调用<strong>写事件处理函数</strong>，该函数会做这些事情：通过 write 函数将客户端发送缓存区里的数据发送出去，如果这一轮数据没有发送完，就会继续注册写事件处理函数，等待 epoll_wait 发现可写后再处理 。</li>
+</ul>
+</li>
+</ul>
+<p>之所以 Redis 采用单线程（网络 I&#x2F;O 和执行命令）那么快，有如下几个原因：</p>
+<ul>
+<li>Redis 的大部分操作<strong>都在内存中完成</strong>，并且采用了高效的数据结构，因此 Redis 瓶颈可能是机器的内存或者网络带宽，而并非 CPU，既然 CPU 不是瓶颈，那么自然就采用单线程的解决方案了；</li>
+<li>Redis 采用单线程模型可以<strong>避免了多线程之间的竞争</strong>，省去了多线程切换带来的时间和性能上的开销，而且也不会导致死锁问题。</li>
+<li>Redis 采用了 <strong>I&#x2F;O 多路复用机制</strong>处理大量的客户端 Socket 请求，IO 多路复用机制是指一个线程处理多个 IO 流，就是我们经常听到的 select&#x2F;epoll 机制。简单来说，在 Redis 只运行单线程的情况下，该机制允许内核中同时存在多个监听 Socket 和已连接 Socket。内核会一直监听这些 Socket 上的连接请求或数据请求。一旦有请求到达，就会交给 Redis 线程处理，这就实现了一个 Redis 线程处理多个 IO 流的效果。</li>
+</ul>
+<h2 id="Redis-6-0之后"><a href="#Redis-6-0之后" class="headerlink" title="Redis 6.0之后"></a>Redis 6.0之后</h2><p><strong>在 Redis6.0 之前为什么不使用多线程的主要原因</strong>有：</p>
+<ul>
+<li>单线程编程容易并且更容易维护；</li>
+<li>Redis 的性能瓶颈不在 CPU ，主要在内存和网络；</li>
+<li>多线程会存在死锁、线程上下文切换等问题，甚至会影响性能。</li>
+</ul>
+<p><strong>在 Redis6.0 之后使用多线程的主要原因</strong>有：</p>
+<p>采用了多个 I&#x2F;O 线程来处理网络请求，这是因为随着网络硬件的性能提升，<strong>Redis 的性能瓶颈有时会出现在网络 I&#x2F;O 的处理上</strong>。</p>
+<p>所以为了提高网络 I&#x2F;O 的并行度，Redis 6.0 对于网络 I&#x2F;O 采用多线程来处理。<strong>但是对于命令的执行，Redis 仍然使用单线程来处理</strong>，所以大家不要误解 Redis 有多线程同时执行命令。</p>
+<p>Redis6.0 的多线程默认是禁用的，只使用主线程。如需开启需要设置 IO 线程数 &gt; 1，需要修改 redis 配置文件 <code>redis.conf</code>。</p>
+<blockquote>
+<p>设置1的话只会开启主线程，官网建议4核的机器建议设置为2或3个线程，8核的建议设置为6个线程。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io-threads 4 </span><br></pre></td></tr></table></figure>
+
+<p>另外：</p>
+<ul>
+<li>io-threads 的个数一旦设置，不能通过 config 动态设置。</li>
+<li>当设置 ssl 后，io-threads 将不工作。</li>
+</ul>
+<p>开启多线程后，默认只会使用多线程进行 IO 写入 writes，即发送数据给客户端，如果需要开启多线程 IO 读取 reads，同样需要修改 redis 配置文件 <code>redis.conf</code> :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">io-threads-do-reads yes</span><br></pre></td></tr></table></figure>
+
+<p>因此， 在 Redis 6.0 版本之后，开启多线程后， Redis 在启动的时候，默认情况下会<strong>额外创建 6 个线程</strong>（<em>这里的线程数不包括主线程</em>）：</p>
+<ul>
+<li>Redis-server ： Redis的主线程，主要负责执行命令；</li>
+<li>bio_close_file、bio_aof_fsync、bio_lazy_free：三个后台线程，分别异步处理关闭文件任务、AOF刷盘任务、释放内存任务；</li>
+<li>io_thd_1、io_thd_2、io_thd_3：三个 I&#x2F;O 线程，io-threads 默认是 4 ，所以会启动 3（4-1）个 I&#x2F;O 多线程，用来分担 Redis 网络 I&#x2F;O 的压力。</li>
+</ul>
+<h1 id="Redis-持久化"><a href="#Redis-持久化" class="headerlink" title="Redis 持久化"></a>Redis 持久化</h1><p>Redis 的读写操作都是在内存中，所以 Redis 性能才会高，但是当 Redis 重启后，内存中的数据就会丢失，那为了保证内存中的数据不会丢失，Redis 实现了数据持久化的机制，这个机制会把数据存储到磁盘，这样在 Redis 重启就能够从磁盘中恢复原有的数据。</p>
+<p>Redis 共有三种数据持久化的方式：</p>
+<ul>
+<li><strong>AOF 日志</strong>：每执行一条写操作命令，就把该命令以追加的方式写入到一个文件里；</li>
+<li><strong>RDB 快照</strong>：将某一时刻的内存数据，以二进制的方式写入磁盘；</li>
+<li><strong>混合持久化方式</strong>：Redis 4.0 新增的方式，集成了 AOF 和 RBD 的优点；</li>
+</ul>
+<h2 id="RDB-快照"><a href="#RDB-快照" class="headerlink" title="RDB 快照"></a>RDB 快照</h2><p>Redis 可以通过创建快照来获得存储在内存里面的数据在 <strong>某个时间点</strong> 上的副本。Redis 创建快照之后，可以对快照进行备份，可以将快照复制到其他服务器从而创建具有相同数据的服务器副本（Redis 主从结构，主要用来提高 Redis 性能），还可以将快照留在原地以便重启服务器的时候使用。</p>
+<p><strong>快照持久化是 Redis 默认采用的持久化方式</strong>，在 <code>redis.conf</code> 配置文件中默认有此下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">save 900 1     #在900秒(15分钟)之后，如果至少有1个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save 300 10    #在300秒(5分钟)之后，如果至少有10个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br><span class="line"></span><br><span class="line">save 60 10000  #在60秒(1分钟)之后，如果至少有10000个key发生变化，Redis就会自动触发bgsave命令创建快照。</span><br></pre></td></tr></table></figure>
+
+<p>Redis 提供了两个命令来生成 RDB 快照文件：</p>
+<ul>
+<li><code>save</code> : 同步保存操作，会阻塞 Redis 主线程；</li>
+<li><code>bgsave</code> : fork 出一个子进程，子进程来生成RDB文件，不会阻塞 Redis 主线程，默认选项。</li>
+</ul>
+<blockquote>
+<p>这里说 Redis 主线程而不是主进程的主要是因为 Redis 启动之后主要是通过单线程的方式完成主要的工作。如果你想将其描述为 Redis 主进程，也没毛病。</p>
+</blockquote>
+<p>由于 Redis 的快照是<strong>全量快照</strong>，也就是说每次执行快照，都是把内存中的「所有数据」都记录到磁盘中。所以执行快照是一个比较重的操作，如果频率太频繁，可能会对 Redis 性能产生影响。如果频率太低，服务器故障时，丢失的数据会更多。</p>
+<p>为了在执行 bgsave 过程中，Redis 仍然能处理操作命令（修改数据），Redis 用到了<strong>写时复制技术（Copy-On-Write, COW）</strong>。</p>
+<p>执行 bgsave 命令的时候，Redis 会通过 fork() 创建子进程，此时子进程和父进程是共享同一片内存数据的，因为创建子进程的时候，会复制父进程的页表，但是页表指向的物理内存还是一个，此时如果主线程执行读操作，则主线程和 bgsave 子进程互相不影响。</p>
+<p><img src="https://cdn.xiaolincoding.com//mysql/other/c34a9d1f58d602ff1fe8601f7270baa7-20230309232304226.png"></p>
+<p>如果主线程执行写操作，则被修改的数据会复制一份副本，然后 bgsave 子进程会把该副本数据写入 RDB 文件，在这个过程中，主线程仍然可以直接修改原来的数据。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915192117.png"></p>
+<h2 id="AOF-日志"><a href="#AOF-日志" class="headerlink" title="AOF 日志"></a>AOF 日志</h2><p>与快照持久化相比，AOF 持久化的实时性更好。默认情况下 Redis 没有开启 AOF（append only file）方式的持久化（Redis 6.0 之后已经默认是开启了），可以通过 <code>appendonly</code> 参数开启：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+
+<p>开启 AOF 持久化后每执行一条会更改 Redis 中的数据的命令，Redis 就会将该命令写入到 AOF 缓冲区 <code>server.aof_buf</code> 中，然后再写入到 AOF 文件中（此时还在系统内核缓存区未同步到磁盘），最后再根据持久化方式（ <code>fsync</code>策略）的配置来决定何时将系统内核缓存区的数据同步到硬盘中的。</p>
+<p>只有同步到磁盘中才算持久化保存了，否则依然存在数据丢失的风险，比如说：系统内核缓存区的数据还未同步，磁盘机器就宕机了，那这部分数据就算丢失了。AOF 文件的保存位置和 RDB 文件的位置相同，都是通过 <code>dir</code> 参数设置的，默认的文件名是 <code>appendonly.aof</code>。</p>
+<p>Redis 在执行完一条写操作命令后，就会把该命令以追加的方式写入到一个文件里，然后 Redis 重启时，会读取该文件记录的命令，然后逐一执行命令的方式来进行数据恢复。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915160102.png"></p>
+<p>之所以<strong>先写命令再记录命令到日志</strong>：</p>
+<ul>
+<li><strong>避免额外的检查开销</strong>：因为如果先将写操作命令记录到 AOF 日志里，再执行该命令的话，如果当前的命令语法有问题，那么如果不进行命令语法检查，该错误的命令记录到 AOF 日志里后，Redis 在使用日志恢复数据时，就可能会出错。</li>
+<li><strong>不会阻塞当前写操作命令的执行</strong>：因为当写操作命令执行成功后，才会将命令记录到 AOF 日志。</li>
+</ul>
+<p>当然，这样做也会带来风险：</p>
+<ul>
+<li><strong>数据可能会丢失：</strong> 执行写操作命令和记录日志是两个过程，那当 Redis 在还没来得及将命令写入到硬盘时，服务器发生宕机了，这个数据就会有丢失的风险。</li>
+<li><strong>可能阻塞其他操作：</strong> 由于写操作命令执行成功后才记录到 AOF 日志，所以不会阻塞当前命令的执行，但因为 AOF 日志也是在主线程中执行，所以当 Redis 把日志文件写入磁盘的时候，还是会阻塞后续的操作无法执行。</li>
+</ul>
+<p>而记录命令到日志这一步可以简单分为 5 步：</p>
+<ol>
+<li><strong>命令追加（append）</strong>：所有的写命令会追加到 AOF 缓冲区中。</li>
+<li><strong>文件写入（write）</strong>：将 AOF 缓冲区的数据写入到 AOF 文件中。这一步需要调用<code>write</code>函数（系统调用），<code>write</code>将数据写入到了系统内核缓冲区之后直接返回了（延迟写）。<strong>注意！！！此时并没有同步到磁盘</strong>。</li>
+<li><strong>文件同步（fsync）</strong>：AOF 缓冲区根据对应的持久化方式（ <code>fsync</code> 策略）向硬盘做同步操作。这一步需要调用 <code>fsync</code> 函数（系统调用）， <code>fsync</code> 针对单个文件操作，对其进行强制硬盘同步，<code>fsync</code> 将阻塞直到写入磁盘完成后返回，保证了数据持久化。</li>
+<li><strong>文件重写（rewrite）</strong>：随着 AOF 文件越来越大，需要定期对 AOF 文件进行重写，达到压缩的目的。</li>
+<li><strong>重启加载（load）</strong>：当 Redis 重启时，可以加载 AOF 文件进行数据恢复。</li>
+</ol>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915160258.png"></p>
+<p>Redis 提供了 3 种写回硬盘的策略，控制的就是上面说的第三步的过程。 在 Redis.conf 配置文件中的 appendfsync 配置项可以有以下 3 种参数可填：</p>
+<ul>
+<li><strong>Always</strong>，这个单词的意思是「总是」，所以它的意思是每次写操作命令执行完后，同步将 AOF 日志数据写回硬盘；</li>
+<li><strong>Everysec</strong>，这个单词的意思是「每秒」，所以它的意思是每次写操作命令执行完后，先将命令写入到 AOF 文件的内核缓冲区，然后每隔一秒将缓冲区里的内容写回到硬盘；</li>
+<li><strong>No</strong>，意味着不由 Redis 控制写回硬盘的时机，转交给操作系统控制写回的时机，也就是每次写操作命令执行完后，先将命令写入到 AOF 文件的内核缓冲区，再由操作系统决定何时将缓冲区内容写回硬盘。</li>
+</ul>
+<p>由于 AOF 日志是一个文件，随着执行的写操作命令越来越多，文件的大小会越来越大。 如果当 AOF 日志文件过大就会带来性能问题，比如重启 Redis 后，需要读 AOF 文件的内容以恢复数据，如果文件过大，整个恢复的过程就会很慢。所以，Redis 为了避免 AOF 文件越写越大，提供了 <strong>AOF 重写机制</strong>，即上面提及的第四步。当 AOF 文件的大小超过所设定的阈值后，Redis 就会启用 AOF 重写机制，来压缩 AOF 文件。</p>
+<p>AOF 重写机制是在重写时，<strong>读取当前数据库中的所有键值对，然后将每一个键值对用一条命令记录到「新的 AOF 文件」，等到全部记录完后，就将新的 AOF 文件替换掉现有的 AOF 文件</strong>。</p>
+<p>举个例子，在没有使用重写机制前，假设前后执行了「<em>set name 1</em>」和「<em>set name 2</em>」这两个命令的话，就会将这两个命令记录到 AOF 文件。value为1的这个命令是旧的，已经被value为2的值覆盖掉了，但是由于开启了AOF，所以都记录到了文件中。我们现在重写AOF文件，只用记录下「<em>set name 2</em>」这个命令，旧的不用记录了。</p>
+<p>Redis <strong>重写 AOF 的过程是由后台子进程 <em>bgrewriteaof</em> 来完成的</strong>，这么做可以达到两个好处：</p>
+<ul>
+<li>子进程进行 AOF 重写期间，主进程可以继续处理命令请求，从而避免阻塞主进程；</li>
+<li>子进程带有主进程的数据副本，这里使用子进程而不是线程，因为如果是使用线程，多线程之间会共享内存，那么在修改共享内存数据的时候，需要通过加锁来保证数据的安全，而这样就会降低性能。而使用子进程，创建子进程时，父子进程是共享内存数据的，不过这个共享的内存只能以只读的方式，而当父子进程任意一方修改了该共享内存，就会发生「写时复制」，于是父子进程就有了独立的数据副本，就不用加锁来保证数据安全。</li>
+</ul>
+<p>触发重写机制后，主进程就会创建重写 AOF 的子进程，此时父子进程共享物理内存，重写子进程只会对这个内存进行只读，重写 AOF 子进程会读取数据库里的所有数据，并逐一把内存数据的键值对转换成一条命令，再将命令记录到重写日志（新的 AOF 文件）。</p>
+<p><strong>但是重写过程中，主进程依然可以正常处理命令</strong>，那问题来了，重写 AOF 日志过程中，如果主进程修改了已经存在 key-value，那么会发生写时复制，此时这个 key-value 数据在子进程的内存数据就跟主进程的内存数据不一致了，这时要怎么办呢？</p>
+<p>为了解决这种数据不一致问题，Redis 设置了一个 <strong>AOF 重写缓冲区</strong>，这个缓冲区在创建 bgrewriteaof 子进程之后开始使用。</p>
+<p>在重写 AOF 期间，当 Redis 执行完一个写命令之后，它会<strong>同时将这个写命令写入到 「AOF 缓冲区」和 「AOF 重写缓冲区」</strong>。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915193335.png"></p>
+<p>也就是说，在 bgrewriteaof 子进程执行 AOF 重写期间，主进程需要执行以下三个工作:</p>
+<ul>
+<li>执行客户端发来的命令；</li>
+<li>将执行后的写命令追加到 「AOF 缓冲区」；</li>
+<li>将执行后的写命令追加到 「AOF 重写缓冲区」；</li>
+</ul>
+<p>当子进程完成 AOF 重写工作（<em>扫描数据库中所有数据，逐一把内存数据的键值对转换成一条命令，再将命令记录到重写日志</em>）后，会向主进程发送一条信号，信号是进程间通讯的一种方式，且是异步的。</p>
+<p>主进程收到该信号后，会调用一个信号处理函数，该函数主要做以下工作：</p>
+<ul>
+<li>将 AOF 重写缓冲区中的所有内容追加到新的 AOF 的文件中，使得新旧两个 AOF 文件所保存的数据库状态一致；</li>
+<li>新的 AOF 的文件进行改名，覆盖现有的 AOF 文件。</li>
+</ul>
+<p>信号函数执行完后，主进程就可以继续像往常一样处理命令了。</p>
+<p>开启 AOF 重写功能，可以调用 <code>BGREWRITEAOF</code> 命令手动执行，也可以设置下面两个配置项，让程序自动决定触发时机：</p>
+<ul>
+<li><code>auto-aof-rewrite-min-size</code>：如果 AOF 文件大小小于该值，则不会触发 AOF 重写。默认值为 64 MB;</li>
+<li><code>auto-aof-rewrite-percentage</code>：执行 AOF 重写时，当前 AOF 大小（aof_current_size）和上一次重写时 AOF 大小（aof_base_size）的比值。如果当前 AOF 文件大小增加了这个百分比值，将触发 AOF 重写。将此值设置为 0 将禁用自动 AOF 重写。默认值为 100。</li>
+</ul>
+<p>Redis 7.0 版本之前，如果在重写期间有写入命令，AOF 可能会使用大量内存，重写期间到达的所有写入命令都会写入磁盘两次。</p>
+<p>Redis 7.0 版本之后，AOF 重写机制得到了优化改进（Multi-part AOF）。</p>
+<h2 id="混合持久化"><a href="#混合持久化" class="headerlink" title="混合持久化"></a>混合持久化</h2><p>RDB 优点是数据恢复速度快，但是快照的频率不好把握。频率太低，丢失的数据就会比较多，频率太高，就会影响性能。AOF 优点是丢失数据少，但是数据恢复不快。</p>
+<p>为了集成了两者的优点， Redis 4.0 提出了<strong>混合使用 AOF 日志和内存快照</strong>，也叫<strong>混合持久化</strong>，既保证了 Redis 重启速度，又降低数据丢失风险（默认关闭，可以通过配置项  <strong><code>aof-use-rdb-preamble</code></strong>  开启）。</p>
+<p>混合持久化工作在 <strong>AOF 日志重写过程</strong>，当开启了混合持久化时，在 AOF 重写日志时，fork 出来的重写子进程会先将与主线程共享的内存数据以 RDB 方式写入到 AOF 文件，然后主线程处理的操作命令会被记录在重写缓冲区里，重写缓冲区里的增量命令会以 AOF 方式写入到 AOF 文件，写入完成后通知主进程将新的含有 RDB 格式和 AOF 格式的 AOF 文件替换旧的的 AOF 文件。也就是说，使用了混合持久化，AOF 文件的<strong>前半部分是 RDB 格式的全量数据，后半部分是 AOF 格式的增量数据</strong>。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915193914.png"></p>
+<p><strong>混合持久化优点：</strong></p>
+<ul>
+<li>混合持久化结合了 RDB 和 AOF 持久化的优点，开头为 RDB 的格式，使得 Redis 可以更快的启动，同时结合 AOF 的优点，有减低了大量数据丢失的风险。</li>
+</ul>
+<p><strong>混合持久化缺点：</strong></p>
+<ul>
+<li>AOF 文件中添加了 RDB 格式的内容，使得 AOF 文件的可读性变得很差；</li>
+<li>兼容性差，如果开启混合持久化，那么此混合持久化 AOF 文件，就不能用在 Redis 4.0 之前版本了。</li>
+</ul>
+<h1 id="Redis-内存管理"><a href="#Redis-内存管理" class="headerlink" title="Redis 内存管理"></a>Redis 内存管理</h1><h2 id="设置过期时间"><a href="#设置过期时间" class="headerlink" title="设置过期时间"></a>设置过期时间</h2><p>由于是缓存，所以我们得为数据设置一个过期时间，避免出现OOM的情况。</p>
+<blockquote>
+<p><strong>Redis 中除了字符串类型有自己独有设置过期时间的命令 <code>setex</code> 外，其他方法都需要依靠 <code>expire</code> 命令来设置过期时间 。另外， <code>persist</code> 命令可以移除一个键的过期时间。</strong></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">expire key 60 # 数据在 60s 后过期</span><br><span class="line">(integer) 1</span><br><span class="line">setex key 60 value # 数据在 60s 后过期 (setex:[set] + [ex]pire)</span><br><span class="line">OK</span><br><span class="line">ttl key # 查看数据还有多久过期</span><br><span class="line">(integer) 56</span><br></pre></td></tr></table></figure>
+
+<p>那么Redis是如何知道数据是否过期，然后对其删除呢？</p>
+<p>每当我们对一个 key 设置了过期时间时，Redis 会把该 key 带上过期时间存储到一个<strong>过期字典</strong>（expires dict）中，也就是说「过期字典」保存了数据库中所有 key 的过期时间。过期字典的键指向 Redis 数据库中的某个 key(键)，过期字典的值是一个 long long 类型的整数，这个整数保存了 key 所指向的数据库键的过期时间（毫秒精度的 UNIX 时间戳）。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915202927.png"></p>
+<p>Redis 使用的过期删除策略是「<strong>惰性删除+定期删除</strong>」这两种策略配和使用。</p>
+<ul>
+<li><p><strong>惰性删除</strong>：只会在取出 key 的时候才对数据进行过期检查。这样对 CPU 最友好，但是可能会造成太多过期 key 没有被删除。</p>
+</li>
+<li><p><strong>定期删除</strong>：每隔一段时间抽取一批 key 执行删除过期 key 操作。并且，Redis 底层会通过限制删除操作执行的时长和频率来减少删除操作对 CPU 时间的影响。</p>
+</li>
+</ul>
+<p>但是，仅仅通过给 key 设置过期时间还是有问题的。因为还是可能存在定期删除和惰性删除漏掉了很多过期 key 的情况。这样就导致大量过期 key 堆积在内存里，然后就OOM了。这就涉及到了Redis的<strong>内存淘汰机制</strong>。</p>
+<h2 id="内存淘汰机制"><a href="#内存淘汰机制" class="headerlink" title="内存淘汰机制"></a>内存淘汰机制</h2><p>Redis 内存淘汰策略共有八种，这八种策略大体分为「不进行数据淘汰」和「进行数据淘汰」两类策略。</p>
+<p><em><strong>1、不进行数据淘汰的策略</strong></em></p>
+<p><strong>noeviction</strong>（Redis3.0之后，默认的内存淘汰策略） ：它表示当运行内存超过最大设置内存时，不淘汰任何数据，而是不再提供服务，直接返回错误。</p>
+<p><em><strong>2、进行数据淘汰的策略</strong></em></p>
+<p>针对「进行数据淘汰」这一类策略，又可以细分为「在设置了过期时间的数据中进行淘汰」和「在所有数据范围内进行淘汰」这两类策略。 在设置了过期时间的数据中进行淘汰：</p>
+<ul>
+<li><strong>volatile-random</strong>：随机淘汰设置了过期时间的任意键值；</li>
+<li><strong>volatile-ttl</strong>：优先淘汰更早过期的键值。</li>
+<li><strong>volatile-lru</strong>（Redis3.0 之前，默认的内存淘汰策略）：淘汰所有设置了过期时间的键值中，最久未使用的键值；</li>
+<li><strong>volatile-lfu</strong>（Redis 4.0 后新增的内存淘汰策略）：淘汰所有设置了过期时间的键值中，最少使用的键值；</li>
+</ul>
+<p>在所有数据范围内进行淘汰：</p>
+<ul>
+<li><strong>allkeys-random</strong>：随机淘汰任意键值;</li>
+<li><strong>allkeys-lru</strong>：淘汰整个键值中最久未使用的键值；</li>
+<li><strong>allkeys-lfu</strong>（Redis 4.0 后新增的内存淘汰策略）：淘汰整个键值中最少使用的键值。</li>
+</ul>
+<p>我们可以去config文件修改内存淘汰策略，也能输入以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">config maxmemory-policy # 查看当前内存淘汰策略，默认noeviction</span><br><span class="line">config set maxmemory-policy allkeys-lru # 设置为allkeys-lru</span><br></pre></td></tr></table></figure>
+
+<h1 id="Redis-缓存设计"><a href="#Redis-缓存设计" class="headerlink" title="Redis 缓存设计"></a>Redis 缓存设计</h1><h2 id="缓存穿透"><a href="#缓存穿透" class="headerlink" title="缓存穿透"></a>缓存穿透</h2><p>缓存穿透说简单点就是大量请求的 key 是不合理的，<strong>根本不存在于缓存中，也不存在于数据库中</strong> 。这就导致这些请求直接到了数据库上，根本没有经过缓存这一层，对数据库造成了巨大的压力，可能直接就被这么多请求弄宕机了。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915204246.png"></p>
+<p>缓存穿透的发生一般有这两种情况：</p>
+<ul>
+<li>业务误操作，缓存中的数据和数据库中的数据都被误删除了，所以导致缓存和数据库中都没有数据；</li>
+<li>黑客恶意攻击，故意大量访问某些读取不存在数据的业务；</li>
+</ul>
+<p>应对缓存穿透的方案，常见的方案有三种：</p>
+<ul>
+<li><p><strong>非法请求的限制（最基本）</strong>：当有大量恶意请求访问不存在的数据的时候，也会发生缓存穿透，因此在 API 入口处我们要判断求请求参数是否合理，请求参数是否含有非法值、请求字段是否存在，如果判断出是恶意请求就直接返回错误，避免进一步访问缓存和数据库。</p>
+</li>
+<li><p><strong>缓存无效key</strong>：当我们线上业务发现缓存穿透的现象时，可以针对查询的数据，在缓存中设置一个空值或者默认值并设置过期时间，这样后续请求就可以从缓存中读取到空值或者默认值，返回给应用，而不会继续查询数据库。</p>
+</li>
+<li><p><strong>使用布隆过滤器快速判断数据是否存在，避免通过查询数据库来判断数据是否存在（最推荐）</strong>：我们可以在写入数据库数据时，使用布隆过滤器做个标记，然后在用户请求到来时，业务线程确认缓存失效后，可以通过查询布隆过滤器快速判断数据是否存在，如果不存在，就不用通过查询数据库来判断数据是否存在，即使发生了缓存穿透，大量请求只会查询 Redis 和布隆过滤器，而不会查询数据库，保证了数据库能正常运行，Redis 自身也是支持布隆过滤器的。</p>
+<p>所谓<strong>布隆过滤器</strong>（Bloom Filter）是一个叫做 Bloom 的人于 1970 年提出的。我们可以把它看作由二进制向量（或者说位数组）和一系列随机映射函数（哈希函数）两部分组成的数据结构。相比于我们平时常用的的 List、Map、Set 等数据结构，它占用空间更少并且效率更高，但是缺点是其返回的结果是概率性的，而不是非常准确的。理论情况下添加到集合中的元素越多，误报的可能性就越大。并且，存放在布隆过滤器的数据不容易删除。</p>
+<p><strong>当一个元素加入布隆过滤器中的时候，会进行如下操作：</strong></p>
+<ul>
+<li><p>使用布隆过滤器中的哈希函数对元素值进行计算，得到哈希值（有几个哈希函数得到几个哈希值）。</p>
+</li>
+<li><p>根据得到的哈希值，在位数组中把对应下标的值置为 1。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>当我们需要判断一个元素是否存在于布隆过滤器的时候，会进行如下操作：</strong></p>
+<ul>
+<li><p>对给定元素再次进行相同的哈希计算；</p>
+</li>
+<li><p>得到值之后判断位数组中的每个元素是否都为 1，如果值都为 1，那么说明这个值在布隆过滤器中，如果存在一个值不为 1，说明该元素不在布隆过滤器中。</p>
+</li>
+</ul>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915204738.png"></p>
+<p>如图所示，当字符串存储要加入到布隆过滤器中时，该字符串首先由多个哈希函数生成不同的哈希值，然后将对应的位数组的下标设置为 1（当位数组初始化时，所有位置均为 0）。当第二次存储相同字符串时，因为先前的对应位置已设置为 1，所以很容易知道此值已经存在（去重非常方便）。</p>
+<p>如果我们需要判断某个字符串是否在布隆过滤器中时，只需要对给定字符串再次进行相同的哈希计算，得到值之后判断位数组中的每个元素是否都为 1，如果值都为 1，那么说明这个值在布隆过滤器中，如果存在一个值不为 1，说明该元素不在布隆过滤器中。</p>
+<p><strong>不同的字符串可能哈希出来的位置相同，这种情况我们可以适当增加位数组大小或者调整我们的哈希函数。</strong></p>
+<p>综上，我们可以得出：<strong>布隆过滤器说某个元素存在，小概率会误判。布隆过滤器说某个元素不在，那么这个元素一定不在。</strong></p>
+<h2 id="缓存击穿"><a href="#缓存击穿" class="headerlink" title="缓存击穿"></a>缓存击穿</h2><p>缓存击穿中，请求的 key 对应的是<strong>热点数据</strong> ，该数据<strong>存在于数据库中，但不存在于缓存中（通常是因为缓存中的那份数据已经过期）</strong> 。这就可能会导致瞬时大量的请求直接打到了数据库上，对数据库造成了巨大的压力，可能直接就被这么多请求弄宕机了。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915205046.png"></p>
+<p> 应对缓存击穿可以采取这两种方案：</p>
+<ul>
+<li><strong>互斥锁方案</strong>（Redis 中使用 setNX 方法设置一个状态位，表示这是一种锁定状态），保证同一时间只有一个业务线程请求缓存，未能获取互斥锁的请求，要么等待锁释放后重新读取缓存，要么就返回空值或者默认值。</li>
+<li><strong>不给热点数据设置过期时间，由后台异步更新缓存</strong>，或者在热点数据准备要过期前，提前通知后台线程更新缓存以及重新设置过期时间；</li>
+<li>针对<strong>热点数据提前预热</strong>，将其存入缓存中并设置合理的过期时间比如秒杀场景下的数据在秒杀结束之前不过期。</li>
+</ul>
+<h2 id="缓存雪崩"><a href="#缓存雪崩" class="headerlink" title="缓存雪崩"></a>缓存雪崩</h2><p>缓存雪崩描述的就是这样一个简单的场景：<strong>缓存在同一时间大面积的失效，导致大量的请求都直接落到了数据库上，对数据库造成了巨大的压力。</strong> 这就好比雪崩一样，摧枯拉朽之势，数据库的压力可想而知，可能直接就被这么多请求弄宕机了。此外缓存服务宕机也会导致缓存雪崩现象（比如说Redis崩溃），导致所有的请求都落到了数据库上。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230915205719.png"></p>
+<p><strong>针对 Redis 服务不可用的情况：</strong></p>
+<ol>
+<li>采用 Redis 集群，避免单机出现问题整个缓存服务都没办法使用。</li>
+<li>服务熔断或请求限流，服务熔断就是业务应用调用缓存接口时，缓存客户端并不把请求发送给Redis而是直接返回，直到Redis恢复正常；当然为了减少对业务的影响，我们也可以对请求限流，允许少量请求发送到数据库处理，直至Redis恢复正常。这样能避免数据库同时处理大量的请求。</li>
+</ol>
+<p><strong>针对热点缓存失效的情况：</strong></p>
+<ol>
+<li>设置不同的失效时间比如随机设置缓存的失效时间，我们可以在原有的失效时间基础上增加一个随机值（比如 1 到 10 分钟）这样每个缓存的过期时间都不重复了，也就降低了缓存集体失效的概率。</li>
+<li>缓存永不失效（不太推荐，实用性太差）。</li>
+<li>设置二级缓存，比如说本地缓存<strong>Caffeine</strong>。</li>
+</ol>
+<h2 id="三种缓存读写策略"><a href="#三种缓存读写策略" class="headerlink" title="三种缓存读写策略"></a>三种缓存读写策略</h2><h3 id="Cache-Aside-Pattern（旁路缓存模式）"><a href="#Cache-Aside-Pattern（旁路缓存模式）" class="headerlink" title="Cache Aside Pattern（旁路缓存模式）"></a>Cache Aside Pattern（旁路缓存模式）</h3><p><strong>Cache Aside Pattern 是我们平时使用比较多的一个缓存读写模式，比较适合读请求比较多的场景。</strong></p>
+<p>Cache Aside Pattern 中服务端需要同时维系 db 和 cache，并且是以 db 的结果为准。</p>
+<p>下面我们来看一下这个策略模式下的缓存读写步骤。</p>
+<p><strong>写</strong>：</p>
+<ul>
+<li><p>先更新 db</p>
+</li>
+<li><p>然后直接删除 cache 。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916162457.png"></p>
+</li>
+</ul>
+<p><strong>读</strong>：</p>
+<ul>
+<li>从 cache 中读取数据，读取到就直接返回</li>
+<li>cache 中读取不到的话，就从 db 中读取数据返回</li>
+<li>再把数据放到 cache 中。</li>
+</ul>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916162523.png"></p>
+<blockquote>
+<p>“<strong>在写数据的过程中，可以先删除 cache ，后更新 db 么？</strong>”</p>
+</blockquote>
+<p><strong>答案：</strong> 那肯定是不行的！因为这样可能会造成 <strong>数据库（db）和缓存（Cache）数据不一致</strong>的问题。比如说，请求 1 先写数据 A，请求 2 随后读数据 A 的话，就很有可能产生数据不一致性的问题。这个过程可以简单描述为（请求2读到旧数据）：</p>
+<p>请求 1 先把 cache 中的 A 数据删除 -&gt; 请求 2 从 db 中读取数据-&gt;请求 1 再把 db 中的 A 数据更新</p>
+<blockquote>
+<p>“<strong>在写数据的过程中，先更新 db，后删除 cache 就没有问题了么？</strong>”</p>
+</blockquote>
+<p><strong>答案：</strong> 理论上来说还是可能会出现数据不一致性的问题，不过概率非常小，因为缓存的写入速度是比数据库的写入速度快很多。比如说，请求 1 先读数据 A，请求 2 随后写数据 A，并且数据 A 在请求 1 请求之前不在缓存中的话，也有可能产生数据不一致性的问题。这个过程可以简单描述为（缓存中写入的数据是旧数据）：</p>
+<p>请求 1 从 db 读数据 A -&gt; 请求 2 更新 db 中的数据 A（此时缓存中无数据 A ，故不用执行删除缓存操作 ） -&gt; 请求 1 将数据 A 写入 cache</p>
+<p>现在我们再来分析一下 <strong>Cache Aside Pattern 的缺陷</strong>。</p>
+<p><strong>缺陷 1：首次请求数据一定不在 cache 的问题</strong></p>
+<p>解决办法：可以将热点数据可以提前放入 cache 中。</p>
+<p><strong>缺陷 2：写操作比较频繁的话导致 cache 中的数据会被频繁被删除，这样会影响缓存命中率 。</strong></p>
+<p>解决办法：</p>
+<ul>
+<li>数据库和缓存数据强一致场景：更新 db 的时候同样更新 cache，不过我们需要加一个锁&#x2F;分布式锁来保证更新 cache 的时候不存在线程安全问题。</li>
+<li>可以短暂地允许数据库和缓存数据不一致的场景：更新 db 的时候同样更新 cache，但是给缓存加一个比较短的过期时间，这样的话就可以保证即使数据不一致的话影响也比较小。</li>
+</ul>
+<h3 id="Read-x2F-Write-Through-Pattern（读写穿透）"><a href="#Read-x2F-Write-Through-Pattern（读写穿透）" class="headerlink" title="Read&#x2F;Write Through Pattern（读写穿透）"></a>Read&#x2F;Write Through Pattern（读写穿透）</h3><p>Read&#x2F;Write Through Pattern 中服务端把 cache 视为主要数据存储，从中读取数据并将数据写入其中。cache 服务负责将此数据读取和写入 db，从而减轻了应用程序的职责。</p>
+<p>这种缓存读写策略小伙伴们应该也发现了在平时在开发过程中非常少见。抛去性能方面的影响，大概率是因为我们经常使用的分布式缓存 Redis 并没有提供 cache 将数据写入 db 的功能。</p>
+<p><strong>写（Write Through）：</strong></p>
+<ul>
+<li>先查 cache，cache 中不存在，直接更新 db。</li>
+<li>cache 中存在，则先更新 cache，然后 cache 服务自己更新 db（<strong>同步更新 cache 和 db</strong>）。</li>
+</ul>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916163019.png"></p>
+<p><strong>读(Read Through)：</strong></p>
+<ul>
+<li>从 cache 中读取数据，读取到就直接返回 。</li>
+<li>读取不到的话，先从 db 加载，写入到 cache 后返回响应。</li>
+</ul>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916163029.png"></p>
+<p>Read-Through Pattern 实际只是在 Cache-Aside Pattern 之上进行了封装。在 Cache-Aside Pattern 下，发生读请求的时候，如果 cache 中不存在对应的数据，是由客户端自己负责把数据写入 cache，而 Read Through Pattern 则是 cache 服务自己来写入缓存的，这对客户端是透明的。</p>
+<p>和 Cache Aside Pattern 一样， Read-Through Pattern 也有首次请求数据一定不再 cache 的问题，对于热点数据可以提前放入缓存中。</p>
+<h3 id="Write-Behind-Pattern（异步缓存写入）"><a href="#Write-Behind-Pattern（异步缓存写入）" class="headerlink" title="Write Behind Pattern（异步缓存写入）"></a>Write Behind Pattern（异步缓存写入）</h3><p>Write Behind Pattern 和 Read&#x2F;Write Through Pattern 很相似，两者都是由 cache 服务来负责 cache 和 db 的读写。</p>
+<p>但是，两个又有很大的不同：<strong>Read&#x2F;Write Through 是同步更新 cache 和 db，而 Write Behind 则是只更新缓存，不直接更新 db，而是改为异步批量的方式来更新 db。</strong></p>
+<p>很明显，这种方式对数据一致性带来了更大的挑战，比如 cache 数据可能还没异步更新 db 的话，cache 服务可能就就挂掉了。</p>
+<p>这种策略在我们平时开发过程中也非常非常少见，但是不代表它的应用场景少，比如消息队列中消息的异步写入磁盘、MySQL 的 Innodb Buffer Pool 机制都用到了这种策略。</p>
+<p>Write Behind Pattern 下 db 的写性能非常高，非常适合一些数据经常变化又对数据一致性要求没那么高的场景，比如浏览量、点赞量。</p>
+<h1 id="Redis-性能优化"><a href="#Redis-性能优化" class="headerlink" title="Redis 性能优化"></a>Redis 性能优化</h1><h2 id="使用批量操作减少网络传输"><a href="#使用批量操作减少网络传输" class="headerlink" title="使用批量操作减少网络传输"></a>使用批量操作减少网络传输</h2><p>一个 Redis 命令的执行可以简化为以下 4 步：</p>
+<ol>
+<li>发送命令</li>
+<li>命令排队</li>
+<li>命令执行</li>
+<li>返回结果</li>
+</ol>
+<p>其中，第 1 步和第 4 步耗费时间之和称为 <strong>Round Trip Time (RTT,往返时间)</strong> ，也就是数据在网络上传输的时间。</p>
+<p>使用批量操作可以减少网络传输次数，进而有效减小网络开销，大幅减少 RTT。</p>
+<p>另外，除了能减少 RTT 之外，发送一次命令的 socket I&#x2F;O 成本也比较高（涉及上下文切换，存在<code>read()</code>和<code>write()</code>系统调用），批量操作还可以减少 socket I&#x2F;O 成本。这个在官方对 pipeline 的介绍中有提到：<a target="_blank" rel="noopener" href="https://redis.io/docs/manual/pipelining/">https://redis.io/docs/manual/pipelining/</a> 。</p>
+<h3 id="原生批量操作命令"><a href="#原生批量操作命令" class="headerlink" title="原生批量操作命令"></a>原生批量操作命令</h3><p>Redis 中有一些原生支持批量操作的命令，比如：</p>
+<ul>
+<li><code>MGET</code>(获取一个或多个指定 key 的值)、<code>MSET</code>(设置一个或多个指定 key 的值)、</li>
+<li><code>HMGET</code>(获取指定哈希表中一个或者多个指定字段的值)、<code>HMSET</code>(同时将一个或多个 field-value 对设置到指定哈希表中)、</li>
+<li><code>SADD</code>（向指定集合添加一个或多个元素）</li>
+<li>……</li>
+</ul>
+<p>不过，在 Redis 官方提供的分片集群解决方案 Redis Cluster 下，使用这些原生批量操作命令可能会存在一些小问题需要解决。就比如说 <code>MGET</code> 无法保证所有的 key 都在同一个 <strong>hash slot</strong>（哈希槽）上，<code>MGET</code>可能还是需要多次网络传输，原子操作也无法保证了。不过，相较于非批量操作，还是可以节省不少网络传输次数。</p>
+<p>整个步骤的简化版如下（通常由 Redis 客户端实现，无需我们自己再手动实现）：</p>
+<ol>
+<li>找到 key 对应的所有 hash slot；</li>
+<li>分别向对应的 Redis 节点发起 <code>MGET</code> 请求获取数据；</li>
+<li>等待所有请求执行结束，重新组装结果数据，保持跟入参 key 的顺序一致，然后返回结果。</li>
+</ol>
+<p>如果想要解决这个多次网络传输的问题，比较常用的办法是自己维护 key 与 slot 的关系。不过这样不太灵活，虽然带来了性能提升，但同样让系统复杂性提升。</p>
+<blockquote>
+<p>Redis Cluster 并没有使用一致性哈希（即负载均衡的策略会用到），采用的是 <strong>哈希槽分区</strong> ，每一个键值对都属于一个 <strong>hash slot</strong>（哈希槽） 。当客户端发送命令请求的时候，需要先根据 key 通过上面的计算公示找到的对应的哈希槽，然后再查询哈希槽和节点的映射关系，即可找到目标 Redis 节点。</p>
+</blockquote>
+<h3 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h3><p>对于不支持批量操作的命令，我们可以利用 <strong>pipeline（流水线)</strong> 将一批 Redis 命令封装成一组，这些 Redis 命令会被一次性提交到 Redis 服务器，只需要一次网络传输。不过，需要注意控制一次批量操作的 <strong>元素个数</strong>(例如 500 以内，实际也和元素字节数有关)，避免网络传输的数据量过大。</p>
+<p>与<code>MGET</code>、<code>MSET</code>等原生批量操作命令一样，pipeline 同样在 Redis Cluster 上使用会存在一些小问题。原因类似，无法保证所有的 key 都在同一个 <strong>hash slot</strong>（哈希槽）上。如果想要使用的话，客户端需要自己维护 key 与 slot 的关系。</p>
+<p>原生批量操作命令和 pipeline 的是有区别的，使用的时候需要注意：</p>
+<ul>
+<li><strong>原生批量操作命令</strong>是<strong>原子操作</strong>，<strong>pipeline</strong> 是<strong>非原子操作</strong>。</li>
+<li>pipeline 可以打包不同的命令，原生批量操作命令不可以。</li>
+<li>原生批量操作命令是 Redis 服务端支持实现的，而 pipeline 需要服务端和客户端的共同实现。</li>
+</ul>
+<p>顺带补充一下 pipeline 和 Redis 事务的对比：</p>
+<ul>
+<li>事务是原子操作，pipeline 是非原子操作。两个不同的事务不会同时运行，而 pipeline 可以同时以交错方式执行。</li>
+<li>Redis 事务中每个命令都需要发送到服务端，而 Pipeline 只需要发送一次，请求次数更少。</li>
+</ul>
+<blockquote>
+<p>事务可以看作是一个原子操作，但其实并不满足原子性。当我们提到 Redis 中的原子操作时，主要指的是这个操作（比如事务、Lua 脚本）不会被其他操作（比如其他事务、Lua 脚本）打扰，并不能完全保证这个操作中的所有写命令要么都执行要么都不执行。这主要也是因为 Redis 是不支持回滚操作。</p>
+</blockquote>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916145310.png">另外，pipeline 不适用于执行顺序有依赖关系的一批命令。就比如说，你需要将前一个命令的结果给后续的命令使用，pipeline 就没办法满足你的需求了。对于这种需求，我们可以使用 <strong>Lua 脚本</strong> 。</p>
+<h3 id="Lua-脚本"><a href="#Lua-脚本" class="headerlink" title="Lua 脚本"></a>Lua 脚本</h3><p>Lua 脚本同样支持批量操作多条命令。一段 Lua 脚本可以视作一条命令执行，可以看作是 <strong>原子操作</strong> 。也就是说，一段 Lua 脚本执行过程中不会有其他脚本或 Redis 命令同时执行，保证了操作不会被其他指令插入或打扰，这是 pipeline 所不具备的。</p>
+<p>并且，Lua 脚本中支持一些简单的逻辑处理比如使用命令读取值并在 Lua 脚本中进行处理，这同样是 pipeline 所不具备的。</p>
+<p>不过， Lua 脚本依然存在下面这些缺陷：</p>
+<ul>
+<li>如果 Lua 脚本运行时出错并中途结束，之后的操作不会进行，但是之前已经发生的写操作不会撤销，所以即使使用了 Lua 脚本，也不能实现类似数据库回滚的原子性。</li>
+<li>Redis Cluster 下 Lua 脚本的原子操作也无法保证了，原因同样是无法保证所有的 key 都在同一个 <strong>hash slot</strong>（哈希槽）上。</li>
+</ul>
+<h2 id="大量key集中过期"><a href="#大量key集中过期" class="headerlink" title="大量key集中过期"></a>大量key集中过期</h2><p>对于过期 key，Redis 采用的是 <strong>定期删除+惰性&#x2F;懒汉式删除</strong> 策略。</p>
+<p>定期删除执行过程中，如果突然遇到大量过期 key 的话，客户端请求必须等待定期清理过期 key 任务线程执行完成，因为这个这个定期任务线程是在 Redis 主线程中执行的。这就导致客户端请求没办法被及时处理，响应速度会比较慢。</p>
+<p><strong>如何解决呢？</strong> 下面是两种常见的方法：</p>
+<ol>
+<li>给 key 设置随机过期时间。</li>
+<li>开启 lazy-free（惰性删除&#x2F;延迟释放） 。lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，将该操作交给单独的子线程处理，避免阻塞主线程。</li>
+</ol>
+<p>个人建议不管是否开启 lazy-free，我们都尽量给 key 设置随机过期时间。</p>
+<h3 id="Redis-bigkey（大-Key）"><a href="#Redis-bigkey（大-Key）" class="headerlink" title="Redis bigkey（大 Key）"></a>Redis bigkey（大 Key）</h3><p><strong>如果一个 key 对应的 value 所占用的内存比较大，那这个 key 就可以看作是 bigkey</strong>。具体多大才算大呢？有一个不是特别精确的参考标准：string 类型的 value 超过 10 kb，复合类型的 value 包含的元素超过 5000 个（对于复合类型的 value 来说，不一定包含的元素越多，占用的内存就越多）。bigkey 除了会消耗更多的内存空间和带宽，还会对性能造成比较大的影响。因此，我们应该尽量避免 Redis 中存在 bigkey。</p>
+<p>寻找bigkey的方法如下：</p>
+<ul>
+<li><p><strong>使用 Redis 自带的 <code>--bigkeys</code> 参数来查找。</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli -p 6379 --bigkeys</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Scanning the entire keyspace to find biggest keys as well as</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">average sizes per key <span class="built_in">type</span>.  You can use -i 0.1 to <span class="built_in">sleep</span> 0.1 sec</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">per 100 SCAN commands (not usually needed).</span></span><br><span class="line"></span><br><span class="line">[00.00%] Biggest string found so far &#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27; with 4437 bytes</span><br><span class="line">[00.00%] Biggest list   found so far &#x27;&quot;my-list&quot;&#x27; with 17 items</span><br><span class="line"></span><br><span class="line">-------- summary -------</span><br><span class="line"></span><br><span class="line">Sampled 5 keys in the keyspace!</span><br><span class="line">Total key length in bytes is 264 (avg len 52.80)</span><br><span class="line"></span><br><span class="line">Biggest   list found &#x27;&quot;my-list&quot;&#x27; has 17 items</span><br><span class="line">Biggest string found &#x27;&quot;ballcat:oauth:refresh_auth:f6cdb384-9a9d-4f2f-af01-dc3f28057c20&quot;&#x27; has 4437 bytes</span><br><span class="line"></span><br><span class="line">1 lists with 17 items (20.00% of keys, avg size 17.00)</span><br><span class="line">0 hashs with 0 fields (00.00% of keys, avg size 0.00)</span><br><span class="line">4 strings with 4831 bytes (80.00% of keys, avg size 1207.75)</span><br><span class="line">0 streams with 0 entries (00.00% of keys, avg size 0.00)</span><br><span class="line">0 sets with 0 members (00.00% of keys, avg size 0.00)</span><br><span class="line">0 zsets with 0 members (00.00% of keys, avg size 0.00</span><br></pre></td></tr></table></figure>
+
+<p>从这个命令的运行结果，我们可以看出：这个命令会扫描(Scan) Redis 中的所有 key ，会对 Redis 的性能有一点影响。并且，这种方式只能找出每种数据结构 top 1 bigkey（占用内存最大的 string 数据类型，包含元素最多的复合数据类型）。然而，一个 key 的元素多并不代表占用内存也多，需要我们根据具体的业务情况来进一步判断。</p>
+<p>在线上执行该命令时，为了降低对 Redis 的影响，需要指定 <code>-i</code> 参数控制扫描的频率。<code>redis-cli -p 6379 --bigkeys -i 3</code> 表示扫描过程中每次扫描后休息的时间间隔为 3 秒。</p>
+</li>
+<li><p><strong>借助开源工具分析 RDB 文件。</strong></p>
+<p>通过分析 RDB 文件来找出 big key。这种方案的前提是你的 Redis 采用的是 RDB 持久化。网上有现成的代码&#x2F;工具可以直接拿来使用：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/sripathikrishnan/redis-rdb-tools">redis-rdb-tools</a>：Python 语言写的用来分析 Redis 的 RDB 快照文件用的工具</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/weiyanwei412/rdb_bigkeys">rdb_bigkeys</a> : Go 语言写的用来分析 Redis 的 RDB 快照文件用的工具，性能更好。</li>
+</ul>
+</li>
+<li><p><strong>借助公有云的 Redis 分析服务。</strong></p>
+<p>如果使用的是公有云的Redis服务，可以使用其key分析功能。</p>
+</li>
+</ul>
+<p>当找到 bigkey 后，可以这样处理或者优化（这些方法可以配合起来使用）：</p>
+<ul>
+<li><strong>分割 bigkey</strong>：将一个 bigkey 分割为多个小 key。这种方式需要修改业务层的代码，一般不推荐这样做。</li>
+<li><strong>手动清理</strong>：Redis 4.0+ 可以使用 <code>UNLINK</code> 命令来异步删除一个或多个指定的 key。Redis 4.0 以下可以考虑使用 <code>SCAN</code> 命令结合 <code>DEL</code> 命令来分批次删除。</li>
+<li><strong>采用合适的数据结构</strong>：比如使用 HyperLogLog 统计页面 UV。</li>
+<li><strong>开启 lazy-free（惰性删除&#x2F;延迟释放）</strong> ：lazy-free 特性是 Redis 4.0 开始引入的，指的是让 Redis 采用异步方式延迟释放 key 使用的内存，将该操作交给单独的子线程处理，避免阻塞主线程。</li>
+</ul>
+<h3 id="Redis-hotkey（热-key）"><a href="#Redis-hotkey（热-key）" class="headerlink" title="Redis hotkey（热 key）"></a>Redis hotkey（热 key）</h3><p><strong>如果一个 key 的访问次数比较多且明显多于其他 key 的话，那这个 key 就可以看作是 hotkey</strong>。例如在 Redis 实例的每秒处理请求达到 5000 次，而其中某个 key 的每秒访问量就高达 2000 次，那这个 key 就可以看作是 hotkey。hotkey 出现的原因主要是某个热点数据访问量暴增，如重大的热搜事件、参与秒杀的商品。</p>
+<p>处理 hotkey 会占用大量的 CPU 和带宽，可能会影响 Redis 实例对其他请求的正常处理。此外，如果突然访问 hotkey 的请求超出了 Redis 的处理能力，Redis 就会直接宕机。这种情况下，大量请求将落到后面的数据库上，可能会导致数据库崩溃。</p>
+<p>因此，<strong>hotkey 很可能成为系统性能的瓶颈点，需要单独对其进行优化，以确保系统的高可用性和稳定性</strong>。</p>
+<p>寻找hotkey的方法如下：</p>
+<ul>
+<li><p><strong>使用 Redis 自带的 <code>--hotkeys</code> 参数来查找。</strong></p>
+<p>Redis 4.0.3 版本中新增了 <code>hotkeys</code> 参数，该参数能够返回所有 key 的被访问次数。</p>
+<p>使用该方案的前提条件是 Redis Server 的 <code>maxmemory-policy</code> 参数设置为 LFU 算法，不然就会出现如下所示的错误。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli -p 6379 --hotkeys</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Scanning the entire keyspace to find hot keys as well as</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">average sizes per key <span class="built_in">type</span>.  You can use -i 0.1 to <span class="built_in">sleep</span> 0.1 sec</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">per 100 SCAN commands (not usually needed).</span></span><br><span class="line"></span><br><span class="line">Error: ERR An LFU maxmemory policy is not selected, access frequency not tracked. Please note that when switching between policies at runtime LRU and LFU data will take some time to adjust.</span><br></pre></td></tr></table></figure>
+
+<p>Redis 中有两种 LFU 算法：</p>
+<ol>
+<li><p><strong>volatile-lfu（least frequently used）</strong>：从已设置过期时间的数据集（<code>server.db[i].expires</code>）中挑选最不经常使用的数据淘汰。</p>
+</li>
+<li><p><strong>allkeys-lfu（least frequently used）</strong>：当内存不足以容纳新写入数据时，在键空间中，移除最不经常使用的 key。</p>
+</li>
+</ol>
+</li>
+</ul>
+<p>以下是配置文件 <code>redis.conf</code> 中的示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">使用 volatile-lfu 策略</span></span><br><span class="line">maxmemory-policy volatile-lfu</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">或者使用 allkeys-lfu 策略</span></span><br><span class="line">maxmemory-policy allkeys-lfu</span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，<code>hotkeys</code> 参数命令也会增加 Redis 实例的 CPU 和内存消耗（全局扫描），因此需要谨慎使用。</p>
+<ul>
+<li><p><strong>使用<code>MONITOR</code> 命令。</strong></p>
+<p><code>MONITOR</code> 命令是 Redis 提供的一种实时查看 Redis 的所有操作的方式，可以用于临时监控 Redis 实例的操作情况，包括读写、删除等操作。</p>
+<p>由于该命令对 Redis 性能的影响比较大，因此禁止长时间开启 <code>MONITOR</code>（生产环境中建议谨慎使用该命令）。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">redis-cli</span></span><br><span class="line">127.0.0.1:6379&gt; MONITOR</span><br><span class="line">OK</span><br><span class="line">1683638260.637378 [0 172.17.0.1:61516] &quot;ping&quot;</span><br><span class="line">1683638267.144236 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br><span class="line">1683638268.941863 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br><span class="line">1683638269.551671 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br><span class="line">1683638270.646256 [0 172.17.0.1:61516] &quot;ping&quot;</span><br><span class="line">1683638270.849551 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br><span class="line">1683638271.926945 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br><span class="line">1683638274.276599 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet2&quot;</span><br><span class="line">1683638276.327234 [0 172.17.0.1:61518] &quot;smembers&quot; &quot;mySet&quot;</span><br></pre></td></tr></table></figure>
+
+<p>在发生紧急情况时，我们可以选择在合适的时机短暂执行 <code>MONITOR</code> 命令并将输出重定向至文件，在关闭 <code>MONITOR</code> 命令后通过对文件中请求进行归类分析即可找出这段时间中的 hotkey。</p>
+</li>
+<li><p><strong>使用开源项目</strong>，比如京东零售的<a target="_blank" rel="noopener" href="https://gitee.com/jd-platform-opensource/hotkey">hotkey</a> 项目。</p>
+</li>
+<li><p><strong>根据业务情况提前预估。</strong></p>
+<p>可以根据业务情况来预估一些 hotkey，比如参与秒杀活动的商品数据等。不过，我们无法预估所有 hotkey 的出现，比如突发的热点新闻事件等。</p>
+</li>
+<li><p><strong>业务代码中记录分析。</strong></p>
+<p>在业务代码中添加相应的逻辑对 key 的访问情况进行记录分析。不过，这种方式会让业务代码的复杂性增加，一般也不会采用。</p>
+</li>
+<li><p><strong>借助公有云的 Redis 分析服务。</strong></p>
+</li>
+</ul>
+<p>hotkey 的常见处理以及优化办法如下（这些方法可以配合起来使用）：</p>
+<ul>
+<li><strong>读写分离</strong>：主节点处理写请求，从节点处理读请求。</li>
+<li><strong>使用 Redis Cluster</strong>：将热点数据分散存储在多个 Redis 节点上。</li>
+<li><strong>二级缓存</strong>：hotkey 采用二级缓存的方式进行处理，将 hotkey 存放一份到 JVM 本地内存中（可以用 Caffeine）。</li>
+<li><strong>使用公有云的 Redis 服务</strong>，会提供解决方案，比如阿里云 Redis 支持通过代理查询缓存功能（Proxy Query Cache）优化热点 Key 问题。</li>
+</ul>
+<h2 id="慢查询命令"><a href="#慢查询命令" class="headerlink" title="慢查询命令"></a>慢查询命令</h2><p>我们知道一个 Redis 命令的执行可以简化为以下 4 步：</p>
+<ol>
+<li>发送命令</li>
+<li>命令排队</li>
+<li>命令执行</li>
+<li>返回结果</li>
+</ol>
+<p><strong>Redis 慢查询统计的是命令执行这一步骤的耗时，慢查询命令也就是那些命令执行时间较长的命令</strong>。</p>
+<p>虽然Redis 中的大部分命令都是 O(1)时间复杂度，但也有少部分 O(n) 时间复杂度的命令，例如：</p>
+<ul>
+<li><code>KEYS *</code>：会返回所有符合规则的 key。</li>
+<li><code>HGETALL</code>：会返回一个 Hash 中所有的键值对。</li>
+<li><code>LRANGE</code>：会返回 List 中指定范围内的元素。</li>
+<li><code>SMEMBERS</code>：返回 Set 中的所有元素。</li>
+<li><code>SINTER</code>&#x2F;<code>SUNION</code>&#x2F;<code>SDIFF</code>：计算多个 Set 的交集&#x2F;并集&#x2F;差集。</li>
+<li>……</li>
+</ul>
+<p>由于这些命令时间复杂度是 O(n)，有时候也会全表扫描，随着 n 的增大，执行耗时也会越长。不过， 这些命令并不是一定不能使用，但是需要明确 N 的值。另外，有遍历的需求可以使用 <code>HSCAN</code>、<code>SSCAN</code>、<code>ZSCAN</code> 代替。</p>
+<p>除了这些 O(n)时间复杂度的命令可能会导致慢查询之外， 还有一些时间复杂度可能在 O(N) 以上的命令，例如：</p>
+<ul>
+<li><code>ZRANGE</code>&#x2F;<code>ZREVRANGE</code>：返回指定 Sorted Set 中指定排名范围内的所有元素。时间复杂度为 O(log(n)+m)，n 为所有元素的数量， m 为返回的元素数量，当 m 和 n 相当大时，O(n) 的时间复杂度更小。</li>
+<li><code>ZREMRANGEBYRANK</code>&#x2F;<code>ZREMRANGEBYSCORE</code>：移除 Sorted Set 中指定排名范围&#x2F;指定 score 范围内的所有元素。时间复杂度为 O(log(n)+m)，n 为所有元素的数量， m 被删除元素的数量，当 m 和 n 相当大时，O(n) 的时间复杂度更小。</li>
+<li>……</li>
+</ul>
+<p>在 <code>redis.conf</code> 文件中，我们可以使用 <code>slowlog-log-slower-than</code> 参数设置耗时命令的阈值，并使用 <code>slowlog-max-len</code> 参数设置耗时命令的最大记录条数。</p>
+<p>当 Redis 服务器检测到执行时间超过 <code>slowlog-log-slower-than</code>阈值的命令时，就会将该命令记录在慢查询日志(slow log) 中，这点和 MySQL 记录慢查询语句类似。当慢查询日志超过设定的最大记录条数之后，Redis 会把最早的执行命令依次舍弃。</p>
+<p>⚠️注意：由于慢查询日志会占用一定内存空间，如果设置最大记录条数过大，可能会导致内存占用过高的问题。</p>
+<p><code>slowlog-log-slower-than</code>和<code>slowlog-max-len</code>的默认配置如下(可以自行修改)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">The following time is expressed <span class="keyword">in</span> microseconds, so 1000000 is equivalent</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">to one second. Note that a negative number disables the slow <span class="built_in">log</span>, <span class="keyword">while</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">a value of zero forces the logging of every <span class="built_in">command</span>.</span></span><br><span class="line">slowlog-log-slower-than 10000</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">There is no <span class="built_in">limit</span> to this length. Just be aware that it will consume memory.</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">You can reclaim memory used by the slow <span class="built_in">log</span> with SLOWLOG RESET.</span></span><br><span class="line">slowlog-max-len 128</span><br></pre></td></tr></table></figure>
+
+<p>除了修改配置文件之外，你也可以直接通过 <code>CONFIG</code> 命令直接设置：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">命令执行耗时超过 10000 微秒（即10毫秒）就会被记录</span></span><br><span class="line">CONFIG SET slowlog-log-slower-than 10000</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">只保留最近 128 条耗时命令</span></span><br><span class="line">CONFIG SET slowlog-max-len 128</span><br></pre></td></tr></table></figure>
+
+<p>获取慢查询日志的内容很简单，直接使用<code>SLOWLOG GET</code> 命令即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; SLOWLOG GET #慢日志查询</span><br><span class="line"> 1) 1) (integer) 5</span><br><span class="line">   2) (integer) 1684326682</span><br><span class="line">   3) (integer) 12000</span><br><span class="line">   4) 1) &quot;KEYS&quot;</span><br><span class="line">      2) &quot;*&quot;</span><br><span class="line">   5) &quot;172.17.0.1:61152&quot;</span><br><span class="line">   6) &quot;&quot;</span><br><span class="line">  // ...</span><br></pre></td></tr></table></figure>
+
+<p>慢查询日志中的每个条目都由以下六个值组成：</p>
+<ol>
+<li>唯一渐进的日志标识符。</li>
+<li>处理记录命令的 Unix 时间戳。</li>
+<li>执行所需的时间量，以微秒为单位。</li>
+<li>组成命令参数的数组。</li>
+<li>客户端 IP 地址和端口。</li>
+<li>客户端名称。</li>
+</ol>
+<p><code>SLOWLOG GET</code> 命令默认返回最近 10 条的的慢查询命令，你也自己可以指定返回的慢查询命令的数量 <code>SLOWLOG GET N</code>。</p>
+<p>下面是其他比较常用的慢查询相关的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">返回慢查询命令的数量</span></span><br><span class="line">127.0.0.1:6379&gt; SLOWLOG LEN</span><br><span class="line">(integer) 128</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">清空慢查询命令</span></span><br><span class="line">127.0.0.1:6379&gt; SLOWLOG RESET</span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+<h2 id="Redis-内存碎片"><a href="#Redis-内存碎片" class="headerlink" title="Redis 内存碎片"></a>Redis 内存碎片</h2><p>Redis 内存碎片产生比较常见的 2 个原因：</p>
+<ul>
+<li><p><strong>Redis 存储数据的时候向操作系统申请的内存空间可能会大于数据实际需要的存储空间。</strong></p>
+</li>
+<li><p><strong>频繁修改 Redis 中的数据也会产生内存碎片。</strong></p>
+</li>
+</ul>
+<p>Redis4.0-RC3 版本以后自带了内存整理，可以避免内存碎片率过大的问题。</p>
+<p>直接通过 <code>config set</code> 命令将 <code>activedefrag</code> 配置项设置为 <code>yes</code> 即可。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config set activedefrag yes</span><br></pre></td></tr></table></figure>
+
+<p>具体什么时候清理需要通过下面两个参数控制：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内存碎片占用空间达到 500mb 的时候开始清理</span></span><br><span class="line">config set active-defrag-ignore-bytes 500mb</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内存碎片率大于 1.5 的时候开始清理</span></span><br><span class="line">config set active-defrag-threshold-lower 50</span><br></pre></td></tr></table></figure>
+
+<p>通过 Redis 自动内存碎片清理机制可能会对 Redis 的性能产生影响，我们可以通过下面两个参数来减少对 Redis 性能的影响：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内存碎片清理所占用 CPU 时间的比例不低于 20%</span></span><br><span class="line">config set active-defrag-cycle-min 20</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">内存碎片清理所占用 CPU 时间的比例不高于 50%</span></span><br><span class="line">config set active-defrag-cycle-max 50</span><br></pre></td></tr></table></figure>
+
+<p>另外，重启节点可以做到内存碎片重新整理。如果你采用的是高可用架构的 Redis 集群的话，你可以将碎片率过高的主节点转换为从节点，以便进行安全重启。</p>
+<h1 id="Redis-集群"><a href="#Redis-集群" class="headerlink" title="Redis 集群"></a>Redis 集群</h1><p>要想设计一个高可用的 Redis 服务，一定要从 Redis 的多服务节点来考虑，比如 <strong>Redis 的主从复制、哨兵模式、切片集群</strong>。</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><p>主从复制是 Redis 高可用服务的最基础的保证，实现方案就是将从前的一台 Redis 服务器，同步数据到多台从 Redis 服务器上，即一主多从的模式，且主从服务器之间采用的是「<strong>读写分离</strong>」的方式。</p>
+<p>主服务器可以进行读写操作，当发生写操作时自动将写操作同步给从服务器，而从服务器一般是只读，并接受主服务器同步过来写操作命令，然后执行这条命令。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916154143.png"></p>
+<p>也就是说，所有的数据修改只在主服务器上进行，然后将最新的数据同步给从服务器，这样就使得主从服务器的数据是一致的。</p>
+<p>注意，主从服务器之间的命令复制是<strong>异步</strong>进行的。</p>
+<p>具体来说，在主从服务器命令传播阶段，主服务器收到新的写命令后，会发送给从服务器。但是，主服务器并不会等到从服务器实际执行完命令后，再把结果返回给客户端，而是主服务器自己在本地执行完命令后，就会向客户端返回结果了。如果从服务器还没有执行主服务器同步过来的命令，主从服务器间的数据就不一致了。</p>
+<p>所以，无法实现强一致性保证（主从数据时时刻刻保持一致），数据不一致是难以避免的。</p>
+<p>主从复制共有三种模式：<strong>全量复制、基于长连接的命令传播、增量复制</strong>。</p>
+<p>主从服务器第一次同步的时候，就是采用全量复制，此时主服务器会两个耗时的地方，分别是生成 RDB 文件和传输 RDB 文件。为了避免过多的从服务器和主服务器进行全量复制，可以把一部分从服务器升级为「经理角色」，让它也有自己的从服务器，通过这样可以分摊主服务器的压力。</p>
+<p>第一次同步完成后，主从服务器都会维护着一个长连接，主服务器在接收到写操作命令后，就会通过这个连接将写命令传播给从服务器，来保证主从服务器的数据一致性。</p>
+<p>如果遇到网络断开，增量复制就可以上场了，不过这个还跟 repl_backlog_size 这个大小有关系。如果它配置的过小，主从服务器网络恢复时，可能发生「从服务器」想读的数据已经被覆盖了，那么这时就会导致主服务器采用全量复制的方式。所以为了避免这种情况的频繁发生，要调大这个参数的值，以降低主从服务器断开后全量同步的概率。</p>
+<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>在 Redis 的主从架构中，由于主从模式是读写分离的，如果主节点（master）挂了，那么将没有主节点来服务客户端的写操作请求，也没有主节点给从节点（slave）进行数据同步了。这时如果要恢复服务的话，需要人工介入，选择一个「从节点」切换为「主节点」，然后让其他从节点指向新的主节点，同时还需要通知上游那些连接 Redis 主节点的客户端，将其配置中的主节点 IP 地址更新为「新主节点」的 IP 地址。</p>
+<p>这种方法显然不够智能化，要是有一个节点能监控「主节点」的状态，当发现主节点挂了 ，它自动将一个「从节点」切换为「主节点」的话，那么可以节省我们很多事情。</p>
+<p>为了解决这个问题，Redis 增加了哨兵模式（<strong>Redis Sentinel</strong>），因为哨兵模式做到了可以监控主从服务器，并且提供<strong>主从节点故障转移的功能。</strong></p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916154308.png"></p>
+<p>哨兵一般是以集群的方式部署，至少需要 3 个哨兵节点，哨兵集群主要负责三件事情：<strong>监控、选主、通知</strong>。</p>
+<p>哨兵节点通过 Redis 的发布者&#x2F;订阅者机制，哨兵之间可以相互感知，相互连接，然后组成哨兵集群，同时哨兵又通过 INFO 命令，在主节点里获得了所有从节点连接信息，于是就能和从节点建立连接，并进行监控了。</p>
+<p><em>1、第一轮投票：判断主节点下线</em></p>
+<p>当哨兵集群中的某个哨兵判定主节点下线（主观下线）后，就会向其他哨兵发起命令，其他哨兵收到这个命令后，就会根据自身和主节点的网络状况，做出赞成投票或者拒绝投票的响应。</p>
+<p>当这个哨兵的赞同票数达到哨兵配置文件中的 quorum 配置项设定的值后，这时主节点就会被该哨兵标记为「客观下线」。</p>
+<p><em>2、第二轮投票：选出哨兵leader</em></p>
+<p>某个哨兵判定主节点客观下线后，该哨兵就会发起投票，告诉其他哨兵，它想成为 leader，想成为 leader 的哨兵节点，要满足两个条件：</p>
+<ul>
+<li>第一，拿到半数以上的赞成票；</li>
+<li>第二，拿到的票数同时还需要大于等于哨兵配置文件中的 quorum 值。</li>
+</ul>
+<p><em>3、由哨兵 leader 进行主从故障转移</em></p>
+<p>选举出了哨兵 leader 后，就可以进行主从故障转移的过程了。该操作包含以下四个步骤：</p>
+<ul>
+<li>第一步：在已下线主节点（旧主节点）属下的所有「从节点」里面，挑选出一个从节点，并将其转换为主节点，选择的规则：<ul>
+<li>过滤掉已经离线的从节点；</li>
+<li>过滤掉历史网络连接状态不好的从节点；</li>
+<li>将剩下的从节点，进行三轮考察：优先级、复制进度、ID 号。在每一轮考察过程中，如果找到了一个胜出的从节点，就将其作为新主节点。</li>
+</ul>
+</li>
+<li>第二步：让已下线主节点属下的所有「从节点」修改复制目标，修改为复制「新主节点」；</li>
+<li>第三步：将新主节点的 IP 地址和信息，通过「发布者&#x2F;订阅者机制」通知给客户端；</li>
+<li>第四步：继续监视旧主节点，当这个旧主节点重新上线时，将它设置为新主节点的从节点；</li>
+</ul>
+<h2 id="切片集群模式"><a href="#切片集群模式" class="headerlink" title="切片集群模式"></a>切片集群模式</h2><p>当 Redis 缓存数据量大到一台服务器无法缓存时，就需要使用 <strong>Redis 切片集群</strong>（Redis Cluster ）方案，它将数据分布在不同的服务器上，以此来降低系统对单主节点的依赖，从而提高 Redis 服务的读写性能。</p>
+<p>Redis Cluster 方案采用哈希槽（Hash Slot），来处理数据和节点之间的映射关系。在 Redis Cluster 方案中，<strong>一个切片集群共有 16384 个哈希槽</strong>，这些哈希槽类似于数据分区，每个键值对都会根据它的 key，被映射到一个哈希槽中，具体执行过程分为两大步：</p>
+<ul>
+<li>根据键值对的 key，按照 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC16 算法</a> 计算一个 16 bit 的值。</li>
+<li>再用 16bit 值对 16384 取模，得到 0~16383 范围内的模数，每个模数代表一个相应编号的哈希槽。</li>
+</ul>
+<p>接下来的问题就是，这些哈希槽怎么被映射到具体的 Redis 节点上的呢？有两种方案：</p>
+<ul>
+<li><strong>平均分配：</strong> 在使用 cluster create 命令创建 Redis 集群时，Redis 会自动把所有哈希槽平均分布到集群节点上。比如集群中有 9 个节点，则每个节点上槽的个数为 16384&#x2F;9 个。</li>
+<li><strong>手动分配：</strong> 可以使用 cluster meet 命令手动建立节点间的连接，组成集群，再使用 cluster addslots 命令，指定每个节点上的哈希槽个数。</li>
+</ul>
+<p>为了方便理解，我们通过一张图来解释数据、哈希槽，以及节点三者的映射分布关系。</p>
+<p><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/PicGo/20230916154332.png"></p>
+<p>上图中的切片集群一共有 2 个节点，假设有 4 个哈希槽（Slot 0～Slot 3）时，我们就可以通过命令手动分配哈希槽，比如节点 1 保存哈希槽 0 和 1，节点 2 保存哈希槽 2 和 3。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -h 192.168.1.10 –p 6379 cluster addslots 0,1</span><br><span class="line">redis-cli -h 192.168.1.11 –p 6379 cluster addslots 2,3</span><br></pre></td></tr></table></figure>
+
+<p>然后在集群运行的过程中，key1 和 key2 计算完 CRC16 值后，对哈希槽总个数 4 进行取模，再根据各自的模数结果，就可以被映射到哈希槽 1（对应节点1） 和 哈希槽 2（对应节点2）。</p>
+<p>需要注意的是，在手动分配哈希槽时，需要把 16384 个槽都分配完，否则 Redis 集群无法正常工作。</p>
+<h2 id="集群脑裂"><a href="#集群脑裂" class="headerlink" title="集群脑裂"></a>集群脑裂</h2><p>先来理解集群的脑裂现象，这就好比一个人有两个大脑，那么到底受谁控制呢？</p>
+<p>那么在 Redis 中，集群脑裂产生数据丢失的现象是怎样的呢？在 Redis 主从架构中，部署方式一般是「一主多从」，主节点提供写操作，从节点提供读操作。 如果主节点的网络突然发生了问题，它与所有的从节点都失联了，但是此时的主节点和客户端的网络是正常的，这个客户端并不知道 Redis 内部已经出现了问题，还在照样的向这个失联的主节点写数据（过程A），此时这些数据被旧主节点缓存到了缓冲区里，因为主从节点之间的网络问题，这些数据都是无法同步给从节点的。</p>
+<p>这时，哨兵也发现主节点失联了，它就认为主节点挂了（但实际上主节点正常运行，只是网络出问题了），于是哨兵就会在「从节点」中选举出一个 leader 作为主节点，这时集群就有两个主节点了 —— <strong>脑裂出现了</strong>。</p>
+<p>然后，网络突然好了，哨兵因为之前已经选举出一个新主节点了，它就会把旧主节点降级为从节点（A），然后从节点（A）会向新主节点请求数据同步，<strong>因为第一次同步是全量同步的方式，此时的从节点（A）会清空掉自己本地的数据，然后再做全量同步。所以，之前客户端在过程 A 写入的数据就会丢失了，也就是集群产生脑裂数据丢失的问题</strong>。</p>
+<p>总结一句话就是：由于网络问题，集群节点之间失去联系。主从数据不同步；重新平衡选举，产生两个主服务。等网络恢复，旧主节点会降级为从节点，再与新主节点进行同步复制的时候，由于会从节点会清空自己的缓冲区，所以导致之前客户端写入的数据丢失了。</p>
+<p>当主节点发现从节点下线或者通信超时的总数量小于阈值时，那么禁止主节点进行写数据，直接把错误返回给客户端。</p>
+<p>在 Redis 的配置文件中有两个参数我们可以设置：</p>
+<ul>
+<li>min-slaves-to-write x，主节点必须要有至少 x 个从节点连接，如果小于这个数，主节点会禁止写数据。</li>
+<li>min-slaves-max-lag x，主从数据复制和同步的延迟不能超过 x 秒，如果超过，主节点会禁止写数据。</li>
+</ul>
+<p>我们可以把 min-slaves-to-write 和 min-slaves-max-lag 这两个配置项搭配起来使用，分别给它们设置一定的阈值，假设为 N 和 T。</p>
+<p>这两个配置项组合后的要求是，主库连接的从库中至少有 N 个从库，和主库进行数据复制时的 ACK 消息延迟不能超过 T 秒，否则，主库就不会再接收客户端的写请求了。</p>
+<p>即使原主库是假故障，它在假故障期间也无法响应哨兵心跳，也不能和从库进行同步，自然也就无法和从库进行 ACK 确认了。这样一来，min-slaves-to-write 和 min-slaves-max-lag 的组合要求就无法得到满足，<strong>原主库就会被限制接收客户端写请求，客户端也就不能在原主库中写入新数据了</strong>。</p>
+<p><strong>等到新主库上线时，就只有新主库能接收和处理客户端请求，此时，新写的数据会被直接写到新主库中。而原主库会被哨兵降为从库，即使它的数据被清空了，也不会有新数据丢失。</strong></p>
+<p>再来举个例子：</p>
+<p>假设我们将 min-slaves-to-write 设置为 1，把 min-slaves-max-lag 设置为 12s，把哨兵的 down-after-milliseconds 设置为 10s，主库因为某些原因卡住了 15s，导致哨兵判断主库客观下线，开始进行主从切换。</p>
+<p>同时，因为原主库卡住了 15s，没有一个从库能和原主库在 12s 内进行数据复制，原主库也无法接收客户端请求了。</p>
+<p>这样一来，主从切换完成后，也只有新主库能接收请求，不会发生脑裂，也就不会发生数据丢失的问题了。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io">夜语</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://yeyuhl.github.io/2023/09/27/Redis%E8%A7%A3%E6%9E%90/">https://yeyuhl.github.io/2023/09/27/Redis%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://yeyuhl.github.io" target="_blank">随便写写</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%85%B6%E4%BB%96/">其他</a></div><div class="post_share"><div class="social-share" data-image="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/09/13/SimpleDB/" title="SimpleDB"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SimpleDB</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://yeyu-1313730906.cos.ap-guangzhou.myqcloud.com/%E7%89%B9%E5%AE%9A%E6%96%87%E4%BB%B6/1a14e4eeedd428147c921881097b3aed8a932201.jpg%40942w_942h_progressive.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">夜语</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">1</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yeyuhl"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">随便写写的博客</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">Redis 数据结构</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-text">Redis 线程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-6-0%E4%B9%8B%E5%89%8D"><span class="toc-text">Redis 6.0之前</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-6-0%E4%B9%8B%E5%90%8E"><span class="toc-text">Redis 6.0之后</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">Redis 持久化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#RDB-%E5%BF%AB%E7%85%A7"><span class="toc-text">RDB 快照</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AOF-%E6%97%A5%E5%BF%97"><span class="toc-text">AOF 日志</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%81%E4%B9%85%E5%8C%96"><span class="toc-text">混合持久化</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="toc-text">Redis 内存管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="toc-text">设置过期时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0%E6%9C%BA%E5%88%B6"><span class="toc-text">内存淘汰机制</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1"><span class="toc-text">Redis 缓存设计</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F"><span class="toc-text">缓存穿透</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E5%87%BB%E7%A9%BF"><span class="toc-text">缓存击穿</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%93%E5%AD%98%E9%9B%AA%E5%B4%A9"><span class="toc-text">缓存雪崩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E7%A7%8D%E7%BC%93%E5%AD%98%E8%AF%BB%E5%86%99%E7%AD%96%E7%95%A5"><span class="toc-text">三种缓存读写策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Cache-Aside-Pattern%EF%BC%88%E6%97%81%E8%B7%AF%E7%BC%93%E5%AD%98%E6%A8%A1%E5%BC%8F%EF%BC%89"><span class="toc-text">Cache Aside Pattern（旁路缓存模式）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Read-x2F-Write-Through-Pattern%EF%BC%88%E8%AF%BB%E5%86%99%E7%A9%BF%E9%80%8F%EF%BC%89"><span class="toc-text">Read&#x2F;Write Through Pattern（读写穿透）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Write-Behind-Pattern%EF%BC%88%E5%BC%82%E6%AD%A5%E7%BC%93%E5%AD%98%E5%86%99%E5%85%A5%EF%BC%89"><span class="toc-text">Write Behind Pattern（异步缓存写入）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-text">Redis 性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E5%87%8F%E5%B0%91%E7%BD%91%E7%BB%9C%E4%BC%A0%E8%BE%93"><span class="toc-text">使用批量操作减少网络传输</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E5%91%BD%E4%BB%A4"><span class="toc-text">原生批量操作命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pipeline"><span class="toc-text">pipeline</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lua-%E8%84%9A%E6%9C%AC"><span class="toc-text">Lua 脚本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%A7%E9%87%8Fkey%E9%9B%86%E4%B8%AD%E8%BF%87%E6%9C%9F"><span class="toc-text">大量key集中过期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-bigkey%EF%BC%88%E5%A4%A7-Key%EF%BC%89"><span class="toc-text">Redis bigkey（大 Key）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Redis-hotkey%EF%BC%88%E7%83%AD-key%EF%BC%89"><span class="toc-text">Redis hotkey（热 key）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E5%91%BD%E4%BB%A4"><span class="toc-text">慢查询命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis-%E5%86%85%E5%AD%98%E7%A2%8E%E7%89%87"><span class="toc-text">Redis 内存碎片</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Redis-%E9%9B%86%E7%BE%A4"><span class="toc-text">Redis 集群</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="toc-text">主从复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F"><span class="toc-text">哨兵模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%87%E7%89%87%E9%9B%86%E7%BE%A4%E6%A8%A1%E5%BC%8F"><span class="toc-text">切片集群模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%86%E7%BE%A4%E8%84%91%E8%A3%82"><span class="toc-text">集群脑裂</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/27/Redis%E8%A7%A3%E6%9E%90/" title="Redis 解析">Redis 解析</a><time datetime="2023-09-27T11:21:56.000Z" title="发表于 2023-09-27 19:21:56">2023-09-27</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/13/SimpleDB/" title="SimpleDB">SimpleDB</a><time datetime="2023-09-13T08:16:35.000Z" title="发表于 2023-09-13 16:16:35">2023-09-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/13/RaftKV/" title="RaftKV">RaftKV</a><time datetime="2023-09-13T08:14:29.000Z" title="发表于 2023-09-13 16:14:29">2023-09-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/06/03/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="人工智能期末复习">人工智能期末复习</a><time datetime="2023-06-03T15:39:19.000Z" title="发表于 2023-06-03 23:39:19">2023-06-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/05/14/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" title="数据库系统期末复习">数据库系统期末复习</a><time datetime="2023-05-14T08:32:30.000Z" title="发表于 2023-05-14 16:32:30">2023-05-14</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 夜语</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
